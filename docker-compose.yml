@@ -1,0 +1,69 @@
+version: "3"
+services:
+  app:
+    image: sf-www
+    container_name: sf-www
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    depends_on:
+      - mysql
+      - redis
+    env_file:
+      - .docker.env
+    environment:
+      CONTAINER_ROLE: app
+    volumes:
+    - .:/var/www/html
+    ports:
+      - 8080:80
+  scheduler:
+    image: sf-www
+    container_name: sf-scheduler
+    env_file:
+      - .docker.env
+    environment:
+      CONTAINER_ROLE: scheduler
+    volumes:
+    - .:/var/www/html
+    depends_on:
+      - app
+      - mysql
+      - redis
+  queue:
+    image: sf-www
+    container_name: sf-queue
+    env_file:
+      - .docker.env
+    environment:
+      CONTAINER_ROLE: queue
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - app
+      - mysql
+      - redis
+  mysql:
+    container_name: sf-mysql
+    image: mysql:8.0.22
+    volumes:
+    - mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: simplefinance
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: simplefinance
+      MYSQL_PASSWORD: password
+    ports:
+      - "13306:3306"
+  redis:
+    container_name: sf-redis
+    image: redis:6.0-alpine
+    ports:
+      - 16379:6379
+    volumes:
+      - redis:/data
+volumes:
+  mysql:
+    driver: "local"
+  redis:
+    driver: "local"
