@@ -1,4 +1,4 @@
-## About Laravel
+## SimpleFinance
 
 SimpleFinance application - it is smart software for managing personal finances
 
