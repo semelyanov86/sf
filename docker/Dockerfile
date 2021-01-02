@@ -4,12 +4,36 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS=0 \
     PHP_OPCACHE_MAX_ACCELERATED_FILES=10000 \
     PHP_OPCACHE_MEMORY_CONSUMPTION=128
 
+COPY docker/composer-installer.sh /usr/local/bin/composer-installer
+
+RUN apt-get -yqq update
+RUN apt-get install -y libzip-dev
+RUN docker-php-ext-install zip
+RUN apt-get -yqq install exiftool
+RUN docker-php-ext-configure exif
+RUN docker-php-ext-install exif
+RUN docker-php-ext-enable exif
+
 RUN docker-php-ext-install pdo_mysql \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug opcache \
-    && a2enmod rewrite
+    && a2enmod rewrite \
+    && apt-get -yqq install --no-install-recommends unzip \
+    && chmod +x /usr/local/bin/composer-installer \
+    && composer-installer \
+    && mv composer.phar /usr/local/bin/composer \
+    && chmod +x /usr/local/bin/composer \
+    && composer --version
+
+WORKDIR /tmp
+ADD composer.json composer.lock /tmp/
+RUN mkdir -p database/seeds \
+    && mkdir -p database/factories \
+    && composer install --no-interaction --no-plugins --no-scripts --prefer-dist \
+    && rm -rf composer.json composer.lock database/ vendor/
 
 COPY . /var/www/html
+WORKDIR /var/www/html
 COPY docker/vhost.conf /etc/apache2/sites-enabled/000-default.conf
 COPY docker/config/php/conf.d/*.ini /usr/local/etc/php/conf.d/
 COPY docker/start.sh /usr/local/bin/start
