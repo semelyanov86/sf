@@ -23,3 +23,13 @@ Password: `password`
 
 #### Database schema
 Database schema is located here: https://dbdiagram.io/d/5feede3480d742080a34ba75
+
+#### Running through docker
+
+To run docker containers run following commands:
+
+`docker-compose build app`
+
+This command will build an app. To run containers run command:
+
+`docker-compose up -d`
