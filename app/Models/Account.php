@@ -76,4 +76,25 @@ class Account extends Model
     {
         return $this->belongsTo(Team::class, 'team_id');
     }
+
+    public function getStartBalanceAttribute($value)
+    {
+        return $value ? money($value, \Auth::user()->currency->code) : null;
+    }
+
+    public function setStartBalanceAttribute($value)
+    {
+        $this->attributes['start_balance'] = $value ? $value * 100 : null;
+    }
+
+    public function getMarketValueAttribute($value)
+    {
+        return $value ? money($value, \Auth::user()->currency->code) : null;
+    }
+
+    public function setMarketValueAttribute($value)
+    {
+        $this->attributes['market_value'] = $value ? $value * 100 : null;
+    }
+
 }

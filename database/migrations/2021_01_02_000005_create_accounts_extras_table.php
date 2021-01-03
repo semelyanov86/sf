@@ -11,7 +11,7 @@ class CreateAccountsExtrasTable extends Migration
         Schema::create('accounts_extras', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->date('card_expire_date')->nullable();
-            $table->decimal('card_year_cost', 15, 2)->nullable();
+            $table->integer('card_year_cost')->nullable();
             $table->float('card_rate_balance', 7, 2)->nullable();
             $table->float('card_atm_commission', 7, 2)->nullable();
             $table->float('card_other_atm_commission', 7, 2)->nullable();

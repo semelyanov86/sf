@@ -222,4 +222,14 @@ class AccountsExtra extends Model
     {
         return $this->belongsTo(Team::class, 'team_id');
     }
+
+    public function getCardYearCostAttribute($value)
+    {
+        return $value ? money($value, \Auth::user()->currency->code) : null;
+    }
+
+    public function setCardYearCostAttribute($value)
+    {
+        $this->attributes['card_year_cost'] = $value ? $value * 100 : null;
+    }
 }

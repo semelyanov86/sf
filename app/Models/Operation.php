@@ -11,6 +11,8 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use \DateTimeInterface;
+use Akaunting\Money\Currency;
+use Akaunting\Money\Money;
 
 class Operation extends Model implements HasMedia
 {
@@ -71,9 +73,19 @@ class Operation extends Model implements HasMedia
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
+    public function getAmountAttribute($value)
+    {
+        return $value ? money($value, \Auth::user()->currency->code) : null;
+    }
+
     public function setDoneAtAttribute($value)
     {
         $this->attributes['done_at'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
+    }
+
+    public function setAmountAttribute($value)
+    {
+        $this->attributes['amount'] = $value ? $value * 100 : null;
     }
 
     public function source_account()

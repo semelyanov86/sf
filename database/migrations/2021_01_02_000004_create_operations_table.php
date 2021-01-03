@@ -10,7 +10,7 @@ class CreateOperationsTable extends Migration
     {
         Schema::create('operations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->decimal('amount', 15, 2);
+            $table->integer('amount');
             $table->date('done_at');
             $table->string('type');
             $table->longText('description')->nullable();

@@ -128,4 +128,24 @@ class Target extends Model implements HasMedia
     {
         return $this->belongsTo(Team::class, 'team_id');
     }
+
+    public function getAmountAttribute($value)
+    {
+        return $value ? money($value, \Auth::user()->currency->code) : null;
+    }
+
+    public function setAmountAttribute($value)
+    {
+        $this->attributes['amount'] = $value ? $value * 100 : null;
+    }
+
+    public function getMonthlyPayAmountAttribute($value)
+    {
+        return $value ? money($value, \Auth::user()->currency->code) : null;
+    }
+
+    public function setMonthlyPayAmountAttribute($value)
+    {
+        $this->attributes['monthly_pay_amount'] = $value ? $value * 100 : null;
+    }
 }

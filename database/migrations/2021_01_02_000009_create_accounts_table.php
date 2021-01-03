@@ -13,8 +13,8 @@ class CreateAccountsTable extends Migration
             $table->string('name');
             $table->string('state');
             $table->longText('description')->nullable();
-            $table->decimal('start_balance', 15, 2);
-            $table->decimal('market_value', 15, 2);
+            $table->integer('start_balance');
+            $table->integer('market_value');
             $table->string('extra_prefix')->nullable();
             $table->timestamps();
             $table->softDeletes();

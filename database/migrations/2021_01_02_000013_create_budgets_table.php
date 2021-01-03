@@ -10,7 +10,7 @@ class CreateBudgetsTable extends Migration
     {
         Schema::create('budgets', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->decimal('plan', 15, 2);
+            $table->integer('plan');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -10,6 +10,9 @@ class CurrenciesTableSeeder extends Seeder
     public function run()
     {
         $currencies = [
+            ["id"=>"1", "code"=> "RUB", "name"=> "Российский рубль"],
+            ["id"=>"2", "code"=> "USD", "name"=> "Доллар США"],
+            ["id"=>"3", "code"=> "EUR", "name"=> "Евро"],
             ["id"=>"188", "code"=> "BCH", "name"=> "Bitcoin Cash"],
             ["id"=>"191", "code"=> "DASH", "name"=> "Dash"],
             ["id"=>"187", "code"=> "ETH", "name"=> "Ethereum"],

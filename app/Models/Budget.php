@@ -49,4 +49,14 @@ class Budget extends Model
     {
         return $this->belongsTo(Team::class, 'team_id');
     }
+
+    public function getPlanAttribute($value)
+    {
+        return $value ? money($value, \Auth::user()->currency->code) : null;
+    }
+
+    public function setPlanAttribute($value)
+    {
+        $this->attributes['plan'] = $value ? $value * 100 : null;
+    }
 }

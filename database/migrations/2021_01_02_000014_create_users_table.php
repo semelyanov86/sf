@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('login')->nullable()->unique();
             $table->integer('operations_number')->nullable();
             $table->integer('budget_day_start')->nullable();
-            $table->integer('primary_currency')->nullable();
+            $table->integer('primary_currency')->default(1);
             $table->string('timezone')->nullable();
             $table->string('phone')->nullable();
             $table->boolean('google_sync')->default(0)->nullable();
