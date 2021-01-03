@@ -15,6 +15,13 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             RoleUserTableSeeder::class,
             CountriesTableSeeder::class,
+            CurrenciesTableSeeder::class,
+            BanksTableSeeder::class,
+            CategoriesTableSeeder::class,
+            TargetCategoriesTableSeeder::class,
+            AccountTypesTableSeeder::class,
+            CardTypesTableSeeder::class,
+            AutoBrandsTableSeeder::class
         ]);
     }
 }

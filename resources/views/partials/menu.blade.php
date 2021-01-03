@@ -143,7 +143,7 @@
             </li>
         @endcan
         @can('additional_data_access')
-            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/target-categories*") ? "c-show" : "" }} {{ request()->is("admin/account-types*") ? "c-show" : "" }} {{ request()->is("admin/card-types*") ? "c-show" : "" }} {{ request()->is("admin/auto-brands*") ? "c-show" : "" }}">
+            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/target-categories*") ? "c-show" : "" }} {{ request()->is("admin/account-types*") ? "c-show" : "" }} {{ request()->is("admin/card-types*") ? "c-show" : "" }} {{ request()->is("admin/auto-brands*") ? "c-show" : "" }} {{ request()->is("admin/hidden-categories*") ? "c-show" : "" }}">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
                     <i class="fa-fw fas fa-info-circle c-sidebar-nav-icon">
 
@@ -188,6 +188,16 @@
 
                                 </i>
                                 {{ trans('cruds.autoBrand.title') }}
+                            </a>
+                        </li>
+                    @endcan
+                    @can('hidden_category_access')
+                        <li class="c-sidebar-nav-item">
+                            <a href="{{ route("admin.hidden-categories.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/hidden-categories") || request()->is("admin/hidden-categories/*") ? "c-active" : "" }}">
+                                <i class="fa-fw fab fa-affiliatetheme c-sidebar-nav-icon">
+
+                                </i>
+                                {{ trans('cruds.hiddenCategory.title') }}
                             </a>
                         </li>
                     @endcan

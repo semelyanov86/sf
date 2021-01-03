@@ -49,7 +49,7 @@
                                 {{ $targetCategory->target_category_name ?? '' }}
                             </td>
                             <td>
-                                {{ App\Models\TargetCategory::TARGET_CATEGORY_TYPE_SELECT[$targetCategory->target_category_type] ?? '' }}
+                                {{ trans('global.' . App\Models\TargetCategory::TARGET_CATEGORY_TYPE_SELECT[$targetCategory->target_category_type] ?? '') }}
                             </td>
                             <td>
                                 @can('target_category_show')
@@ -130,7 +130,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

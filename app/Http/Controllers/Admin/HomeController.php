@@ -9,7 +9,7 @@ class HomeController
     public function index()
     {
         $settings1 = [
-            'chart_title'           => 'Operations for last 30 days',
+            'chart_title'           => trans('global.operations-30-days'),
             'chart_type'            => 'line',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\Operation',
@@ -27,7 +27,7 @@ class HomeController
         $chart1 = new LaravelChart($settings1);
 
         $settings2 = [
-            'chart_title'        => 'Operations by categories',
+            'chart_title'        => trans('global.operations-categories'),
             'chart_type'         => 'pie',
             'report_type'        => 'group_by_relationship',
             'model'              => 'App\Models\Operation',

@@ -24,7 +24,7 @@
                 <select class="form-control {{ $errors->has('target_category_type') ? 'is-invalid' : '' }}" name="target_category_type" id="target_category_type" required>
                     <option value disabled {{ old('target_category_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
                     @foreach(App\Models\TargetCategory::TARGET_CATEGORY_TYPE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('target_category_type', '2') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                        <option value="{{ $key }}" {{ old('target_category_type', '2') === (string) $key ? 'selected' : '' }}>{{ trans('global.' . $label) }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('target_category_type'))

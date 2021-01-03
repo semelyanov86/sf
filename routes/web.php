@@ -95,6 +95,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('operations/process-csv-import', 'OperationsController@processCsvImport')->name('operations.processCsvImport');
     Route::resource('operations', 'OperationsController');
 
+    // Hidden Categories
+    Route::delete('hidden-categories/destroy', 'HiddenCategoriesController@massDestroy')->name('hidden-categories.massDestroy');
+    Route::resource('hidden-categories', 'HiddenCategoriesController');
+
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
     Route::get('team-members', 'TeamMembersController@index')->name('team-members.index');
@@ -185,6 +189,10 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
     Route::post('operations/media', 'OperationsController@storeMedia')->name('operations.storeMedia');
     Route::post('operations/ckmedia', 'OperationsController@storeCKEditorImages')->name('operations.storeCKEditorImages');
     Route::resource('operations', 'OperationsController');
+
+    // Hidden Categories
+    Route::delete('hidden-categories/destroy', 'HiddenCategoriesController@massDestroy')->name('hidden-categories.massDestroy');
+    Route::resource('hidden-categories', 'HiddenCategoriesController');
 
     Route::get('frontend/profile', 'ProfileController@index')->name('profile.index');
     Route::post('frontend/profile', 'ProfileController@update')->name('profile.update');

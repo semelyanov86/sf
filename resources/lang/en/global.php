@@ -24,6 +24,8 @@ return [
     'logout'                               => 'Logout',
     'month'                                => 'Month',
     'no'                                   => 'No',
+    'operations-30-days'                => 'Operations for last 30 days',
+    'operations-categories'             => 'Operations by categories',
     'pleaseSelect'                         => 'Please select',
     'register'                             => 'Register',
     'remember_me'                          => 'Remember me',
