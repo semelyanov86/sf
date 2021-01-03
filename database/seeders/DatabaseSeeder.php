@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             TargetCategoriesTableSeeder::class,
             AccountTypesTableSeeder::class,
             CardTypesTableSeeder::class,
-            AutoBrandsTableSeeder::class
+            AutoBrandsTableSeeder::class,
+            TeamsTableSeeder::class
         ]);
     }
 }
