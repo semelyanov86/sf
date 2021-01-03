@@ -78,6 +78,11 @@ class Operation extends Model implements HasMedia
         return $value ? money($value, \Auth::user()->currency->code) : null;
     }
 
+    public function getAmountValueAttribute($value)
+    {
+        return $value / 100;
+    }
+
     public function setDoneAtAttribute($value)
     {
         $this->attributes['done_at'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
