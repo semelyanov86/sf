@@ -1,201 +1,113 @@
 <?php
 
 Route::view('/', 'welcome');
-Auth::routes();
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
-    Route::get('/', 'HomeController@index')->name('home');
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function () {
+    Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('home');
     // Permissions
-    Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
-    Route::resource('permissions', 'PermissionsController');
+    Route::delete('permissions/destroy', [\App\Http\Controllers\Admin\PermissionsController::class, 'massDestroy'])->name('permissions.massDestroy');
+    Route::resource('permissions', \App\Http\Controllers\Admin\PermissionsController::class);
 
     // Roles
-    Route::delete('roles/destroy', 'RolesController@massDestroy')->name('roles.massDestroy');
-    Route::resource('roles', 'RolesController');
+    Route::delete('roles/destroy', [\App\Http\Controllers\Admin\RolesController::class, 'massDestroy'])->name('roles.massDestroy');
+    Route::resource('roles', \App\Http\Controllers\Admin\RolesController::class);
 
     // Users
-    Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
-    Route::post('users/parse-csv-import', 'UsersController@parseCsvImport')->name('users.parseCsvImport');
-    Route::post('users/process-csv-import', 'UsersController@processCsvImport')->name('users.processCsvImport');
-    Route::resource('users', 'UsersController');
+    Route::delete('users/destroy', [\App\Http\Controllers\Admin\UsersController::class, 'massDestroy'])->name('users.massDestroy');
+    Route::post('users/parse-csv-import', [\App\Http\Controllers\Admin\UsersController::class, 'parseCsvImport'])->name('users.parseCsvImport');
+    Route::post('users/process-csv-import', [\App\Http\Controllers\Admin\UsersController::class, 'processCsvImport'])->name('users.processCsvImport');
+    Route::resource('users', \App\Http\Controllers\Admin\UsersController::class);
 
     // Teams
-    Route::delete('teams/destroy', 'TeamController@massDestroy')->name('teams.massDestroy');
-    Route::resource('teams', 'TeamController');
+    Route::delete('teams/destroy', [\App\Http\Controllers\Admin\TeamController::class, 'massDestroy'])->name('teams.massDestroy');
+    Route::resource('teams', \App\Http\Controllers\Admin\TeamController::class);
 
     // Countries
-    Route::delete('countries/destroy', 'CountriesController@massDestroy')->name('countries.massDestroy');
-    Route::resource('countries', 'CountriesController');
+    Route::delete('countries/destroy', [\App\Http\Controllers\Admin\CountriesController::class, 'massDestroy'])->name('countries.massDestroy');
+    Route::resource('countries', \App\Http\Controllers\Admin\CountriesController::class);
 
     // Currencies
-    Route::delete('currencies/destroy', 'CurrenciesController@massDestroy')->name('currencies.massDestroy');
-    Route::post('currencies/parse-csv-import', 'CurrenciesController@parseCsvImport')->name('currencies.parseCsvImport');
-    Route::post('currencies/process-csv-import', 'CurrenciesController@processCsvImport')->name('currencies.processCsvImport');
-    Route::resource('currencies', 'CurrenciesController');
+    Route::delete('currencies/destroy', [\App\Http\Controllers\Admin\CurrenciesController::class, 'massDestroy'])->name('currencies.massDestroy');
+    Route::post('currencies/parse-csv-import', [\App\Http\Controllers\Admin\CurrenciesController::class, 'parseCsvImport'])->name('currencies.parseCsvImport');
+    Route::post('currencies/process-csv-import', [\App\Http\Controllers\Admin\CurrenciesController::class, 'processCsvImport'])->name('currencies.processCsvImport');
+    Route::resource('currencies', \App\Http\Controllers\Admin\CurrenciesController::class);
 
     // Banks
-    Route::delete('banks/destroy', 'BanksController@massDestroy')->name('banks.massDestroy');
-    Route::resource('banks', 'BanksController');
+    Route::delete('banks/destroy', [\App\Http\Controllers\Admin\BanksController::class, 'massDestroy'])->name('banks.massDestroy');
+    Route::resource('banks', \App\Http\Controllers\Admin\BanksController::class);
 
     // Categories
-    Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
-    Route::resource('categories', 'CategoriesController');
+    Route::delete('categories/destroy', [\App\Http\Controllers\Admin\CategoriesController::class, 'massDestroy'])->name('categories.massDestroy');
+    Route::resource('categories', \App\Http\Controllers\Admin\CategoriesController::class);
 
     // Target Categories
-    Route::delete('target-categories/destroy', 'TargetCategoriesController@massDestroy')->name('target-categories.massDestroy');
-    Route::post('target-categories/media', 'TargetCategoriesController@storeMedia')->name('target-categories.storeMedia');
-    Route::post('target-categories/ckmedia', 'TargetCategoriesController@storeCKEditorImages')->name('target-categories.storeCKEditorImages');
-    Route::resource('target-categories', 'TargetCategoriesController');
+    Route::delete('target-categories/destroy', [\App\Http\Controllers\Admin\TargetCategoriesController::class, 'massDestroy'])->name('target-categories.massDestroy');
+    Route::post('target-categories/media', [\App\Http\Controllers\Admin\TargetCategoriesController::class, 'storeMedia'])->name('target-categories.storeMedia');
+    Route::post('target-categories/ckmedia', [\App\Http\Controllers\Admin\TargetCategoriesController::class, 'storeCKEditorImages'])->name('target-categories.storeCKEditorImages');
+    Route::resource('target-categories', \App\Http\Controllers\Admin\TargetCategoriesController::class);
 
     // Budgets
-    Route::delete('budgets/destroy', 'BudgetsController@massDestroy')->name('budgets.massDestroy');
-    Route::resource('budgets', 'BudgetsController');
+    Route::delete('budgets/destroy', [\App\Http\Controllers\Admin\BudgetsController::class, 'massDestroy'])->name('budgets.massDestroy');
+    Route::resource('budgets', \App\Http\Controllers\Admin\BudgetsController::class);
 
     // Targets
-    Route::delete('targets/destroy', 'TargetsController@massDestroy')->name('targets.massDestroy');
-    Route::post('targets/media', 'TargetsController@storeMedia')->name('targets.storeMedia');
-    Route::post('targets/ckmedia', 'TargetsController@storeCKEditorImages')->name('targets.storeCKEditorImages');
-    Route::resource('targets', 'TargetsController');
+    Route::delete('targets/destroy', [\App\Http\Controllers\Admin\TargetsController::class, 'massDestroy'])->name('targets.massDestroy');
+    Route::post('targets/media', [\App\Http\Controllers\Admin\TargetsController::class, 'storeMedia'])->name('targets.storeMedia');
+    Route::post('targets/ckmedia', [\App\Http\Controllers\Admin\TargetsController::class, 'storeCKEditorImages'])->name('targets.storeCKEditorImages');
+    Route::resource('targets', \App\Http\Controllers\Admin\TargetsController::class);
 
     // Accounts
-    Route::delete('accounts/destroy', 'AccountsController@massDestroy')->name('accounts.massDestroy');
-    Route::post('accounts/parse-csv-import', 'AccountsController@parseCsvImport')->name('accounts.parseCsvImport');
-    Route::post('accounts/process-csv-import', 'AccountsController@processCsvImport')->name('accounts.processCsvImport');
-    Route::resource('accounts', 'AccountsController');
+    Route::delete('accounts/destroy', [\App\Http\Controllers\Admin\AccountsController::class, 'massDestroy'])->name('accounts.massDestroy');
+    Route::post('accounts/parse-csv-import', [\App\Http\Controllers\Admin\AccountsController::class, 'parseCsvImport'])->name('accounts.parseCsvImport');
+    Route::post('accounts/process-csv-import', [\App\Http\Controllers\Admin\AccountsController::class, 'processCsvImport'])->name('accounts.processCsvImport');
+    Route::resource('accounts', \App\Http\Controllers\Admin\AccountsController::class);
 
     // Account Types
-    Route::delete('account-types/destroy', 'AccountTypesController@massDestroy')->name('account-types.massDestroy');
-    Route::post('account-types/parse-csv-import', 'AccountTypesController@parseCsvImport')->name('account-types.parseCsvImport');
-    Route::post('account-types/process-csv-import', 'AccountTypesController@processCsvImport')->name('account-types.processCsvImport');
-    Route::resource('account-types', 'AccountTypesController');
+    Route::delete('account-types/destroy', [\App\Http\Controllers\Admin\AccountTypesController::class, 'massDestroy'])->name('account-types.massDestroy');
+    Route::post('account-types/parse-csv-import', [\App\Http\Controllers\Admin\AccountTypesController::class, 'parseCsvImport'])->name('account-types.parseCsvImport');
+    Route::post('account-types/process-csv-import', [\App\Http\Controllers\Admin\AccountTypesController::class, 'processCsvImport'])->name('account-types.processCsvImport');
+    Route::resource('account-types', \App\Http\Controllers\Admin\AccountTypesController::class);
 
     // Card Types
-    Route::delete('card-types/destroy', 'CardTypesController@massDestroy')->name('card-types.massDestroy');
-    Route::post('card-types/parse-csv-import', 'CardTypesController@parseCsvImport')->name('card-types.parseCsvImport');
-    Route::post('card-types/process-csv-import', 'CardTypesController@processCsvImport')->name('card-types.processCsvImport');
-    Route::resource('card-types', 'CardTypesController');
+    Route::delete('card-types/destroy', [\App\Http\Controllers\Admin\CardTypesController::class, 'massDestroy'])->name('card-types.massDestroy');
+    Route::post('card-types/parse-csv-import', [\App\Http\Controllers\Admin\CardTypesController::class, 'parseCsvImport'])->name('card-types.parseCsvImport');
+    Route::post('card-types/process-csv-import', [\App\Http\Controllers\Admin\CardTypesController::class, 'processCsvImport'])->name('card-types.processCsvImport');
+    Route::resource('card-types', \App\Http\Controllers\Admin\CardTypesController::class);
 
     // Auto Brands
-    Route::delete('auto-brands/destroy', 'AutoBrandsController@massDestroy')->name('auto-brands.massDestroy');
-    Route::post('auto-brands/parse-csv-import', 'AutoBrandsController@parseCsvImport')->name('auto-brands.parseCsvImport');
-    Route::post('auto-brands/process-csv-import', 'AutoBrandsController@processCsvImport')->name('auto-brands.processCsvImport');
-    Route::resource('auto-brands', 'AutoBrandsController');
+    Route::delete('auto-brands/destroy', [\App\Http\Controllers\Admin\AutoBrandsController::class, 'massDestroy'])->name('auto-brands.massDestroy');
+    Route::post('auto-brands/parse-csv-import', [\App\Http\Controllers\Admin\AutoBrandsController::class, 'parseCsvImport'])->name('auto-brands.parseCsvImport');
+    Route::post('auto-brands/process-csv-import', [\App\Http\Controllers\Admin\AutoBrandsController::class, 'processCsvImport'])->name('auto-brands.processCsvImport');
+    Route::resource('auto-brands', \App\Http\Controllers\Admin\AutoBrandsController::class);
 
     // Accounts Extras
-    Route::delete('accounts-extras/destroy', 'AccountsExtraController@massDestroy')->name('accounts-extras.massDestroy');
-    Route::post('accounts-extras/parse-csv-import', 'AccountsExtraController@parseCsvImport')->name('accounts-extras.parseCsvImport');
-    Route::post('accounts-extras/process-csv-import', 'AccountsExtraController@processCsvImport')->name('accounts-extras.processCsvImport');
-    Route::resource('accounts-extras', 'AccountsExtraController');
+    Route::delete('accounts-extras/destroy', [\App\Http\Controllers\Admin\AccountsExtraController::class, 'massDestroy'])->name('accounts-extras.massDestroy');
+    Route::post('accounts-extras/parse-csv-import', [\App\Http\Controllers\Admin\AccountsExtraController::class, 'parseCsvImport'])->name('accounts-extras.parseCsvImport');
+    Route::post('accounts-extras/process-csv-import', [\App\Http\Controllers\Admin\AccountsExtraController::class, 'processCsvImport'])->name('accounts-extras.processCsvImport');
+    Route::resource('accounts-extras', \App\Http\Controllers\Admin\AccountsExtraController::class);
 
     // Operations
-    Route::delete('operations/destroy', 'OperationsController@massDestroy')->name('operations.massDestroy');
-    Route::post('operations/media', 'OperationsController@storeMedia')->name('operations.storeMedia');
-    Route::post('operations/ckmedia', 'OperationsController@storeCKEditorImages')->name('operations.storeCKEditorImages');
-    Route::post('operations/parse-csv-import', 'OperationsController@parseCsvImport')->name('operations.parseCsvImport');
-    Route::post('operations/process-csv-import', 'OperationsController@processCsvImport')->name('operations.processCsvImport');
-    Route::resource('operations', 'OperationsController');
+    Route::delete('operations/destroy', [\App\Http\Controllers\Admin\OperationsController::class, 'massDestroy'])->name('operations.massDestroy');
+    Route::post('operations/media', [\App\Http\Controllers\Admin\OperationsController::class, 'storeMedia'])->name('operations.storeMedia');
+    Route::post('operations/ckmedia', [\App\Http\Controllers\Admin\OperationsController::class, 'storeCKEditorImages'])->name('operations.storeCKEditorImages');
+    Route::post('operations/parse-csv-import', [\App\Http\Controllers\Admin\OperationsController::class, 'parseCsvImport'])->name('operations.parseCsvImport');
+    Route::post('operations/process-csv-import', [\App\Http\Controllers\Admin\OperationsController::class, 'processCsvImport'])->name('operations.processCsvImport');
+    Route::resource('operations', \App\Http\Controllers\Admin\OperationsController::class);
 
     // Hidden Categories
-    Route::delete('hidden-categories/destroy', 'HiddenCategoriesController@massDestroy')->name('hidden-categories.massDestroy');
-    Route::resource('hidden-categories', 'HiddenCategoriesController');
+    Route::delete('hidden-categories/destroy', [\App\Http\Controllers\Admin\HiddenCategoriesController::class, 'massDestroy'])->name('hidden-categories.massDestroy');
+    Route::resource('hidden-categories', \App\Http\Controllers\Admin\HiddenCategoriesController::class);
 
-    Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
-    Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
-    Route::get('team-members', 'TeamMembersController@index')->name('team-members.index');
-    Route::post('team-members', 'TeamMembersController@invite')->name('team-members.invite');
-});
-Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
-// Change password
-    if (file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php'))) {
-        Route::get('password', 'ChangePasswordController@edit')->name('password.edit');
-        Route::post('password', 'ChangePasswordController@update')->name('password.update');
-        Route::post('profile', 'ChangePasswordController@updateProfile')->name('password.updateProfile');
-        Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
-    }
+    Route::get('system-calendar', [\App\Http\Controllers\Admin\SystemCalendarController::class, 'index'])->name('systemCalendar');
+    Route::get('global-search', [\App\Http\Controllers\Admin\GlobalSearchController::class, 'index'])->name('globalSearch');
+    Route::get('team-members', [\App\Http\Controllers\Admin\TeamMembersController::class, 'index'])->name('team-members.index');
+    Route::post('team-members', [\App\Http\Controllers\Admin\TeamMembersController::class, 'invite'])->name('team-members.invite');
 });
 Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['auth']], function () {
-    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/home', [\App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
 
-    // Permissions
-    Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
-    Route::resource('permissions', 'PermissionsController');
-
-    // Roles
-    Route::delete('roles/destroy', 'RolesController@massDestroy')->name('roles.massDestroy');
-    Route::resource('roles', 'RolesController');
-
-    // Users
-    Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
-    Route::resource('users', 'UsersController');
-
-    // Teams
-    Route::delete('teams/destroy', 'TeamController@massDestroy')->name('teams.massDestroy');
-    Route::resource('teams', 'TeamController');
-
-    // Countries
-    Route::delete('countries/destroy', 'CountriesController@massDestroy')->name('countries.massDestroy');
-    Route::resource('countries', 'CountriesController');
-
-    // Currencies
-    Route::delete('currencies/destroy', 'CurrenciesController@massDestroy')->name('currencies.massDestroy');
-    Route::resource('currencies', 'CurrenciesController');
-
-    // Banks
-    Route::delete('banks/destroy', 'BanksController@massDestroy')->name('banks.massDestroy');
-    Route::resource('banks', 'BanksController');
-
-    // Categories
-    Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
-    Route::resource('categories', 'CategoriesController');
-
-    // Target Categories
-    Route::delete('target-categories/destroy', 'TargetCategoriesController@massDestroy')->name('target-categories.massDestroy');
-    Route::post('target-categories/media', 'TargetCategoriesController@storeMedia')->name('target-categories.storeMedia');
-    Route::post('target-categories/ckmedia', 'TargetCategoriesController@storeCKEditorImages')->name('target-categories.storeCKEditorImages');
-    Route::resource('target-categories', 'TargetCategoriesController');
-
-    // Budgets
-    Route::delete('budgets/destroy', 'BudgetsController@massDestroy')->name('budgets.massDestroy');
-    Route::resource('budgets', 'BudgetsController');
-
-    // Targets
-    Route::delete('targets/destroy', 'TargetsController@massDestroy')->name('targets.massDestroy');
-    Route::post('targets/media', 'TargetsController@storeMedia')->name('targets.storeMedia');
-    Route::post('targets/ckmedia', 'TargetsController@storeCKEditorImages')->name('targets.storeCKEditorImages');
-    Route::resource('targets', 'TargetsController');
-
-    // Accounts
-    Route::delete('accounts/destroy', 'AccountsController@massDestroy')->name('accounts.massDestroy');
-    Route::resource('accounts', 'AccountsController');
-
-    // Account Types
-    Route::delete('account-types/destroy', 'AccountTypesController@massDestroy')->name('account-types.massDestroy');
-    Route::resource('account-types', 'AccountTypesController');
-
-    // Card Types
-    Route::delete('card-types/destroy', 'CardTypesController@massDestroy')->name('card-types.massDestroy');
-    Route::resource('card-types', 'CardTypesController');
-
-    // Auto Brands
-    Route::delete('auto-brands/destroy', 'AutoBrandsController@massDestroy')->name('auto-brands.massDestroy');
-    Route::resource('auto-brands', 'AutoBrandsController');
-
-    // Accounts Extras
-    Route::delete('accounts-extras/destroy', 'AccountsExtraController@massDestroy')->name('accounts-extras.massDestroy');
-    Route::resource('accounts-extras', 'AccountsExtraController');
-
-    // Operations
-    Route::delete('operations/destroy', 'OperationsController@massDestroy')->name('operations.massDestroy');
-    Route::post('operations/media', 'OperationsController@storeMedia')->name('operations.storeMedia');
-    Route::post('operations/ckmedia', 'OperationsController@storeCKEditorImages')->name('operations.storeCKEditorImages');
-    Route::resource('operations', 'OperationsController');
-
-    // Hidden Categories
-    Route::delete('hidden-categories/destroy', 'HiddenCategoriesController@massDestroy')->name('hidden-categories.massDestroy');
-    Route::resource('hidden-categories', 'HiddenCategoriesController');
-
-    Route::get('frontend/profile', 'ProfileController@index')->name('profile.index');
-    Route::post('frontend/profile', 'ProfileController@update')->name('profile.update');
-    Route::post('frontend/profile/destroy', 'ProfileController@destroy')->name('profile.destroy');
-    Route::post('frontend/profile/password', 'ProfileController@password')->name('profile.password');
+    Route::get('frontend/profile', [\App\Http\Controllers\Frontend\ProfileController::class, 'index'])->name('profile.index');
+    Route::post('frontend/profile', [\App\Http\Controllers\Frontend\ProfileController::class, 'update'])->name('profile.update');
+    Route::post('frontend/profile/destroy', [\App\Http\Controllers\Frontend\ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('frontend/profile/password', [\App\Http\Controllers\Frontend\ProfileController::class, 'password'])->name('profile.password');
 });
