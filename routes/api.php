@@ -2,56 +2,56 @@
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:sanctum']], function () {
     // Permissions
-    Route::apiResource('permissions', 'PermissionsApiController');
+    Route::apiResource('permissions', \App\Http\Controllers\Api\V1\Admin\PermissionsApiController::class);
 
     // Roles
-    Route::apiResource('roles', 'RolesApiController');
+    Route::apiResource('roles', \App\Http\Controllers\Api\V1\Admin\RolesApiController::class);
 
     // Users
-    Route::apiResource('users', 'UsersApiController');
+    Route::apiResource('users', \App\Http\Controllers\Api\V1\Admin\UsersApiController::class);
 
     // Teams
-    Route::apiResource('teams', 'TeamApiController');
+    Route::apiResource('teams', \App\Http\Controllers\Api\V1\Admin\TeamApiController::class);
 
     // Countries
-    Route::apiResource('countries', 'CountriesApiController');
+    Route::apiResource('countries', \App\Http\Controllers\Api\V1\Admin\CountriesApiController::class);
 
     // Currencies
-    Route::apiResource('currencies', 'CurrenciesApiController');
+    Route::apiResource('currencies', \App\Http\Controllers\Api\V1\Admin\CurrenciesApiController::class);
 
     // Banks
-    Route::apiResource('banks', 'BanksApiController');
+    Route::apiResource('banks', \App\Http\Controllers\Api\V1\Admin\BanksApiController::class);
 
     // Categories
-    Route::apiResource('categories', 'CategoriesApiController');
+    Route::apiResource('categories', \App\Http\Controllers\Api\V1\Admin\CategoriesApiController::class);
 
     // Target Categories
-    Route::post('target-categories/media', 'TargetCategoriesApiController@storeMedia')->name('target-categories.storeMedia');
-    Route::apiResource('target-categories', 'TargetCategoriesApiController');
+    Route::post('target-categories/media', [\App\Http\Controllers\Api\V1\Admin\TargetCategoriesApiController::class, 'storeMedia'])->name('target-categories.storeMedia');
+    Route::apiResource('target-categories', \App\Http\Controllers\Api\V1\Admin\TargetCategoriesApiController::class);
 
     // Budgets
-    Route::apiResource('budgets', 'BudgetsApiController');
+    Route::apiResource('budgets', \App\Http\Controllers\Api\V1\Admin\BudgetsApiController::class);
 
     // Targets
-    Route::post('targets/media', 'TargetsApiController@storeMedia')->name('targets.storeMedia');
-    Route::apiResource('targets', 'TargetsApiController');
+    Route::post('targets/media', [\App\Http\Controllers\Api\V1\Admin\TargetsApiController::class, 'storeMedia'])->name('targets.storeMedia');
+    Route::apiResource('targets', \App\Http\Controllers\Api\V1\Admin\TargetsApiController::class);
 
     // Accounts
-    Route::apiResource('accounts', 'AccountsApiController');
+    Route::apiResource('accounts', \App\Http\Controllers\Api\V1\Admin\AccountsApiController::class);
 
     // Account Types
-    Route::apiResource('account-types', 'AccountTypesApiController');
+    Route::apiResource('account-types', \App\Http\Controllers\Api\V1\Admin\AccountTypesApiController::class);
 
     // Card Types
-    Route::apiResource('card-types', 'CardTypesApiController');
+    Route::apiResource('card-types', \App\Http\Controllers\Api\V1\Admin\CardTypesApiController::class);
 
     // Auto Brands
-    Route::apiResource('auto-brands', 'AutoBrandsApiController');
+    Route::apiResource('auto-brands', \App\Http\Controllers\Api\V1\Admin\AutoBrandsApiController::class);
 
     // Accounts Extras
-    Route::apiResource('accounts-extras', 'AccountsExtraApiController');
+    Route::apiResource('accounts-extras', \App\Http\Controllers\Api\V1\Admin\AccountsExtraApiController::class);
 
     // Operations
-    Route::post('operations/media', 'OperationsApiController@storeMedia')->name('operations.storeMedia');
-    Route::apiResource('operations', 'OperationsApiController');
+    Route::post('operations/media', [\App\Http\Controllers\Api\V1\Admin\OperationsApiController::class, 'storeMedia'])->name('operations.storeMedia');
+    Route::apiResource('operations', \App\Http\Controllers\Api\V1\Admin\OperationsApiController::class);
 });

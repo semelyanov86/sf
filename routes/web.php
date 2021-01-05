@@ -5,22 +5,22 @@ Route::view('/', 'welcome');
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function () {
     Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('home');
     // Permissions
-    Route::delete('permissions/destroy', [\App\Http\Controllers\Admin\PermissionsController::class, 'massDestroy'])->name('permissions.massDestroy');
-    Route::resource('permissions', \App\Http\Controllers\Admin\PermissionsController::class);
+    Route::delete('permissions/destroy', [\Domains\Users\Http\Controllers\Admin\PermissionsController::class, 'massDestroy'])->name('permissions.massDestroy');
+    Route::resource('permissions', \Domains\Users\Http\Controllers\Admin\PermissionsController::class);
 
     // Roles
-    Route::delete('roles/destroy', [\App\Http\Controllers\Admin\RolesController::class, 'massDestroy'])->name('roles.massDestroy');
-    Route::resource('roles', \App\Http\Controllers\Admin\RolesController::class);
+    Route::delete('roles/destroy', [\Domains\Users\Http\Controllers\Admin\RolesController::class, 'massDestroy'])->name('roles.massDestroy');
+    Route::resource('roles', \Domains\Users\Http\Controllers\Admin\RolesController::class);
 
     // Users
-    Route::delete('users/destroy', [\App\Http\Controllers\Admin\UsersController::class, 'massDestroy'])->name('users.massDestroy');
-    Route::post('users/parse-csv-import', [\App\Http\Controllers\Admin\UsersController::class, 'parseCsvImport'])->name('users.parseCsvImport');
-    Route::post('users/process-csv-import', [\App\Http\Controllers\Admin\UsersController::class, 'processCsvImport'])->name('users.processCsvImport');
-    Route::resource('users', \App\Http\Controllers\Admin\UsersController::class);
+    Route::delete('users/destroy', [\Domains\Users\Http\Controllers\Admin\UsersController::class, 'massDestroy'])->name('users.massDestroy');
+    Route::post('users/parse-csv-import', [\Domains\Users\Http\Controllers\Admin\UsersController::class, 'parseCsvImport'])->name('users.parseCsvImport');
+    Route::post('users/process-csv-import', [\Domains\Users\Http\Controllers\Admin\UsersController::class, 'processCsvImport'])->name('users.processCsvImport');
+    Route::resource('users', \Domains\Users\Http\Controllers\Admin\UsersController::class);
 
     // Teams
-    Route::delete('teams/destroy', [\App\Http\Controllers\Admin\TeamController::class, 'massDestroy'])->name('teams.massDestroy');
-    Route::resource('teams', \App\Http\Controllers\Admin\TeamController::class);
+    Route::delete('teams/destroy', [\Domains\Teams\Http\Controllers\Admin\TeamController::class, 'massDestroy'])->name('teams.massDestroy');
+    Route::resource('teams', \Domains\Teams\Http\Controllers\Admin\TeamController::class);
 
     // Countries
     Route::delete('countries/destroy', [\App\Http\Controllers\Admin\CountriesController::class, 'massDestroy'])->name('countries.massDestroy');
