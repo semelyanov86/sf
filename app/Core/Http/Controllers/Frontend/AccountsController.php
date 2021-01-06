@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\CsvImportTrait;
-use App\Http\Controllers\Requests\MassDestroyAccountRequest;
-use App\Http\Controllers\Requests\StoreAccountRequest;
-use App\Http\Controllers\Requests\UpdateAccountRequest;
+use Parents\Controllers\Controller;
+use Support\CsvImport\Traits\CsvImportTrait;
+use App\Http\Requests\MassDestroyAccountRequest;
+use App\Http\Requests\StoreAccountRequest;
+use App\Http\Requests\UpdateAccountRequest;
 use App\Models\Account;
 use App\Models\AccountType;
 use App\Models\Bank;

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\CsvImportTrait;
-use App\Http\Controllers\Requests\MassDestroyCurrencyRequest;
-use App\Http\Controllers\Requests\StoreCurrencyRequest;
-use App\Http\Controllers\Requests\UpdateCurrencyRequest;
+use Parents\Controllers\Controller;
+use Support\CsvImport\Traits\CsvImportTrait;
+use App\Http\Requests\MassDestroyCurrencyRequest;
+use App\Http\Requests\StoreCurrencyRequest;
+use App\Http\Requests\UpdateCurrencyRequest;
 use App\Models\Currency;
 use Domains\Users\Models\User;
 use Gate;

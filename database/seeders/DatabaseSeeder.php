@@ -2,7 +2,14 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use Domains\Countries\Seeders\CountriesTableSeeder;
+use Domains\Teams\Seeders\TeamsTableSeeder;
+use Domains\Users\Seeders\PermissionRoleTableSeeder;
+use Domains\Users\Seeders\PermissionsTableSeeder;
+use Domains\Users\Seeders\RolesTableSeeder;
+use Domains\Users\Seeders\RoleUserTableSeeder;
+use Domains\Users\Seeders\UsersTableSeeder;
+use Parents\Seeders\Seeder;
 
 class DatabaseSeeder extends Seeder
 {

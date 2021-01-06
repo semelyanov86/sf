@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\V1\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Controllers\Requests\StoreTargetCategoryRequest;
-use App\Http\Controllers\Requests\UpdateTargetCategoryRequest;
+use Parents\Controllers\ApiController as Controller;
+use Support\MediaUpload\Traits\MediaUploadingTrait;
+use App\Http\Requests\StoreTargetCategoryRequest;
+use App\Http\Requests\UpdateTargetCategoryRequest;
 use App\Http\Controllers\Resources\Admin\TargetCategoryResource;
 use App\Models\TargetCategory;
 use Gate;

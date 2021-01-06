@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\V1\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Controllers\Requests\StoreOperationRequest;
-use App\Http\Controllers\Requests\UpdateOperationRequest;
+use Parents\Controllers\ApiController as Controller;
+use Support\MediaUpload\Traits\MediaUploadingTrait;
+use App\Http\Requests\StoreOperationRequest;
+use App\Http\Requests\UpdateOperationRequest;
 use App\Http\Controllers\Resources\Admin\OperationResource;
 use App\Models\Operation;
 use Gate;

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\CsvImportTrait;
-use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Controllers\Requests\MassDestroyOperationRequest;
-use App\Http\Controllers\Requests\StoreOperationRequest;
-use App\Http\Controllers\Requests\UpdateOperationRequest;
+use Parents\Controllers\WebController as Controller;
+use Support\CsvImport\Traits\CsvImportTrait;
+use Support\MediaUpload\Traits\MediaUploadingTrait;
+use App\Http\Requests\MassDestroyOperationRequest;
+use App\Http\Requests\StoreOperationRequest;
+use App\Http\Requests\UpdateOperationRequest;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Operation;

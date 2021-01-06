@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Country;
+use Domains\Countries\Models\Country;
 use App\Models\TargetCategory;
 use Illuminate\Database\Seeder;
 

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\CsvImportTrait;
-use App\Http\Controllers\Requests\MassDestroyAutoBrandRequest;
-use App\Http\Controllers\Requests\StoreAutoBrandRequest;
-use App\Http\Controllers\Requests\UpdateAutoBrandRequest;
+use Parents\Controllers\Controller;
+use Support\CsvImport\Traits\CsvImportTrait;
+use App\Http\Requests\MassDestroyAutoBrandRequest;
+use App\Http\Requests\StoreAutoBrandRequest;
+use App\Http\Requests\UpdateAutoBrandRequest;
 use App\Models\AutoBrand;
 use Gate;
 use Illuminate\Http\Request;

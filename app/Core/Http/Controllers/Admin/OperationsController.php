@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use Parents\Controllers\Controller;
-use App\Http\Controllers\Traits\CsvImportTrait;
-use App\Http\Controllers\Traits\MediaUploadingTrait;
+use Support\CsvImport\Traits\CsvImportTrait;
+use Support\MediaUpload\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyOperationRequest;
 use App\Http\Requests\StoreOperationRequest;
 use App\Http\Requests\UpdateOperationRequest;

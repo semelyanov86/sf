@@ -3,7 +3,7 @@
 namespace Domains\Users\Http\Controllers\Frontend;
 
 use Parents\Controllers\Controller;
-use App\Http\Controllers\Traits\CsvImportTrait;
+use Support\CsvImport\Traits\CsvImportTrait;
 use Domains\Users\Http\Requests\MassDestroyUserRequest;
 use Domains\Users\Http\Requests\StoreUserRequest;
 use Domains\Users\Http\Requests\UpdateUserRequest;

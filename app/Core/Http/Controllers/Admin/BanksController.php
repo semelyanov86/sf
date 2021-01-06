@@ -7,7 +7,7 @@ use App\Http\Requests\MassDestroyBankRequest;
 use App\Http\Requests\StoreBankRequest;
 use App\Http\Requests\UpdateBankRequest;
 use App\Models\Bank;
-use App\Models\Country;
+use Domains\Countries\Models\Country;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

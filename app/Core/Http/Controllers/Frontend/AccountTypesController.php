@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\CsvImportTrait;
-use App\Http\Controllers\Requests\MassDestroyAccountTypeRequest;
-use App\Http\Controllers\Requests\StoreAccountTypeRequest;
-use App\Http\Controllers\Requests\UpdateAccountTypeRequest;
+use Parents\Controllers\Controller;
+use Support\CsvImport\Traits\CsvImportTrait;
+use App\Http\Requests\MassDestroyAccountTypeRequest;
+use App\Http\Requests\StoreAccountTypeRequest;
+use App\Http\Requests\UpdateAccountTypeRequest;
 use App\Models\AccountType;
 use Gate;
 use Illuminate\Http\Request;

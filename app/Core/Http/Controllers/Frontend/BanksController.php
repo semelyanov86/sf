@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Requests\MassDestroyBankRequest;
-use App\Http\Controllers\Requests\StoreBankRequest;
-use App\Http\Controllers\Requests\UpdateBankRequest;
+use App\Http\Requests\MassDestroyBankRequest;
+use App\Http\Requests\StoreBankRequest;
+use App\Http\Requests\UpdateBankRequest;
 use App\Models\Bank;
-use App\Models\Country;
+use Domains\Countries\Models\Country;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Bank;
-use App\Models\Country;
+use Domains\Countries\Models\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 

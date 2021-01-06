@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Controllers\Requests\MassDestroyTargetRequest;
-use App\Http\Controllers\Requests\StoreTargetRequest;
-use App\Http\Controllers\Requests\UpdateTargetRequest;
+use Parents\Controllers\WebController as Controller;
+use Support\MediaUpload\Traits\MediaUploadingTrait;
+use App\Http\Requests\MassDestroyTargetRequest;
+use App\Http\Requests\StoreTargetRequest;
+use App\Http\Requests\UpdateTargetRequest;
 use App\Models\Account;
 use App\Models\Currency;
 use App\Models\Target;

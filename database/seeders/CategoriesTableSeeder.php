@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
-use App\Models\Country;
+use Domains\Countries\Models\Country;
 use Illuminate\Database\Seeder;
 
 class CategoriesTableSeeder extends Seeder

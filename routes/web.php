@@ -3,7 +3,7 @@
 Route::view('/', 'welcome');
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function () {
-    Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('home');
+    Route::get('/', [\Units\Home\Http\Controllers\Admin\HomeController::class, 'index'])->name('home');
     // Permissions
     Route::delete('permissions/destroy', [\Domains\Users\Http\Controllers\Admin\PermissionsController::class, 'massDestroy'])->name('permissions.massDestroy');
     Route::resource('permissions', \Domains\Users\Http\Controllers\Admin\PermissionsController::class);
@@ -23,8 +23,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::resource('teams', \Domains\Teams\Http\Controllers\Admin\TeamController::class);
 
     // Countries
-    Route::delete('countries/destroy', [\App\Http\Controllers\Admin\CountriesController::class, 'massDestroy'])->name('countries.massDestroy');
-    Route::resource('countries', \App\Http\Controllers\Admin\CountriesController::class);
+    Route::delete('countries/destroy', [\Domains\Countries\Http\Controllers\Admin\CountriesController::class, 'massDestroy'])->name('countries.massDestroy');
+    Route::resource('countries', \Domains\Countries\Http\Controllers\Admin\CountriesController::class);
 
     // Currencies
     Route::delete('currencies/destroy', [\App\Http\Controllers\Admin\CurrenciesController::class, 'massDestroy'])->name('currencies.massDestroy');
@@ -104,7 +104,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::post('team-members', [\Domains\Teams\Http\Controllers\Admin\TeamMembersController::class, 'invite'])->name('team-members.invite');
 });
 Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['auth']], function () {
-    Route::get('/home', [\App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [\Units\Home\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
 
     Route::get('frontend/profile', [\Domains\Users\Http\Controllers\Frontend\ProfileController::class, 'index'])->name('profile.index');
     Route::post('frontend/profile', [\Domains\Users\Http\Controllers\Frontend\ProfileController::class, 'update'])->name('profile.update');

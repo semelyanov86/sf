@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Controllers\Requests\MassDestroyTargetCategoryRequest;
-use App\Http\Controllers\Requests\StoreTargetCategoryRequest;
-use App\Http\Controllers\Requests\UpdateTargetCategoryRequest;
+use Parents\Controllers\WebController as Controller;
+use Support\MediaUpload\Traits\MediaUploadingTrait;
+use App\Http\Requests\MassDestroyTargetCategoryRequest;
+use App\Http\Requests\StoreTargetCategoryRequest;
+use App\Http\Requests\UpdateTargetCategoryRequest;
 use App\Models\TargetCategory;
 use Gate;
 use Illuminate\Http\Request;

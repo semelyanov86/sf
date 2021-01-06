@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\CsvImportTrait;
+use Parents\Controllers\Controller;
+use Support\CsvImport\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyAutoBrandRequest;
 use App\Http\Requests\StoreAutoBrandRequest;
 use App\Http\Requests\UpdateAutoBrandRequest;

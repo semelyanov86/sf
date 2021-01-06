@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Country;
+use Domains\Countries\Models\Country;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
