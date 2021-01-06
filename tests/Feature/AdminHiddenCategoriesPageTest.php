@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\HiddenCategory;
+use Domains\Categories\Models\HiddenCategory;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

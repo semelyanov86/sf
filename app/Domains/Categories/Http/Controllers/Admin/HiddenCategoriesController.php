@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace Domains\Categories\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\MassDestroyHiddenCategoryRequest;
-use App\Http\Requests\StoreHiddenCategoryRequest;
-use App\Http\Requests\UpdateHiddenCategoryRequest;
+use Parents\Controllers\WebController as Controller;
+use Domains\Categories\Http\Requests\MassDestroyHiddenCategoryRequest;
+use Domains\Categories\Http\Requests\StoreHiddenCategoryRequest;
+use Domains\Categories\Http\Requests\UpdateHiddenCategoryRequest;
 use Domains\Categories\Models\Category;
-use App\Models\HiddenCategory;
+use Domains\Categories\Models\HiddenCategory;
 use Domains\Users\Models\User;
 use Gate;
 use Illuminate\Http\Request;

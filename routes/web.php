@@ -95,8 +95,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::resource('operations', \App\Http\Controllers\Admin\OperationsController::class);
 
     // Hidden Categories
-    Route::delete('hidden-categories/destroy', [\App\Http\Controllers\Admin\HiddenCategoriesController::class, 'massDestroy'])->name('hidden-categories.massDestroy');
-    Route::resource('hidden-categories', \App\Http\Controllers\Admin\HiddenCategoriesController::class);
+    Route::delete('hidden-categories/destroy', [\Domains\Categories\Http\Controllers\Admin\HiddenCategoriesController::class, 'massDestroy'])->name('hidden-categories.massDestroy');
+    Route::resource('hidden-categories', \Domains\Categories\Http\Controllers\Admin\HiddenCategoriesController::class);
 
     Route::get('system-calendar', [\App\Http\Controllers\Admin\SystemCalendarController::class, 'index'])->name('systemCalendar');
     Route::get('global-search', [\App\Http\Controllers\Admin\GlobalSearchController::class, 'index'])->name('globalSearch');

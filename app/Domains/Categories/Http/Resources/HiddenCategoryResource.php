@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Resources\Admin;
+namespace Domains\Categories\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Parents\Resources\Resource as JsonResource;
 
 class HiddenCategoryResource extends JsonResource
 {

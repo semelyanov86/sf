@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace Domains\Categories\Models;
 
+use Domains\Categories\Factories\HiddenCategoriesFactory;
 use Domains\Categories\Models\Category;
 use Domains\Users\Models\User;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Parents\Models\Model;
 use \DateTimeInterface;
 
 class HiddenCategory extends Model
 {
-    use SoftDeletes, HasFactory;
 
     public $table = 'hidden_categories';
 
@@ -42,5 +40,15 @@ class HiddenCategory extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return HiddenCategoriesFactory
+     */
+    protected static function newFactory(): HiddenCategoriesFactory
+    {
+        return HiddenCategoriesFactory::new();
     }
 }

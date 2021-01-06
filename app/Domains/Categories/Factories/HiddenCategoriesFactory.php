@@ -1,11 +1,11 @@
 <?php
 
-namespace Database\Factories;
+namespace Domains\Categories\Factories;
 
 use Domains\Categories\Models\Category;
-use App\Models\HiddenCategory;
+use Domains\Categories\Models\HiddenCategory;
 use Domains\Users\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Parents\Factories\Factory;
 use Illuminate\Support\Carbon;
 
 class HiddenCategoriesFactory extends Factory
@@ -17,7 +17,7 @@ class HiddenCategoriesFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         $categories = Category::all()->pluck('id')->toArray();
         $users = User::all()->pluck('id')->toArray();

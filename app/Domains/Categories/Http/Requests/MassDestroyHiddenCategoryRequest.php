@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Domains\Categories\Http\Requests;
 
-use App\Models\HiddenCategory;
+use Domains\Categories\Models\HiddenCategory;
 use Gate;
 use Parents\Requests\Request as FormRequest;
 use Symfony\Component\HttpFoundation\Response;
