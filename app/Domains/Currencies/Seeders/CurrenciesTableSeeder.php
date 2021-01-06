@@ -1,9 +1,9 @@
 <?php
 
-namespace Database\Seeders;
+namespace Domains\Currencies\Seeders;
 
-use App\Models\Currency;
-use Illuminate\Database\Seeder;
+use Domains\Currencies\Models\Currency;
+use Parents\Seeders\Seeder;
 
 class CurrenciesTableSeeder extends Seeder
 {

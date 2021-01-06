@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Domains\Currencies\Http\Requests;
 
-use App\Models\Currency;
+use Domains\Currencies\Models\Currency;
 use Gate;
 use Parents\Requests\Request as FormRequest;
 use Illuminate\Http\Response;

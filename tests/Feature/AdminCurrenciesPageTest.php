@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Currency;
+use Domains\Currencies\Models\Currency;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

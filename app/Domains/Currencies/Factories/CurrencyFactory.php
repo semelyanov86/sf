@@ -1,9 +1,9 @@
 <?php
 
-namespace Database\Factories;
+namespace Domains\Currencies\Factories;
 
-use App\Models\Currency;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Domains\Currencies\Models\Currency;
+use Parents\Factories\Factory;
 use Illuminate\Support\Carbon;
 
 class CurrencyFactory extends Factory
@@ -15,7 +15,7 @@ class CurrencyFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'code' => $this->faker->word,

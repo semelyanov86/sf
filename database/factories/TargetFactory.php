@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Account;
-use App\Models\Currency;
+use Domains\Currencies\Models\Currency;
 use App\Models\Target;
 use App\Models\TargetCategory;
 use Domains\Teams\Models\Team;

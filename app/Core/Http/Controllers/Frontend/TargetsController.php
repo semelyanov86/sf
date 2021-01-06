@@ -8,7 +8,7 @@ use App\Http\Requests\MassDestroyTargetRequest;
 use App\Http\Requests\StoreTargetRequest;
 use App\Http\Requests\UpdateTargetRequest;
 use App\Models\Account;
-use App\Models\Currency;
+use Domains\Currencies\Models\Currency;
 use App\Models\Target;
 use App\Models\TargetCategory;
 use Domains\Users\Models\User;

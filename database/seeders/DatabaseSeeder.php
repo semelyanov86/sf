@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Domains\Countries\Seeders\CountriesTableSeeder;
+use Domains\Currencies\Seeders\CurrenciesTableSeeder;
 use Domains\Teams\Seeders\TeamsTableSeeder;
 use Domains\Users\Seeders\PermissionRoleTableSeeder;
 use Domains\Users\Seeders\PermissionsTableSeeder;

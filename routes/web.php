@@ -27,10 +27,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::resource('countries', \Domains\Countries\Http\Controllers\Admin\CountriesController::class);
 
     // Currencies
-    Route::delete('currencies/destroy', [\App\Http\Controllers\Admin\CurrenciesController::class, 'massDestroy'])->name('currencies.massDestroy');
-    Route::post('currencies/parse-csv-import', [\App\Http\Controllers\Admin\CurrenciesController::class, 'parseCsvImport'])->name('currencies.parseCsvImport');
-    Route::post('currencies/process-csv-import', [\App\Http\Controllers\Admin\CurrenciesController::class, 'processCsvImport'])->name('currencies.processCsvImport');
-    Route::resource('currencies', \App\Http\Controllers\Admin\CurrenciesController::class);
+    Route::delete('currencies/destroy', [\Domains\Currencies\Http\Controllers\Admin\CurrenciesController::class, 'massDestroy'])->name('currencies.massDestroy');
+    Route::post('currencies/parse-csv-import', [\Domains\Currencies\Http\Controllers\Admin\CurrenciesController::class, 'parseCsvImport'])->name('currencies.parseCsvImport');
+    Route::post('currencies/process-csv-import', [\Domains\Currencies\Http\Controllers\Admin\CurrenciesController::class, 'processCsvImport'])->name('currencies.processCsvImport');
+    Route::resource('currencies', \Domains\Currencies\Http\Controllers\Admin\CurrenciesController::class);
 
     // Banks
     Route::delete('banks/destroy', [\App\Http\Controllers\Admin\BanksController::class, 'massDestroy'])->name('banks.massDestroy');

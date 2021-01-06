@@ -17,7 +17,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('countries', \Domains\Countries\Http\Controllers\Api\CountriesApiController::class);
 
     // Currencies
-    Route::apiResource('currencies', \App\Http\Controllers\Api\V1\Admin\CurrenciesApiController::class);
+    Route::apiResource('currencies', \Domains\Currencies\Http\Controllers\Api\CurrenciesApiController::class);
 
     // Banks
     Route::apiResource('banks', \App\Http\Controllers\Api\V1\Admin\BanksApiController::class);

@@ -2,7 +2,7 @@
 
 namespace Domains\Users\Models;
 
-use App\Models\Currency;
+use Domains\Currencies\Models\Currency;
 use App\Models\Operation;
 use Domains\Teams\Models\Team;
 use Parents\Models\UserModel;

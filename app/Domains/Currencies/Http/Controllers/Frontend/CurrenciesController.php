@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace Domains\Currencies\Http\Controllers\Frontend;
 
 use Parents\Controllers\Controller;
 use Support\CsvImport\Traits\CsvImportTrait;
-use App\Http\Requests\MassDestroyCurrencyRequest;
-use App\Http\Requests\StoreCurrencyRequest;
-use App\Http\Requests\UpdateCurrencyRequest;
-use App\Models\Currency;
+use Domains\Currencies\Http\Requests\MassDestroyCurrencyRequest;
+use Domains\Currencies\Http\Requests\StoreCurrencyRequest;
+use Domains\Currencies\Http\Requests\UpdateCurrencyRequest;
+use Domains\Currencies\Models\Currency;
 use Domains\Users\Models\User;
 use Gate;
 use Illuminate\Http\Request;
@@ -23,7 +23,7 @@ class CurrenciesController extends Controller
 
         $currencies = Currency::with(['users'])->get();
 
-        return view('admin.currencies.index', compact('currencies'));
+        return view('frontend.currencies.index', compact('currencies'));
     }
 
     public function create()
@@ -32,7 +32,7 @@ class CurrenciesController extends Controller
 
         $users = User::all()->pluck('name', 'id');
 
-        return view('admin.currencies.create', compact('users'));
+        return view('frontend.currencies.create', compact('users'));
     }
 
     public function store(StoreCurrencyRequest $request)
@@ -40,7 +40,7 @@ class CurrenciesController extends Controller
         $currency = Currency::create($request->all());
         $currency->users()->sync($request->input('users', []));
 
-        return redirect()->route('admin.currencies.index');
+        return redirect()->route('frontend.currencies.index');
     }
 
     public function edit(Currency $currency)
@@ -51,7 +51,7 @@ class CurrenciesController extends Controller
 
         $currency->load('users');
 
-        return view('admin.currencies.edit', compact('users', 'currency'));
+        return view('frontend.currencies.edit', compact('users', 'currency'));
     }
 
     public function update(UpdateCurrencyRequest $request, Currency $currency)
@@ -59,7 +59,7 @@ class CurrenciesController extends Controller
         $currency->update($request->all());
         $currency->users()->sync($request->input('users', []));
 
-        return redirect()->route('admin.currencies.index');
+        return redirect()->route('frontend.currencies.index');
     }
 
     public function show(Currency $currency)
@@ -68,7 +68,7 @@ class CurrenciesController extends Controller
 
         $currency->load('users');
 
-        return view('admin.currencies.show', compact('currency'));
+        return view('frontend.currencies.show', compact('currency'));
     }
 
     public function destroy(Currency $currency)

@@ -5,7 +5,7 @@ namespace Database\Factories;
 use App\Models\Account;
 use App\Models\AccountType;
 use App\Models\Bank;
-use App\Models\Currency;
+use Domains\Currencies\Models\Currency;
 use Domains\Teams\Models\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;

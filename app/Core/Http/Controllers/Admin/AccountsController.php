@@ -10,7 +10,7 @@ use App\Http\Requests\UpdateAccountRequest;
 use App\Models\Account;
 use App\Models\AccountType;
 use App\Models\Bank;
-use App\Models\Currency;
+use Domains\Currencies\Models\Currency;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

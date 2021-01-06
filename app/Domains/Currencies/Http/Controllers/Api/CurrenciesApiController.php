@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Admin;
+namespace Domains\Currencies\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Requests\StoreCurrencyRequest;
-use App\Http\Controllers\Requests\UpdateCurrencyRequest;
-use App\Http\Controllers\Resources\Admin\CurrencyResource;
-use App\Models\Currency;
+use Parents\Controllers\Controller;
+use Domains\Currencies\Http\Requests\StoreCurrencyRequest;
+use Domains\Currencies\Http\Requests\UpdateCurrencyRequest;
+use Domains\Currencies\Http\Resources\CurrencyResource;
+use Domains\Currencies\Models\Currency;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

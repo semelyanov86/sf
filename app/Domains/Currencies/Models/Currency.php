@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace Domains\Currencies\Models;
 
 use Carbon\Carbon;
 use Domains\Users\Models\User;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Parents\Models\Model;
 use \DateTimeInterface;
 
 class Currency extends Model
 {
-    use SoftDeletes, HasFactory;
 
     public $table = 'currencies';
 
