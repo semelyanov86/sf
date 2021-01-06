@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Domains\Teams\Models\Team;
 use Units\Auth\Traits\MultiTenantModelTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

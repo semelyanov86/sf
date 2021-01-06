@@ -2,8 +2,8 @@
 
 namespace Units\Auth\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
+use Parents\Controllers\Controller;
+use Domains\Users\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -72,7 +72,7 @@ class RegisterController extends Controller
         ]);
 
         if (!request()->has('team')) {
-            $team = \App\Models\Team::create([
+            $team = \Domains\Teams\Models\Team::create([
                 'owner_id' => $user->id,
                 'name'     => $data['email'],
             ]);

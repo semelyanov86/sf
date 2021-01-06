@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Requests\MassDestroyBankRequest;
-use App\Http\Controllers\Requests\StoreBankRequest;
-use App\Http\Controllers\Requests\UpdateBankRequest;
+use App\Http\Requests\MassDestroyBankRequest;
+use App\Http\Requests\StoreBankRequest;
+use App\Http\Requests\UpdateBankRequest;
 use App\Models\Bank;
 use App\Models\Country;
 use Gate;

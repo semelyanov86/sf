@@ -1,8 +1,8 @@
 <?php
 
-namespace Units\Auth\Http\Middleware;
+namespace Units\Auth\Middleware;
 
-use App\Models\Role;
+use Domains\Users\Models\Role;
 use Closure;
 use Illuminate\Support\Facades\Gate;
 

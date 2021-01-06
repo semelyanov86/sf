@@ -100,14 +100,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
 
     Route::get('system-calendar', [\App\Http\Controllers\Admin\SystemCalendarController::class, 'index'])->name('systemCalendar');
     Route::get('global-search', [\App\Http\Controllers\Admin\GlobalSearchController::class, 'index'])->name('globalSearch');
-    Route::get('team-members', [\App\Http\Controllers\Admin\TeamMembersController::class, 'index'])->name('team-members.index');
-    Route::post('team-members', [\App\Http\Controllers\Admin\TeamMembersController::class, 'invite'])->name('team-members.invite');
+    Route::get('team-members', [\Domains\Teams\Http\Controllers\Admin\TeamMembersController::class, 'index'])->name('team-members.index');
+    Route::post('team-members', [\Domains\Teams\Http\Controllers\Admin\TeamMembersController::class, 'invite'])->name('team-members.invite');
 });
 Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['auth']], function () {
     Route::get('/home', [\App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
 
-    Route::get('frontend/profile', [\App\Http\Controllers\Frontend\ProfileController::class, 'index'])->name('profile.index');
-    Route::post('frontend/profile', [\App\Http\Controllers\Frontend\ProfileController::class, 'update'])->name('profile.update');
-    Route::post('frontend/profile/destroy', [\App\Http\Controllers\Frontend\ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::post('frontend/profile/password', [\App\Http\Controllers\Frontend\ProfileController::class, 'password'])->name('profile.password');
+    Route::get('frontend/profile', [\Domains\Users\Http\Controllers\Frontend\ProfileController::class, 'index'])->name('profile.index');
+    Route::post('frontend/profile', [\Domains\Users\Http\Controllers\Frontend\ProfileController::class, 'update'])->name('profile.update');
+    Route::post('frontend/profile/destroy', [\Domains\Users\Http\Controllers\Frontend\ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('frontend/profile/password', [\Domains\Users\Http\Controllers\Frontend\ProfileController::class, 'password'])->name('profile.password');
 });

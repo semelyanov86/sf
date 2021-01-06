@@ -2,11 +2,11 @@
 
 namespace Domains\Teams\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use Parents\Controllers\Controller;
 use Domains\Teams\Http\Requests\StoreTeamRequest;
 use Domains\Teams\Http\Requests\UpdateTeamRequest;
 use Domains\Teams\Http\Resources\TeamResource;
-use App\Models\Team;
+use Domains\Teams\Models\Team;
 use Gate;
 use Parents\Requests\Request;
 use Symfony\Component\HttpFoundation\Response;

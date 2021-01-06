@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\CsvImportTrait;
-use App\Http\Controllers\Requests\MassDestroyAccountTypeRequest;
-use App\Http\Controllers\Requests\StoreAccountTypeRequest;
-use App\Http\Controllers\Requests\UpdateAccountTypeRequest;
+use App\Http\Requests\MassDestroyAccountTypeRequest;
+use App\Http\Requests\StoreAccountTypeRequest;
+use App\Http\Requests\UpdateAccountTypeRequest;
 use App\Models\AccountType;
 use Gate;
 use Illuminate\Http\Request;

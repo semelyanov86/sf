@@ -8,7 +8,7 @@ use App\Http\Controllers\Requests\MassDestroyCurrencyRequest;
 use App\Http\Controllers\Requests\StoreCurrencyRequest;
 use App\Http\Controllers\Requests\UpdateCurrencyRequest;
 use App\Models\Currency;
-use App\Models\User;
+use Domains\Users\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

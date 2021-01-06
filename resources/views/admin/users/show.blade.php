@@ -142,7 +142,7 @@
                             {{ trans('cruds.user.fields.mail_days_before') }}
                         </th>
                         <td>
-                            {{ App\Models\User::MAIL_DAYS_BEFORE_SELECT[$user->mail_days_before] ?? '' }}
+                            {{ Domains\Users\Models\User::MAIL_DAYS_BEFORE_SELECT[$user->mail_days_before] ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -166,7 +166,7 @@
                             {{ trans('cruds.user.fields.sms_days_before') }}
                         </th>
                         <td>
-                            {{ App\Models\User::SMS_DAYS_BEFORE_SELECT[$user->sms_days_before] ?? '' }}
+                            {{ Domains\Users\Models\User::SMS_DAYS_BEFORE_SELECT[$user->sms_days_before] ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -182,7 +182,7 @@
                             {{ trans('cruds.user.fields.language') }}
                         </th>
                         <td>
-                            {{ App\Models\User::LANGUAGE_SELECT[$user->language] ?? '' }}
+                            {{ Domains\Users\Models\User::LANGUAGE_SELECT[$user->language] ?? '' }}
                         </td>
                     </tr>
                 </tbody>

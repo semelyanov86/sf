@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use Parents\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Controllers\Requests\MassDestroyTargetRequest;
-use App\Http\Controllers\Requests\StoreTargetRequest;
-use App\Http\Controllers\Requests\UpdateTargetRequest;
+use App\Http\Requests\MassDestroyTargetRequest;
+use App\Http\Requests\StoreTargetRequest;
+use App\Http\Requests\UpdateTargetRequest;
 use App\Models\Account;
 use App\Models\Currency;
 use App\Models\Target;
 use App\Models\TargetCategory;
-use App\Models\User;
+use Domains\Users\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Requests;
+namespace App\Http\Requests;
 
 use App\Models\Account;
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
+use Parents\Requests\Request as FormRequest;
 use Illuminate\Http\Response;
 
 class StoreAccountRequest extends FormRequest

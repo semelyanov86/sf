@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Requests\MassDestroyHiddenCategoryRequest;
-use App\Http\Controllers\Requests\StoreHiddenCategoryRequest;
-use App\Http\Controllers\Requests\UpdateHiddenCategoryRequest;
+use App\Http\Requests\MassDestroyHiddenCategoryRequest;
+use App\Http\Requests\StoreHiddenCategoryRequest;
+use App\Http\Requests\UpdateHiddenCategoryRequest;
 use App\Models\Category;
 use App\Models\HiddenCategory;
-use App\Models\User;
+use Domains\Users\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

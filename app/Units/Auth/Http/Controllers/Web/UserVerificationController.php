@@ -2,8 +2,8 @@
 
 namespace Units\Auth\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
+use Parents\Controllers\Controller;
+use Domains\Users\Models\User;
 use Carbon\Carbon;
 
 class UserVerificationController extends Controller

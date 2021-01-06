@@ -5,8 +5,8 @@ namespace Database\Factories;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Operation;
-use App\Models\Team;
-use App\Models\User;
+use Domains\Teams\Models\Team;
+use Domains\Users\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 

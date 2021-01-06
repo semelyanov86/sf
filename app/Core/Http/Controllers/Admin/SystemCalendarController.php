@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use Parents\Controllers\Controller;
 use Carbon\Carbon;
 
 class SystemCalendarController extends Controller

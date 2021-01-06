@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\User;
+use Domains\Users\Models\User;
 use PHPUnit\Framework\TestCase;
 
 class CurrencyAttributeTest extends TestCase

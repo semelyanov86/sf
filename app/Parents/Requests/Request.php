@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Config;
  *
  * @author  Mahmoud Zalt  <mahmoud@zalt.me>
  */
-abstract class Request extends LaravelRequest
+class Request extends LaravelRequest
 {
 
     use StateKeeperTrait;

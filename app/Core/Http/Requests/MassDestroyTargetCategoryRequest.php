@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Requests;
+namespace App\Http\Requests;
 
 use App\Models\TargetCategory;
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
+use Parents\Requests\Request as FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
 class MassDestroyTargetCategoryRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         abort_if(Gate::denies('target_category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'ids'   => 'required|array',

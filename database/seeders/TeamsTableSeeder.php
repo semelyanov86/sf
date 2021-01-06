@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Team;
-use App\Models\User;
+use Domains\Teams\Models\Team;
+use Domains\Users\Models\User;
 use Illuminate\Database\Seeder;
 
 class TeamsTableSeeder extends Seeder

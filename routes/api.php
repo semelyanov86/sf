@@ -2,16 +2,16 @@
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:sanctum']], function () {
     // Permissions
-    Route::apiResource('permissions', \App\Http\Controllers\Api\V1\Admin\PermissionsApiController::class);
+    Route::apiResource('permissions', \Domains\Users\Http\Controllers\Api\PermissionsApiController::class);
 
     // Roles
-    Route::apiResource('roles', \App\Http\Controllers\Api\V1\Admin\RolesApiController::class);
+    Route::apiResource('roles', \Domains\Users\Http\Controllers\Api\RolesApiController::class);
 
     // Users
-    Route::apiResource('users', \App\Http\Controllers\Api\V1\Admin\UsersApiController::class);
+    Route::apiResource('users', \Domains\Users\Http\Controllers\Api\UsersApiController::class);
 
     // Teams
-    Route::apiResource('teams', \App\Http\Controllers\Api\V1\Admin\TeamApiController::class);
+    Route::apiResource('teams', \Domains\Teams\Http\Controllers\Api\TeamApiController::class);
 
     // Countries
     Route::apiResource('countries', \App\Http\Controllers\Api\V1\Admin\CountriesApiController::class);

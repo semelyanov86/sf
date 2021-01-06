@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\CsvImportTrait;
-use App\Http\Controllers\Requests\MassDestroyAccountRequest;
-use App\Http\Controllers\Requests\StoreAccountRequest;
-use App\Http\Controllers\Requests\UpdateAccountRequest;
+use App\Http\Requests\MassDestroyAccountRequest;
+use App\Http\Requests\StoreAccountRequest;
+use App\Http\Requests\UpdateAccountRequest;
 use App\Models\Account;
 use App\Models\AccountType;
 use App\Models\Bank;
@@ -41,7 +41,7 @@ class AccountsController extends Controller
         return view('admin.accounts.create', compact('account_types', 'currencies', 'banks'));
     }
 
-    public function store(StoreAccountRequest $request)
+    public function store(StoreAccountRequest $request): \Illuminate\Http\RedirectResponse
     {
         $account = Account::create($request->all());
 
@@ -63,7 +63,7 @@ class AccountsController extends Controller
         return view('admin.accounts.edit', compact('account_types', 'currencies', 'banks', 'account'));
     }
 
-    public function update(UpdateAccountRequest $request, Account $account)
+    public function update(UpdateAccountRequest $request, Account $account): \Illuminate\Http\RedirectResponse
     {
         $account->update($request->all());
 

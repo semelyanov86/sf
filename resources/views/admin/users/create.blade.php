@@ -160,7 +160,7 @@
                 <label class="required">{{ trans('cruds.user.fields.mail_days_before') }}</label>
                 <select class="form-control {{ $errors->has('mail_days_before') ? 'is-invalid' : '' }}" name="mail_days_before" id="mail_days_before" required>
                     <option value disabled {{ old('mail_days_before', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\User::MAIL_DAYS_BEFORE_SELECT as $key => $label)
+                    @foreach(Domains\Users\Models\User::MAIL_DAYS_BEFORE_SELECT as $key => $label)
                         <option value="{{ $key }}" {{ old('mail_days_before', '0') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
                     @endforeach
                 </select>
@@ -198,7 +198,7 @@
                 <label class="required">{{ trans('cruds.user.fields.sms_days_before') }}</label>
                 <select class="form-control {{ $errors->has('sms_days_before') ? 'is-invalid' : '' }}" name="sms_days_before" id="sms_days_before" required>
                     <option value disabled {{ old('sms_days_before', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\User::SMS_DAYS_BEFORE_SELECT as $key => $label)
+                    @foreach(Domains\Users\Models\User::SMS_DAYS_BEFORE_SELECT as $key => $label)
                         <option value="{{ $key }}" {{ old('sms_days_before', '0') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
                     @endforeach
                 </select>
@@ -223,7 +223,7 @@
                 <label>{{ trans('cruds.user.fields.language') }}</label>
                 <select class="form-control {{ $errors->has('language') ? 'is-invalid' : '' }}" name="language" id="language">
                     <option value disabled {{ old('language', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\User::LANGUAGE_SELECT as $key => $label)
+                    @foreach(Domains\Users\Models\User::LANGUAGE_SELECT as $key => $label)
                         <option value="{{ $key }}" {{ old('language', 'ru_ru') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
                     @endforeach
                 </select>

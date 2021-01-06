@@ -2,6 +2,9 @@
 
 namespace Domains\Users\Models;
 
+use App\Models\Currency;
+use App\Models\Operation;
+use Domains\Teams\Models\Team;
 use Parents\Models\UserModel;
 use Carbon\Carbon;
 use Hash;

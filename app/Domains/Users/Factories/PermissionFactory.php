@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories;
+namespace Domains\Users\Factories;
 
-use App\Models\Permission;
+use Domains\Users\Models\Permission;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 

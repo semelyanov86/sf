@@ -2,7 +2,7 @@
 
 namespace Units\Auth\Notifications;
 
-use App\Models\User;
+use Domains\Users\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;

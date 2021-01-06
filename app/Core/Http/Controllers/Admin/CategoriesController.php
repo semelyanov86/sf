@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Requests\MassDestroyCategoryRequest;
-use App\Http\Controllers\Requests\StoreCategoryRequest;
-use App\Http\Controllers\Requests\UpdateCategoryRequest;
+use App\Http\Requests\MassDestroyCategoryRequest;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use Gate;
 use Illuminate\Http\Request;

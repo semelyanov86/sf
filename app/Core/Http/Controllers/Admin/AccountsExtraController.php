@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\CsvImportTrait;
-use App\Http\Controllers\Requests\MassDestroyAccountsExtraRequest;
-use App\Http\Controllers\Requests\StoreAccountsExtraRequest;
-use App\Http\Controllers\Requests\UpdateAccountsExtraRequest;
+use App\Http\Requests\MassDestroyAccountsExtraRequest;
+use App\Http\Requests\StoreAccountsExtraRequest;
+use App\Http\Requests\UpdateAccountsExtraRequest;
 use App\Models\AccountsExtra;
 use App\Models\AutoBrand;
 use App\Models\CardType;

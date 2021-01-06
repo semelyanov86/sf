@@ -2,6 +2,7 @@
 
 namespace Domains\Teams\Models;
 
+use Domains\Users\Models\User;
 use Parents\Models\Model;
 use \DateTimeInterface;
 

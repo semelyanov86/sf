@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Requests;
+namespace App\Http\Requests;
 
 use App\Models\HiddenCategory;
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
+use Parents\Requests\Request as FormRequest;
 use Illuminate\Http\Response;
 
 class UpdateHiddenCategoryRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         return Gate::allows('hidden_category_edit');
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'category_id' => [

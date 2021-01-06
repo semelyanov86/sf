@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use Parents\Controllers\Controller;
 use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Controllers\Requests\MassDestroyOperationRequest;
-use App\Http\Controllers\Requests\StoreOperationRequest;
-use App\Http\Controllers\Requests\UpdateOperationRequest;
+use App\Http\Requests\MassDestroyOperationRequest;
+use App\Http\Requests\StoreOperationRequest;
+use App\Http\Requests\UpdateOperationRequest;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Operation;
-use App\Models\Team;
-use App\Models\User;
+use Domains\Teams\Models\Team;
+use Domains\Users\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;

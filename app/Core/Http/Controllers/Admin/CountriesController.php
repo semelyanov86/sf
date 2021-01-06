@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Requests\MassDestroyCountryRequest;
-use App\Http\Controllers\Requests\StoreCountryRequest;
-use App\Http\Controllers\Requests\UpdateCountryRequest;
+use App\Http\Requests\MassDestroyCountryRequest;
+use App\Http\Requests\StoreCountryRequest;
+use App\Http\Requests\UpdateCountryRequest;
 use App\Models\Country;
 use Gate;
 use Illuminate\Http\Request;

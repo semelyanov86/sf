@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Requests;
+namespace App\Http\Requests;
 
 use App\Models\Account;
 use Gate;

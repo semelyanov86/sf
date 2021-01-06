@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\CsvImportTrait;
-use App\Http\Controllers\Requests\MassDestroyCardTypeRequest;
-use App\Http\Controllers\Requests\StoreCardTypeRequest;
-use App\Http\Controllers\Requests\UpdateCardTypeRequest;
+use App\Http\Requests\MassDestroyCardTypeRequest;
+use App\Http\Requests\StoreCardTypeRequest;
+use App\Http\Requests\UpdateCardTypeRequest;
 use App\Models\CardType;
 use Gate;
 use Illuminate\Http\Request;

@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Requests;
+namespace App\Http\Requests;
 
 use App\Models\Account;
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
+use Parents\Requests\Request as FormRequest;
 use Illuminate\Http\Response;
 
 class UpdateAccountRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         return Gate::allows('account_edit');
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'name'          => [

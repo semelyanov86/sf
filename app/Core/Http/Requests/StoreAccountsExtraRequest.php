@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Requests;
+namespace App\Http\Requests;
 
 use App\Models\AccountsExtra;
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
+use Parents\Requests\Request as FormRequest;
 use Illuminate\Http\Response;
 
 class StoreAccountsExtraRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         return Gate::allows('accounts_extra_create');
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'card_expire_date'                   => [

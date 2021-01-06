@@ -8,7 +8,7 @@ use App\Http\Controllers\Requests\StoreBudgetRequest;
 use App\Http\Controllers\Requests\UpdateBudgetRequest;
 use App\Models\Budget;
 use App\Models\Category;
-use App\Models\User;
+use Domains\Users\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

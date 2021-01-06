@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Requests;
+namespace App\Http\Requests;
 
 use App\Models\Target;
 use Gate;
-use Illuminate\Foundation\Http\FormRequest;
+use Parents\Requests\Request as FormRequest;
 use Illuminate\Http\Response;
 
 class StoreTargetRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         return Gate::allows('target_create');
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'target_category_id' => [

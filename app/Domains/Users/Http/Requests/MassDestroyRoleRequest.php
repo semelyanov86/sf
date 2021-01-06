@@ -2,7 +2,7 @@
 
 namespace Domains\Users\Http\Requests;
 
-use App\Models\Role;
+use Domains\Users\Models\Role;
 use Gate;
 use Parents\Requests\Request as FormRequest;
 use Symfony\Component\HttpFoundation\Response;

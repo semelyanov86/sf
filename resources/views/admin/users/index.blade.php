@@ -95,7 +95,7 @@
                         <td>
                             <select class="search" strict="true">
                                 <option value>{{ trans('global.all') }}</option>
-                                @foreach(App\Models\User::MAIL_DAYS_BEFORE_SELECT as $key => $item)
+                                @foreach(Domains\Users\Models\User::MAIL_DAYS_BEFORE_SELECT as $key => $item)
                                     <option value="{{ $item }}">{{ $item }}</option>
                                 @endforeach
                             </select>
@@ -143,7 +143,7 @@
                                 <input type="checkbox" disabled="disabled" {{ $user->email_notify ? 'checked' : '' }}>
                             </td>
                             <td>
-                                {{ App\Models\User::MAIL_DAYS_BEFORE_SELECT[$user->mail_days_before] ?? '' }}
+                                {{ Domains\Users\Models\User::MAIL_DAYS_BEFORE_SELECT[$user->mail_days_before] ?? '' }}
                             </td>
                             <td>
                                 @can('user_show')
@@ -224,7 +224,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 let visibleColumnsIndexes = null;
 $('.datatable thead').on('input', '.search', function () {
       let strict = $(this).attr('strict') || false

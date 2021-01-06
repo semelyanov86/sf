@@ -232,7 +232,7 @@
                 {{ trans('global.systemCalendar') }}
             </a>
         </li>
-        @if(\Illuminate\Support\Facades\Schema::hasColumn('teams', 'owner_id') && \App\Models\Team::where('owner_id', auth()->user()->id)->exists())
+        @if(\Illuminate\Support\Facades\Schema::hasColumn('teams', 'owner_id') && \Domains\Teams\Models\Team::where('owner_id', auth()->user()->id)->exists())
             <li class="c-sidebar-nav-item">
                 <a class="{{ request()->is("admin/team-members") || request()->is("admin/team-members/*") ? "c-active" : "" }} c-sidebar-nav-link" href="{{ route("admin.team-members.index") }}">
                     <i class="c-sidebar-nav-icon fa-fw fa fa-users">

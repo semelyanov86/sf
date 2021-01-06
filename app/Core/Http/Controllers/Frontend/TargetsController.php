@@ -11,7 +11,7 @@ use App\Models\Account;
 use App\Models\Currency;
 use App\Models\Target;
 use App\Models\TargetCategory;
-use App\Models\User;
+use Domains\Users\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
