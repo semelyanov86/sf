@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Account;
-use App\Models\Category;
+use Domains\Categories\Models\Category;
 use App\Models\Operation;
 use Domains\Teams\Models\Team;
 use Domains\Users\Models\User;

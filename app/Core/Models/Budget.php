@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Domains\Categories\Models\Category;
 use Domains\Teams\Models\Team;
 use Domains\Users\Models\User;
 use Units\Auth\Traits\MultiTenantModelTrait;

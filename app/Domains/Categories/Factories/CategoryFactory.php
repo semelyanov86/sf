@@ -1,9 +1,9 @@
 <?php
 
-namespace Database\Factories;
+namespace Domains\Categories\Factories;
 
-use App\Models\Category;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Domains\Categories\Models\Category;
+use Parents\Factories\Factory;
 use Illuminate\Support\Carbon;
 
 class CategoryFactory extends Factory
@@ -15,7 +15,7 @@ class CategoryFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         $categories = Category::whereNull('sys_category')->whereNull('parent')->get()->pluck('id')->toArray();
         return [

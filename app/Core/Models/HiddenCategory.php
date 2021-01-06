@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Domains\Categories\Models\Category;
 use Domains\Users\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

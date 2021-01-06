@@ -23,7 +23,7 @@
                 <label>{{ trans('cruds.category.fields.type') }}</label>
                 <select class="form-control {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type" id="type">
                     <option value disabled {{ old('type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\Category::TYPE_SELECT as $key => $label)
+                    @foreach(Domains\Categories\Models\Category::TYPE_SELECT as $key => $label)
                         <option value="{{ $key }}" {{ old('type', '1') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
                     @endforeach
                 </select>

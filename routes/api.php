@@ -23,7 +23,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('banks', \Domains\Banks\Http\Controllers\Api\BanksApiController::class);
 
     // Categories
-    Route::apiResource('categories', \App\Http\Controllers\Api\V1\Admin\CategoriesApiController::class);
+    Route::apiResource('categories', \Domains\Categories\Http\Controllers\Api\CategoriesApiController::class);
 
     // Target Categories
     Route::post('target-categories/media', [\App\Http\Controllers\Api\V1\Admin\TargetCategoriesApiController::class, 'storeMedia'])->name('target-categories.storeMedia');

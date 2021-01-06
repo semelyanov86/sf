@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyHiddenCategoryRequest;
 use App\Http\Requests\StoreHiddenCategoryRequest;
 use App\Http\Requests\UpdateHiddenCategoryRequest;
-use App\Models\Category;
+use Domains\Categories\Models\Category;
 use App\Models\HiddenCategory;
 use Domains\Users\Models\User;
 use Gate;

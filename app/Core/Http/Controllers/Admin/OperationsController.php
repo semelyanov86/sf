@@ -9,7 +9,7 @@ use App\Http\Requests\MassDestroyOperationRequest;
 use App\Http\Requests\StoreOperationRequest;
 use App\Http\Requests\UpdateOperationRequest;
 use App\Models\Account;
-use App\Models\Category;
+use Domains\Categories\Models\Category;
 use App\Models\Operation;
 use Domains\Teams\Models\Team;
 use Domains\Users\Models\User;

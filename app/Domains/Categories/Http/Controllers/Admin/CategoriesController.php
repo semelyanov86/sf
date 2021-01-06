@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Frontend;
+namespace Domains\Categories\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Requests\MassDestroyCategoryRequest;
-use App\Http\Controllers\Requests\StoreCategoryRequest;
-use App\Http\Controllers\Requests\UpdateCategoryRequest;
-use App\Models\Category;
+use Parents\Controllers\WebController as Controller;
+use Domains\Categories\Http\Requests\MassDestroyCategoryRequest;
+use Domains\Categories\Http\Requests\StoreCategoryRequest;
+use Domains\Categories\Http\Requests\UpdateCategoryRequest;
+use Domains\Categories\Models\Category;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,42 +19,44 @@ class CategoriesController extends Controller
 
         $categories = Category::all();
 
-        return view('frontend.categories.index', compact('categories'));
+        return view('admin.categories.index', compact('categories'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('frontend.categories.create');
+        return view('admin.categories.create');
     }
 
     public function store(StoreCategoryRequest $request)
     {
         $category = Category::create($request->all());
 
-        return redirect()->route('frontend.categories.index');
+        return redirect()->route('admin.categories.index');
     }
 
     public function edit(Category $category)
     {
         abort_if(Gate::denies('category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('frontend.categories.edit', compact('category'));
+        return view('admin.categories.edit', compact('category'));
     }
 
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $category->update($request->all());
 
-        return redirect()->route('frontend.categories.index');
+        return redirect()->route('admin.categories.index');
     }
 
     public function show(Category $category)
     {
         abort_if(Gate::denies('category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('frontend.categories.show', compact('category'));
+        $category->load('categoryBudgets', 'categoryOperations');
+
+        return view('admin.categories.show', compact('category'));
     }
 
     public function destroy(Category $category)

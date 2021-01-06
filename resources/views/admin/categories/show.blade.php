@@ -36,7 +36,7 @@
                             {{ trans('cruds.category.fields.type') }}
                         </th>
                         <td>
-                            {{ App\Models\Category::TYPE_SELECT[$category->type] ?? '' }}
+                            {{ Domains\Categories\Models\Category::TYPE_SELECT[$category->type] ?? '' }}
                         </td>
                     </tr>
                     <tr>

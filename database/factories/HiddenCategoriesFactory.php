@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
+use Domains\Categories\Models\Category;
 use App\Models\HiddenCategory;
 use Domains\Users\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;

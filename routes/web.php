@@ -37,8 +37,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::resource('banks', \Domains\Banks\Http\Controllers\Admin\BanksController::class);
 
     // Categories
-    Route::delete('categories/destroy', [\App\Http\Controllers\Admin\CategoriesController::class, 'massDestroy'])->name('categories.massDestroy');
-    Route::resource('categories', \App\Http\Controllers\Admin\CategoriesController::class);
+    Route::delete('categories/destroy', [\Domains\Categories\Http\Controllers\Admin\CategoriesController::class, 'massDestroy'])->name('categories.massDestroy');
+    Route::resource('categories', \Domains\Categories\Http\Controllers\Admin\CategoriesController::class);
 
     // Target Categories
     Route::delete('target-categories/destroy', [\App\Http\Controllers\Admin\TargetCategoriesController::class, 'massDestroy'])->name('target-categories.massDestroy');

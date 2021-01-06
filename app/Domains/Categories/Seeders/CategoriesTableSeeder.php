@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Seeders;
+namespace Domains\Categories\Seeders;
 
-use App\Models\Category;
+use Domains\Categories\Models\Category;
 use Domains\Countries\Models\Country;
-use Illuminate\Database\Seeder;
+use Parents\Seeders\Seeder;
 
 class CategoriesTableSeeder extends Seeder
 {

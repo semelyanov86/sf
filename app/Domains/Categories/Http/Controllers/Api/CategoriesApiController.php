@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Admin;
+namespace Domains\Categories\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Requests\StoreCategoryRequest;
-use App\Http\Controllers\Requests\UpdateCategoryRequest;
-use App\Http\Controllers\Resources\Admin\CategoryResource;
-use App\Models\Category;
+use Parents\Controllers\ApiController as Controller;
+use Domains\Categories\Http\Requests\StoreCategoryRequest;
+use Domains\Categories\Http\Requests\UpdateCategoryRequest;
+use Domains\Http\Resources\CategoryResource;
+use Domains\Categories\Models\Category;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

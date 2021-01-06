@@ -55,7 +55,7 @@
                                 {{ $category->name ?? '' }}
                             </td>
                             <td>
-                                {{ trans('global.' . App\Models\Category::TYPE_SELECT[$category->type] ?? '') }}
+                                {{ trans('global.' . Domains\Categories\Models\Category::TYPE_SELECT[$category->type] ?? '') }}
                             </td>
                             <td>
                                 <span style="display:none">{{ $category->is_hidden ?? '' }}</span>

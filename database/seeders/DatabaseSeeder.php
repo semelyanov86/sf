@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Domains\AutoBrands\Seeders\AutoBrandsTableSeeder;
 use Domains\Banks\Seeders\BanksTableSeeder;
+use Domains\Categories\Seeders\CategoriesTableSeeder;
 use Domains\Countries\Seeders\CountriesTableSeeder;
 use Domains\Currencies\Seeders\CurrenciesTableSeeder;
 use Domains\Teams\Seeders\TeamsTableSeeder;

@@ -52,7 +52,7 @@
                                             {{ $category->name ?? '' }}
                                         </td>
                                         <td>
-                                            {{ App\Models\Category::TYPE_SELECT[$category->type] ?? '' }}
+                                            {{ Domains\Categories\Models\Category::TYPE_SELECT[$category->type] ?? '' }}
                                         </td>
                                         <td>
                                             <span style="display:none">{{ $category->is_hidden ?? '' }}</span>
@@ -141,7 +141,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

@@ -7,7 +7,7 @@ use App\Http\Requests\MassDestroyBudgetRequest;
 use App\Http\Requests\StoreBudgetRequest;
 use App\Http\Requests\UpdateBudgetRequest;
 use App\Models\Budget;
-use App\Models\Category;
+use Domains\Categories\Models\Category;
 use Domains\Users\Models\User;
 use Gate;
 use Illuminate\Http\Request;
