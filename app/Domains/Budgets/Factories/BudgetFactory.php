@@ -1,12 +1,12 @@
 <?php
 
-namespace Database\Factories;
+namespace Domains\Budgets\Factories;
 
-use App\Models\Budget;
+use Domains\Budgets\Models\Budget;
 use Domains\Categories\Models\Category;
 use Domains\Teams\Models\Team;
 use Domains\Users\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Parents\Factories\Factory;
 use Illuminate\Support\Carbon;
 
 class BudgetFactory extends Factory
@@ -18,7 +18,7 @@ class BudgetFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'plan' => $this->faker->randomNumber(5),

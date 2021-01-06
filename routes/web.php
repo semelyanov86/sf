@@ -47,8 +47,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::resource('target-categories', \App\Http\Controllers\Admin\TargetCategoriesController::class);
 
     // Budgets
-    Route::delete('budgets/destroy', [\App\Http\Controllers\Admin\BudgetsController::class, 'massDestroy'])->name('budgets.massDestroy');
-    Route::resource('budgets', \App\Http\Controllers\Admin\BudgetsController::class);
+    Route::delete('budgets/destroy', [\Domains\Budgets\Http\Controllers\Admin\BudgetsController::class, 'massDestroy'])->name('budgets.massDestroy');
+    Route::resource('budgets', \Domains\Budgets\Http\Controllers\Admin\BudgetsController::class);
 
     // Targets
     Route::delete('targets/destroy', [\App\Http\Controllers\Admin\TargetsController::class, 'massDestroy'])->name('targets.massDestroy');

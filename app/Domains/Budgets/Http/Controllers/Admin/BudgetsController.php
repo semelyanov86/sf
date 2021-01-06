@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace Domains\Budgets\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\MassDestroyBudgetRequest;
-use App\Http\Requests\StoreBudgetRequest;
-use App\Http\Requests\UpdateBudgetRequest;
-use App\Models\Budget;
+use Parents\Controllers\WebController as Controller;
+use Domains\Budgets\Http\Requests\MassDestroyBudgetRequest;
+use Domains\Budgets\Http\Requests\StoreBudgetRequest;
+use Domains\Budgets\Http\Requests\UpdateBudgetRequest;
+use Domains\Budgets\Models\Budget;
 use Domains\Categories\Models\Category;
 use Domains\Users\Models\User;
 use Gate;

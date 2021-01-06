@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Admin;
+namespace Domains\Budgets\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Requests\StoreBudgetRequest;
-use App\Http\Controllers\Requests\UpdateBudgetRequest;
-use App\Http\Controllers\Resources\Admin\BudgetResource;
-use App\Models\Budget;
+use Parents\Controllers\Controller;
+use Domains\Budgets\Http\Requests\StoreBudgetRequest;
+use Domains\Budgets\Http\Requests\UpdateBudgetRequest;
+use Domains\Budgets\Http\Resources\BudgetResource;
+use Domains\Budgets\Models\Budget;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

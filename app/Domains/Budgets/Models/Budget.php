@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Models;
+namespace Domains\Budgets\Models;
 
 use Domains\Categories\Models\Category;
 use Domains\Teams\Models\Team;
 use Domains\Users\Models\User;
 use Units\Auth\Traits\MultiTenantModelTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Parents\Models\Model;
 use \DateTimeInterface;
 
 class Budget extends Model
 {
-    use SoftDeletes, MultiTenantModelTrait, HasFactory;
+    use MultiTenantModelTrait;
 
     public $table = 'budgets';
 

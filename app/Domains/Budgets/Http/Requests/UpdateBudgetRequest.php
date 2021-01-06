@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Domains\Budgets\Http\Requests;
 
-use App\Models\Budget;
+use Domains\Budgets\Models\Budget;
 use Gate;
 use Parents\Requests\Request as FormRequest;
 use Illuminate\Http\Response;
 
-class StoreBudgetRequest extends FormRequest
+class UpdateBudgetRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return Gate::allows('budget_create');
+        return Gate::allows('budget_edit');
     }
 
     public function rules(): array

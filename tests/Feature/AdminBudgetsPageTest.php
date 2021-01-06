@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Budget;
+use Domains\Budgets\Models\Budget;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

@@ -30,7 +30,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('target-categories', \App\Http\Controllers\Api\V1\Admin\TargetCategoriesApiController::class);
 
     // Budgets
-    Route::apiResource('budgets', \App\Http\Controllers\Api\V1\Admin\BudgetsApiController::class);
+    Route::apiResource('budgets', \Domains\Budgets\Http\Controllers\Api\BudgetsApiController::class);
 
     // Targets
     Route::post('targets/media', [\App\Http\Controllers\Api\V1\Admin\TargetsApiController::class, 'storeMedia'])->name('targets.storeMedia');
