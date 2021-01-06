@@ -20,7 +20,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('currencies', \Domains\Currencies\Http\Controllers\Api\CurrenciesApiController::class);
 
     // Banks
-    Route::apiResource('banks', \App\Http\Controllers\Api\V1\Admin\BanksApiController::class);
+    Route::apiResource('banks', \Domains\Banks\Http\Controllers\Api\BanksApiController::class);
 
     // Categories
     Route::apiResource('categories', \App\Http\Controllers\Api\V1\Admin\CategoriesApiController::class);

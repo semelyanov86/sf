@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Domains\Banks\Http\Requests;
 
-use App\Models\Bank;
+use Domains\Banks\Models\Bank;
 use Gate;
 use Parents\Requests\Request as FormRequest;
 use Illuminate\Http\Response;
 
-class StoreBankRequest extends FormRequest
+class UpdateBankRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return Gate::allows('bank_create');
+        return Gate::allows('bank_edit');
     }
 
     public function rules(): array

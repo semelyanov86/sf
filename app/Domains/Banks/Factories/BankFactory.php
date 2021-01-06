@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Factories;
+namespace Domains\Banks\Factories;
 
-use App\Models\Bank;
+use Domains\Banks\Models\Bank;
 use Domains\Countries\Models\Country;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Parents\Factories\Factory;
 use Illuminate\Support\Carbon;
 
 class BankFactory extends Factory
@@ -16,7 +16,7 @@ class BankFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => $this->faker->name,

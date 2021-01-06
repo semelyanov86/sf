@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Domains\Banks\Models\Bank;
 use Domains\Currencies\Models\Currency;
 use Domains\Teams\Models\Team;
 use Units\Auth\Traits\MultiTenantModelTrait;

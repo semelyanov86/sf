@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Resources\Admin;
+namespace Domains\Banks\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Parents\Resources\Resource as JsonResource;
 
 class BankResource extends JsonResource
 {

@@ -33,8 +33,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::resource('currencies', \Domains\Currencies\Http\Controllers\Admin\CurrenciesController::class);
 
     // Banks
-    Route::delete('banks/destroy', [\App\Http\Controllers\Admin\BanksController::class, 'massDestroy'])->name('banks.massDestroy');
-    Route::resource('banks', \App\Http\Controllers\Admin\BanksController::class);
+    Route::delete('banks/destroy', [\Domains\Banks\Http\Controllers\Admin\BanksController::class, 'massDestroy'])->name('banks.massDestroy');
+    Route::resource('banks', \Domains\Banks\Http\Controllers\Admin\BanksController::class);
 
     // Categories
     Route::delete('categories/destroy', [\App\Http\Controllers\Admin\CategoriesController::class, 'massDestroy'])->name('categories.massDestroy');

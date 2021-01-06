@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Domains\Banks\Seeders\BanksTableSeeder;
 use Domains\Countries\Seeders\CountriesTableSeeder;
 use Domains\Currencies\Seeders\CurrenciesTableSeeder;
 use Domains\Teams\Seeders\TeamsTableSeeder;

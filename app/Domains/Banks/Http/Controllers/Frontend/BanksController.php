@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace Domains\Banks\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\MassDestroyBankRequest;
-use App\Http\Requests\StoreBankRequest;
-use App\Http\Requests\UpdateBankRequest;
-use App\Models\Bank;
+use Parents\Controllers\Controller;
+use Domains\Banks\Http\Requests\MassDestroyBankRequest;
+use Domains\Banks\Http\Requests\StoreBankRequest;
+use Domains\Banks\Http\Requests\UpdateBankRequest;
+use Domains\Banks\Models\Bank;
 use Domains\Countries\Models\Country;
 use Gate;
 use Illuminate\Http\Request;
@@ -20,7 +20,7 @@ class BanksController extends Controller
 
         $banks = Bank::with(['country'])->get();
 
-        return view('admin.banks.index', compact('banks'));
+        return view('frontend.banks.index', compact('banks'));
     }
 
     public function create()
@@ -29,14 +29,14 @@ class BanksController extends Controller
 
         $countries = Country::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.banks.create', compact('countries'));
+        return view('frontend.banks.create', compact('countries'));
     }
 
     public function store(StoreBankRequest $request)
     {
         $bank = Bank::create($request->all());
 
-        return redirect()->route('admin.banks.index');
+        return redirect()->route('frontend.banks.index');
     }
 
     public function edit(Bank $bank)
@@ -47,14 +47,14 @@ class BanksController extends Controller
 
         $bank->load('country');
 
-        return view('admin.banks.edit', compact('countries', 'bank'));
+        return view('frontend.banks.edit', compact('countries', 'bank'));
     }
 
     public function update(UpdateBankRequest $request, Bank $bank)
     {
         $bank->update($request->all());
 
-        return redirect()->route('admin.banks.index');
+        return redirect()->route('frontend.banks.index');
     }
 
     public function show(Bank $bank)
@@ -63,7 +63,7 @@ class BanksController extends Controller
 
         $bank->load('country');
 
-        return view('admin.banks.show', compact('bank'));
+        return view('frontend.banks.show', compact('bank'));
     }
 
     public function destroy(Bank $bank)

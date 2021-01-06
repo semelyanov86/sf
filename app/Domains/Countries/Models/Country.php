@@ -2,7 +2,7 @@
 
 namespace Domains\Countries\Models;
 
-use App\Models\Bank;
+use Domains\Banks\Models\Bank;
 use Domains\Countries\Factories\CountryFactory;
 use Parents\Models\Model;
 use \DateTimeInterface;

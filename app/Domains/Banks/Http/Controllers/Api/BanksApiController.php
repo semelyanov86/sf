@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Admin;
+namespace Domains\Banks\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Requests\StoreBankRequest;
-use App\Http\Controllers\Requests\UpdateBankRequest;
-use App\Http\Controllers\Resources\Admin\BankResource;
-use App\Models\Bank;
+use Parents\Controllers\Controller;
+use Domains\Banks\Http\Requests\StoreBankRequest;
+use Domains\Banks\Http\Requests\UpdateBankRequest;
+use Domains\Banks\Http\Resources\BankResource;
+use Domains\Banks\Models\Bank;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
