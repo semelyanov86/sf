@@ -75,10 +75,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::resource('card-types', \App\Http\Controllers\Admin\CardTypesController::class);
 
     // Auto Brands
-    Route::delete('auto-brands/destroy', [\App\Http\Controllers\Admin\AutoBrandsController::class, 'massDestroy'])->name('auto-brands.massDestroy');
-    Route::post('auto-brands/parse-csv-import', [\App\Http\Controllers\Admin\AutoBrandsController::class, 'parseCsvImport'])->name('auto-brands.parseCsvImport');
-    Route::post('auto-brands/process-csv-import', [\App\Http\Controllers\Admin\AutoBrandsController::class, 'processCsvImport'])->name('auto-brands.processCsvImport');
-    Route::resource('auto-brands', \App\Http\Controllers\Admin\AutoBrandsController::class);
+    Route::delete('auto-brands/destroy', [\Domains\AutoBrands\Http\Controllers\Admin\AutoBrandsController::class, 'massDestroy'])->name('auto-brands.massDestroy');
+    Route::post('auto-brands/parse-csv-import', [\Domains\AutoBrands\Http\Controllers\Admin\AutoBrandsController::class, 'parseCsvImport'])->name('auto-brands.parseCsvImport');
+    Route::post('auto-brands/process-csv-import', [\Domains\AutoBrands\Http\Controllers\Admin\AutoBrandsController::class, 'processCsvImport'])->name('auto-brands.processCsvImport');
+    Route::resource('auto-brands', \Domains\AutoBrands\Http\Controllers\Admin\AutoBrandsController::class);
 
     // Accounts Extras
     Route::delete('accounts-extras/destroy', [\App\Http\Controllers\Admin\AccountsExtraController::class, 'massDestroy'])->name('accounts-extras.massDestroy');

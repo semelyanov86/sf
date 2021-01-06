@@ -1,9 +1,9 @@
 <?php
 
-namespace Database\Factories;
+namespace Domains\AutoBrands\Factories;
 
-use App\Models\AutoBrand;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Domains\AutoBrands\Models\AutoBrand;
+use Parents\Factories\Factory;
 use Illuminate\Support\Carbon;
 
 class AutoBrandFactory extends Factory
@@ -15,7 +15,7 @@ class AutoBrandFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => $this->faker->name,

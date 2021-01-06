@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace Domains\AutoBrands\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Parents\Models\Model;
 use \DateTimeInterface;
 
 class AutoBrand extends Model
 {
-    use SoftDeletes, HasFactory;
 
     public $table = 'auto_brands';
 

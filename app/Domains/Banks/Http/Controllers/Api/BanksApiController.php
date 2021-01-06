@@ -2,7 +2,7 @@
 
 namespace Domains\Banks\Http\Controllers\Api;
 
-use Parents\Controllers\Controller;
+use Parents\Controllers\ApiController as Controller;
 use Domains\Banks\Http\Requests\StoreBankRequest;
 use Domains\Banks\Http\Requests\UpdateBankRequest;
 use Domains\Banks\Http\Resources\BankResource;

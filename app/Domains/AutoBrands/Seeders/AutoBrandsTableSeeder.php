@@ -1,9 +1,9 @@
 <?php
 
-namespace Database\Seeders;
+namespace Domains\AutoBrands\Seeders;
 
-use App\Models\AutoBrand;
-use Illuminate\Database\Seeder;
+use Domains\AutoBrands\Models\AutoBrand;
+use Parents\Seeders\Seeder;
 
 class AutoBrandsTableSeeder extends Seeder
 {

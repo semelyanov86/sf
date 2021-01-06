@@ -8,7 +8,7 @@ use App\Http\Requests\MassDestroyAccountsExtraRequest;
 use App\Http\Requests\StoreAccountsExtraRequest;
 use App\Http\Requests\UpdateAccountsExtraRequest;
 use App\Models\AccountsExtra;
-use App\Models\AutoBrand;
+use Domains\AutoBrands\Models\AutoBrand;
 use App\Models\CardType;
 use Gate;
 use Illuminate\Http\Request;

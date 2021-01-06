@@ -46,7 +46,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('card-types', \App\Http\Controllers\Api\V1\Admin\CardTypesApiController::class);
 
     // Auto Brands
-    Route::apiResource('auto-brands', \App\Http\Controllers\Api\V1\Admin\AutoBrandsApiController::class);
+    Route::apiResource('auto-brands', \Domains\AutoBrands\Http\Controllers\Admin\AutoBrandsController::class);
 
     // Accounts Extras
     Route::apiResource('accounts-extras', \App\Http\Controllers\Api\V1\Admin\AccountsExtraApiController::class);

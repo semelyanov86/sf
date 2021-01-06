@@ -2,7 +2,7 @@
 
 namespace Domains\Banks\Http\Controllers\Admin;
 
-use Parents\Controllers\Controller;
+use Parents\Controllers\WebController as Controller;
 use Domains\Banks\Http\Requests\MassDestroyBankRequest;
 use Domains\Banks\Http\Requests\StoreBankRequest;
 use Domains\Banks\Http\Requests\UpdateBankRequest;

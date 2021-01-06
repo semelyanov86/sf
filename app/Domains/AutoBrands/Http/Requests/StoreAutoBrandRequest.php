@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Domains\AutoBrands\Http\Requests;
 
-use App\Models\AutoBrand;
+use Domains\AutoBrands\Models\AutoBrand;
 use Gate;
 use Parents\Requests\Request as FormRequest;
 use Illuminate\Http\Response;
 
-class UpdateAutoBrandRequest extends FormRequest
+class StoreAutoBrandRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return Gate::allows('auto_brand_edit');
+        return Gate::allows('auto_brand_create');
     }
 
     public function rules(): array
@@ -22,7 +22,7 @@ class UpdateAutoBrandRequest extends FormRequest
                 'min:2',
                 'max:100',
                 'required',
-                'unique:auto_brands,name,' . request()->route('auto_brand')->id,
+                'unique:auto_brands',
             ],
         ];
     }

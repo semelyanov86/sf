@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Admin;
+namespace Domains\AutoBrands\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Requests\StoreAutoBrandRequest;
-use App\Http\Controllers\Requests\UpdateAutoBrandRequest;
-use App\Http\Controllers\Resources\Admin\AutoBrandResource;
-use App\Models\AutoBrand;
+use Parents\Controllers\ApiController as Controller;
+use Domains\AutoBrands\Http\Requests\StoreAutoBrandRequest;
+use Domains\AutoBrands\Http\Requests\UpdateAutoBrandRequest;
+use Domains\AutoBrands\Http\Resources\AutoBrandResource;
+use Domains\AutoBrands\Models\AutoBrand;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
