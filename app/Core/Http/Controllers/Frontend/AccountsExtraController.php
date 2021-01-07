@@ -9,7 +9,7 @@ use App\Http\Requests\StoreAccountsExtraRequest;
 use App\Http\Requests\UpdateAccountsExtraRequest;
 use App\Models\AccountsExtra;
 use Domains\AutoBrands\Models\AutoBrand;
-use App\Models\CardType;
+use Domains\CardTypes\Models\CardType;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Domains\CardTypes\Http\Requests;
 
-use App\Models\CardType;
+use Domains\CardTypes\Models\CardType;
 use Gate;
 use Parents\Requests\Request as FormRequest;
 use Illuminate\Http\Response;
 
-class StoreCardTypeRequest extends FormRequest
+class UpdateCardTypeRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return Gate::allows('card_type_create');
+        return Gate::allows('card_type_edit');
     }
 
     public function rules(): array
@@ -22,7 +22,7 @@ class StoreCardTypeRequest extends FormRequest
                 'min:2',
                 'max:100',
                 'required',
-                'unique:card_types',
+                'unique:card_types,name,' . request()->route('card_type')->id,
             ],
             'description' => [
                 'string',

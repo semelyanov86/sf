@@ -1,9 +1,9 @@
 <?php
 
-namespace Database\Seeders;
+namespace Domains\CardTypes\Seeders;
 
-use App\Models\CardType;
-use Illuminate\Database\Seeder;
+use Domains\CardTypes\Models\CardType;
+use Parents\Seeders\Seeder;
 
 class CardTypesTableSeeder extends Seeder
 {

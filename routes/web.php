@@ -69,10 +69,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::resource('account-types', \App\Http\Controllers\Admin\AccountTypesController::class);
 
     // Card Types
-    Route::delete('card-types/destroy', [\App\Http\Controllers\Admin\CardTypesController::class, 'massDestroy'])->name('card-types.massDestroy');
-    Route::post('card-types/parse-csv-import', [\App\Http\Controllers\Admin\CardTypesController::class, 'parseCsvImport'])->name('card-types.parseCsvImport');
-    Route::post('card-types/process-csv-import', [\App\Http\Controllers\Admin\CardTypesController::class, 'processCsvImport'])->name('card-types.processCsvImport');
-    Route::resource('card-types', \App\Http\Controllers\Admin\CardTypesController::class);
+    Route::delete('card-types/destroy', [\Domains\CardTypes\Http\Controllers\Admin\CardTypesController::class, 'massDestroy'])->name('card-types.massDestroy');
+    Route::post('card-types/parse-csv-import', [\Domains\CardTypes\Http\Controllers\Admin\CardTypesController::class, 'parseCsvImport'])->name('card-types.parseCsvImport');
+    Route::post('card-types/process-csv-import', [\Domains\CardTypes\Http\Controllers\Admin\CardTypesController::class, 'processCsvImport'])->name('card-types.processCsvImport');
+    Route::resource('card-types', \Domains\CardTypes\Http\Controllers\Admin\CardTypesController::class);
 
     // Auto Brands
     Route::delete('auto-brands/destroy', [\Domains\AutoBrands\Http\Controllers\Admin\AutoBrandsController::class, 'massDestroy'])->name('auto-brands.massDestroy');

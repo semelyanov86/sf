@@ -1,9 +1,9 @@
 <?php
 
-namespace Database\Factories;
+namespace Domains\CardTypes\Factories;
 
-use App\Models\CardType;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Domains\CardTypes\Models\CardType;
+use Parents\Factories\Factory;
 use Illuminate\Support\Carbon;
 
 class CardTypeFactory extends Factory
@@ -15,7 +15,7 @@ class CardTypeFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => $this->faker->name,

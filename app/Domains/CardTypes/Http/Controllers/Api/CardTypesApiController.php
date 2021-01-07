@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Admin;
+namespace Domains\CardTypes\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Requests\StoreCardTypeRequest;
-use App\Http\Controllers\Requests\UpdateCardTypeRequest;
-use App\Http\Controllers\Resources\Admin\CardTypeResource;
-use App\Models\CardType;
+use Parents\Controllers\ApiController as Controller;
+use Domains\CardTypes\Http\Requests\StoreCardTypeRequest;
+use Domains\CardTypes\Http\Requests\UpdateCardTypeRequest;
+use Domains\CardTypes\Http\Resources\CardTypeResource;
+use Domains\CardTypes\Models\CardType;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

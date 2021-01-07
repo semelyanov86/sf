@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\CardType;
+use Domains\CardTypes\Models\CardType;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

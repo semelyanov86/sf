@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Domains\CardTypes\Http\Requests;
 
-use App\Models\CardType;
+use Domains\CardTypes\Models\CardType;
 use Gate;
 use Parents\Requests\Request as FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
 class MassDestroyCardTypeRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         abort_if(Gate::denies('card_type_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'ids'   => 'required|array',
