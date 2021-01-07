@@ -39,7 +39,7 @@
                                         {{ trans('cruds.targetCategory.fields.target_category_type') }}
                                     </th>
                                     <td>
-                                        {{ App\Models\TargetCategory::TARGET_CATEGORY_TYPE_SELECT[$targetCategory->target_category_type] ?? '' }}
+                                        {{ Domains\Targets\Models\TargetCategory::TARGET_CATEGORY_TYPE_SELECT[$targetCategory->target_category_type] ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>

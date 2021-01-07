@@ -39,7 +39,7 @@
                         </div>
                         <div class="form-group">
                             <label class="required">{{ trans('cruds.account.fields.state') }}</label>
-                            @foreach(App\Models\Account::STATE_RADIO as $key => $label)
+                            @foreach(Domains\Accounts\Models\Account::STATE_RADIO as $key => $label)
                                 <div>
                                     <input type="radio" id="state_{{ $key }}" name="state" value="{{ $key }}" {{ old('state', '0') === (string) $key ? 'checked' : '' }} required>
                                     <label for="state_{{ $key }}">{{ $label }}</label>

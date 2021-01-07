@@ -26,21 +26,21 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('categories', \Domains\Categories\Http\Controllers\Api\CategoriesApiController::class);
 
     // Target Categories
-    Route::post('target-categories/media', [\App\Http\Controllers\Api\V1\Admin\TargetCategoriesApiController::class, 'storeMedia'])->name('target-categories.storeMedia');
-    Route::apiResource('target-categories', \App\Http\Controllers\Api\V1\Admin\TargetCategoriesApiController::class);
+    Route::post('target-categories/media', [\Domains\Targets\Http\Controllers\Api\TargetCategoriesApiController::class, 'storeMedia'])->name('target-categories.storeMedia');
+    Route::apiResource('target-categories', \Domains\Targets\Http\Controllers\Api\TargetCategoriesApiController::class);
 
     // Budgets
     Route::apiResource('budgets', \Domains\Budgets\Http\Controllers\Api\BudgetsApiController::class);
 
     // Targets
-    Route::post('targets/media', [\App\Http\Controllers\Api\V1\Admin\TargetsApiController::class, 'storeMedia'])->name('targets.storeMedia');
-    Route::apiResource('targets', \App\Http\Controllers\Api\V1\Admin\TargetsApiController::class);
+    Route::post('targets/media', [\Domains\Targets\Http\Controllers\Api\TargetsApiController::class, 'storeMedia'])->name('targets.storeMedia');
+    Route::apiResource('targets', \Domains\Targets\Http\Controllers\Api\TargetsApiController::class);
 
     // Accounts
-    Route::apiResource('accounts', \App\Http\Controllers\Api\V1\Admin\AccountsApiController::class);
+    Route::apiResource('accounts', \Domains\Accounts\Http\Controllers\Api\V1\Admin\AccountsApiController::class);
 
     // Account Types
-    Route::apiResource('account-types', \App\Http\Controllers\Api\V1\Admin\AccountTypesApiController::class);
+    Route::apiResource('account-types', \Domains\Accounts\Http\Controllers\Api\V1\Admin\AccountTypesApiController::class);
 
     // Card Types
     Route::apiResource('card-types', \Domains\CardTypes\Http\Controllers\Api\CardTypesApiController::class);
@@ -49,7 +49,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('auto-brands', \Domains\AutoBrands\Http\Controllers\Admin\AutoBrandsController::class);
 
     // Accounts Extras
-    Route::apiResource('accounts-extras', \App\Http\Controllers\Api\V1\Admin\AccountsExtraApiController::class);
+    Route::apiResource('accounts-extras', \Domains\Accounts\Http\Controllers\Api\V1\Admin\AccountsExtraApiController::class);
 
     // Operations
     Route::post('operations/media', [\Domains\Operations\Http\Controllers\Api\OperationsApiController::class, 'storeMedia'])->name('operations.storeMedia');

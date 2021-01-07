@@ -2,6 +2,7 @@
 
 namespace Domains\Operations\Models;
 
+use Domains\Accounts\Models\Account;
 use Domains\Categories\Models\Category;
 use Domains\Teams\Models\Team;
 use Domains\Users\Models\User;

@@ -8,7 +8,7 @@ use Support\MediaUpload\Traits\MediaUploadingTrait;
 use Domains\Operations\Http\Requests\MassDestroyOperationRequest;
 use Domains\Operations\Http\Requests\StoreOperationRequest;
 use Domains\Operations\Http\Requests\UpdateOperationRequest;
-use App\Models\Account;
+use Domains\Accounts\Models\Account;
 use Domains\Categories\Models\Category;
 use Domains\Operations\Models\Operation;
 use Domains\Teams\Models\Team;

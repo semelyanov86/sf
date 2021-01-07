@@ -49,7 +49,7 @@
                                 {{ $targetCategory->target_category_name ?? '' }}
                             </td>
                             <td>
-                                {{ trans('global.' . App\Models\TargetCategory::TARGET_CATEGORY_TYPE_SELECT[$targetCategory->target_category_type] ?? '') }}
+                                {{ trans('global.' . Domains\Targets\Models\TargetCategory::TARGET_CATEGORY_TYPE_SELECT[$targetCategory->target_category_type] ?? '') }}
                             </td>
                             <td>
                                 @can('target_category_show')

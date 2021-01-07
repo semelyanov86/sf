@@ -3,7 +3,7 @@
 namespace Domains\Users\Factories;
 
 use Domains\Users\Models\Permission;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Parents\Factories\Factory;
 use Illuminate\Support\Carbon;
 
 class PermissionFactory extends Factory
@@ -15,7 +15,7 @@ class PermissionFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'title' => $this->faker->word,

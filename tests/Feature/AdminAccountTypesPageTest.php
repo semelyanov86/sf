@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\AccountType;
+use Domains\Accounts\Models\AccountType;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

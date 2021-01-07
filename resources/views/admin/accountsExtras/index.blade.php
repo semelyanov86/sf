@@ -59,7 +59,7 @@
                                 {{ $accountsExtra->card_expire_date ?? '' }}
                             </td>
                             <td>
-                                {{ App\Models\AccountsExtra::ACCOUNT_INTEREST_PERIOD_SELECT[$accountsExtra->account_interest_period] ?? '' }}
+                                {{ Domains\Accounts\Models\AccountsExtra::ACCOUNT_INTEREST_PERIOD_SELECT[$accountsExtra->account_interest_period] ?? '' }}
                             </td>
                             <td>
                                 @can('accounts_extra_show')
@@ -140,7 +140,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

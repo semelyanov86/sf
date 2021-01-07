@@ -75,13 +75,13 @@
                                 {{ $target->user->name ?? '' }}
                             </td>
                             <td>
-                                {{ App\Models\Target::TARGET_TYPE_SELECT[$target->target_type] ?? '' }}
+                                {{ Domains\Targets\Models\Target::TARGET_TYPE_SELECT[$target->target_type] ?? '' }}
                             </td>
                             <td>
                                 {{ $target->target_name ?? '' }}
                             </td>
                             <td>
-                                {{ App\Models\Target::TARGET_STATUS_RADIO[$target->target_status] ?? '' }}
+                                {{ Domains\Targets\Models\Target::TARGET_STATUS_RADIO[$target->target_status] ?? '' }}
                             </td>
                             <td>
                                 {{ $target->amount ?? '' }}
@@ -162,7 +162,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

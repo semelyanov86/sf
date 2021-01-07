@@ -60,7 +60,7 @@
                             {{ trans('cruds.target.fields.target_type') }}
                         </th>
                         <td>
-                            {{ App\Models\Target::TARGET_TYPE_SELECT[$target->target_type] ?? '' }}
+                            {{ Domains\Targets\Models\Target::TARGET_TYPE_SELECT[$target->target_type] ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -76,7 +76,7 @@
                             {{ trans('cruds.target.fields.target_status') }}
                         </th>
                         <td>
-                            {{ App\Models\Target::TARGET_STATUS_RADIO[$target->target_status] ?? '' }}
+                            {{ Domains\Targets\Models\Target::TARGET_STATUS_RADIO[$target->target_status] ?? '' }}
                         </td>
                     </tr>
                     <tr>

@@ -2,7 +2,7 @@
 
 namespace Domains\Operations\Factories;
 
-use App\Models\Account;
+use Domains\Accounts\Models\Account;
 use Domains\Categories\Models\Category;
 use Domains\Operations\Models\Operation;
 use Domains\Teams\Models\Team;

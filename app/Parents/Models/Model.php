@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model as LaravelModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Pluralizer;
 use Parents\Traits\HasResourceKeyTrait;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Parents\Factories\Factory;
 
 abstract class Model extends LaravelModel
 {
@@ -18,7 +18,7 @@ abstract class Model extends LaravelModel
      *
      * @return Factory
      */
-    protected static function newFactory(): Factory
+    protected static function newFactory(): \Parents\Factories\Factory
     {
         $reflect = new \ReflectionClass(new static());
         $resourceKey = Pluralizer::plural($reflect->getShortName());

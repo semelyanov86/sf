@@ -41,32 +41,32 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::resource('categories', \Domains\Categories\Http\Controllers\Admin\CategoriesController::class);
 
     // Target Categories
-    Route::delete('target-categories/destroy', [\App\Http\Controllers\Admin\TargetCategoriesController::class, 'massDestroy'])->name('target-categories.massDestroy');
-    Route::post('target-categories/media', [\App\Http\Controllers\Admin\TargetCategoriesController::class, 'storeMedia'])->name('target-categories.storeMedia');
-    Route::post('target-categories/ckmedia', [\App\Http\Controllers\Admin\TargetCategoriesController::class, 'storeCKEditorImages'])->name('target-categories.storeCKEditorImages');
-    Route::resource('target-categories', \App\Http\Controllers\Admin\TargetCategoriesController::class);
+    Route::delete('target-categories/destroy', [\Domains\Targets\Http\Controllers\Admin\TargetCategoriesController::class, 'massDestroy'])->name('target-categories.massDestroy');
+    Route::post('target-categories/media', [\Domains\Targets\Http\Controllers\Admin\TargetCategoriesController::class, 'storeMedia'])->name('target-categories.storeMedia');
+    Route::post('target-categories/ckmedia', [\Domains\Targets\Http\Controllers\Admin\TargetCategoriesController::class, 'storeCKEditorImages'])->name('target-categories.storeCKEditorImages');
+    Route::resource('target-categories', \Domains\Targets\Http\Controllers\Admin\TargetCategoriesController::class);
 
     // Budgets
     Route::delete('budgets/destroy', [\Domains\Budgets\Http\Controllers\Admin\BudgetsController::class, 'massDestroy'])->name('budgets.massDestroy');
     Route::resource('budgets', \Domains\Budgets\Http\Controllers\Admin\BudgetsController::class);
 
     // Targets
-    Route::delete('targets/destroy', [\App\Http\Controllers\Admin\TargetsController::class, 'massDestroy'])->name('targets.massDestroy');
-    Route::post('targets/media', [\App\Http\Controllers\Admin\TargetsController::class, 'storeMedia'])->name('targets.storeMedia');
-    Route::post('targets/ckmedia', [\App\Http\Controllers\Admin\TargetsController::class, 'storeCKEditorImages'])->name('targets.storeCKEditorImages');
-    Route::resource('targets', \App\Http\Controllers\Admin\TargetsController::class);
+    Route::delete('targets/destroy', [\Domains\Targets\Http\Controllers\Admin\TargetsController::class, 'massDestroy'])->name('targets.massDestroy');
+    Route::post('targets/media', [\Domains\Targets\Http\Controllers\Admin\TargetsController::class, 'storeMedia'])->name('targets.storeMedia');
+    Route::post('targets/ckmedia', [\Domains\Targets\Http\Controllers\Admin\TargetsController::class, 'storeCKEditorImages'])->name('targets.storeCKEditorImages');
+    Route::resource('targets', \Domains\Targets\Http\Controllers\Admin\TargetsController::class);
 
     // Accounts
-    Route::delete('accounts/destroy', [\App\Http\Controllers\Admin\AccountsController::class, 'massDestroy'])->name('accounts.massDestroy');
-    Route::post('accounts/parse-csv-import', [\App\Http\Controllers\Admin\AccountsController::class, 'parseCsvImport'])->name('accounts.parseCsvImport');
-    Route::post('accounts/process-csv-import', [\App\Http\Controllers\Admin\AccountsController::class, 'processCsvImport'])->name('accounts.processCsvImport');
-    Route::resource('accounts', \App\Http\Controllers\Admin\AccountsController::class);
+    Route::delete('accounts/destroy', [\Domains\Accounts\Http\Controllers\Admin\AccountsController::class, 'massDestroy'])->name('accounts.massDestroy');
+    Route::post('accounts/parse-csv-import', [\Domains\Accounts\Http\Controllers\Admin\AccountsController::class, 'parseCsvImport'])->name('accounts.parseCsvImport');
+    Route::post('accounts/process-csv-import', [\Domains\Accounts\Http\Controllers\Admin\AccountsController::class, 'processCsvImport'])->name('accounts.processCsvImport');
+    Route::resource('accounts', \Domains\Accounts\Http\Controllers\Admin\AccountsController::class);
 
     // Account Types
-    Route::delete('account-types/destroy', [\App\Http\Controllers\Admin\AccountTypesController::class, 'massDestroy'])->name('account-types.massDestroy');
-    Route::post('account-types/parse-csv-import', [\App\Http\Controllers\Admin\AccountTypesController::class, 'parseCsvImport'])->name('account-types.parseCsvImport');
-    Route::post('account-types/process-csv-import', [\App\Http\Controllers\Admin\AccountTypesController::class, 'processCsvImport'])->name('account-types.processCsvImport');
-    Route::resource('account-types', \App\Http\Controllers\Admin\AccountTypesController::class);
+    Route::delete('account-types/destroy', [\Domains\Accounts\Http\Controllers\Admin\AccountTypesController::class, 'massDestroy'])->name('account-types.massDestroy');
+    Route::post('account-types/parse-csv-import', [\Domains\Accounts\Http\Controllers\Admin\AccountTypesController::class, 'parseCsvImport'])->name('account-types.parseCsvImport');
+    Route::post('account-types/process-csv-import', [\Domains\Accounts\Http\Controllers\Admin\AccountTypesController::class, 'processCsvImport'])->name('account-types.processCsvImport');
+    Route::resource('account-types', \Domains\Accounts\Http\Controllers\Admin\AccountTypesController::class);
 
     // Card Types
     Route::delete('card-types/destroy', [\Domains\CardTypes\Http\Controllers\Admin\CardTypesController::class, 'massDestroy'])->name('card-types.massDestroy');
@@ -81,10 +81,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::resource('auto-brands', \Domains\AutoBrands\Http\Controllers\Admin\AutoBrandsController::class);
 
     // Accounts Extras
-    Route::delete('accounts-extras/destroy', [\App\Http\Controllers\Admin\AccountsExtraController::class, 'massDestroy'])->name('accounts-extras.massDestroy');
-    Route::post('accounts-extras/parse-csv-import', [\App\Http\Controllers\Admin\AccountsExtraController::class, 'parseCsvImport'])->name('accounts-extras.parseCsvImport');
-    Route::post('accounts-extras/process-csv-import', [\App\Http\Controllers\Admin\AccountsExtraController::class, 'processCsvImport'])->name('accounts-extras.processCsvImport');
-    Route::resource('accounts-extras', \App\Http\Controllers\Admin\AccountsExtraController::class);
+    Route::delete('accounts-extras/destroy', [\Domains\Accounts\Http\Controllers\Admin\AccountsExtraController::class, 'massDestroy'])->name('accounts-extras.massDestroy');
+    Route::post('accounts-extras/parse-csv-import', [\Domains\Accounts\Http\Controllers\Admin\AccountsExtraController::class, 'parseCsvImport'])->name('accounts-extras.parseCsvImport');
+    Route::post('accounts-extras/process-csv-import', [\Domains\Accounts\Http\Controllers\Admin\AccountsExtraController::class, 'processCsvImport'])->name('accounts-extras.processCsvImport');
+    Route::resource('accounts-extras', \Domains\Accounts\Http\Controllers\Admin\AccountsExtraController::class);
 
     // Operations
     Route::delete('operations/destroy', [\Domains\Operations\Http\Controllers\Admin\OperationsController::class, 'massDestroy'])->name('operations.massDestroy');
@@ -98,8 +98,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::delete('hidden-categories/destroy', [\Domains\Categories\Http\Controllers\Admin\HiddenCategoriesController::class, 'massDestroy'])->name('hidden-categories.massDestroy');
     Route::resource('hidden-categories', \Domains\Categories\Http\Controllers\Admin\HiddenCategoriesController::class);
 
-    Route::get('system-calendar', [\App\Http\Controllers\Admin\SystemCalendarController::class, 'index'])->name('systemCalendar');
-    Route::get('global-search', [\App\Http\Controllers\Admin\GlobalSearchController::class, 'index'])->name('globalSearch');
+    Route::get('system-calendar', [\Units\SystemCalendar\Http\Controllers\SystemCalendarController::class, 'index'])->name('systemCalendar');
+    Route::get('global-search', [\Units\GlobalSearch\Http\Controllers\GlobalSearchController::class, 'index'])->name('globalSearch');
     Route::get('team-members', [\Domains\Teams\Http\Controllers\Admin\TeamMembersController::class, 'index'])->name('team-members.index');
     Route::post('team-members', [\Domains\Teams\Http\Controllers\Admin\TeamMembersController::class, 'invite'])->name('team-members.invite');
 });

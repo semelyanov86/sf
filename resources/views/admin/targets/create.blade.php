@@ -69,7 +69,7 @@
                 <label>{{ trans('cruds.target.fields.target_type') }}</label>
                 <select class="form-control {{ $errors->has('target_type') ? 'is-invalid' : '' }}" name="target_type" id="target_type">
                     <option value disabled {{ old('target_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\Target::TARGET_TYPE_SELECT as $key => $label)
+                    @foreach(Domains\Targets\Models\Target::TARGET_TYPE_SELECT as $key => $label)
                         <option value="{{ $key }}" {{ old('target_type', '1') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
                     @endforeach
                 </select>
@@ -92,7 +92,7 @@
             </div>
             <div class="form-group">
                 <label class="required">{{ trans('cruds.target.fields.target_status') }}</label>
-                @foreach(App\Models\Target::TARGET_STATUS_RADIO as $key => $label)
+                @foreach(Domains\Targets\Models\Target::TARGET_STATUS_RADIO as $key => $label)
                     <div class="form-check {{ $errors->has('target_status') ? 'is-invalid' : '' }}">
                         <input class="form-check-input" type="radio" id="target_status_{{ $key }}" name="target_status" value="{{ $key }}" {{ old('target_status', '0') === (string) $key ? 'checked' : '' }} required>
                         <label class="form-check-label" for="target_status_{{ $key }}">{{ $label }}</label>

@@ -65,7 +65,7 @@
                                             {{ $account->account_type->name ?? '' }}
                                         </td>
                                         <td>
-                                            {{ App\Models\Account::STATE_RADIO[$account->state] ?? '' }}
+                                            {{ Domains\Accounts\Models\Account::STATE_RADIO[$account->state] ?? '' }}
                                         </td>
                                         <td>
                                             {{ $account->start_balance ?? '' }}
@@ -156,7 +156,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

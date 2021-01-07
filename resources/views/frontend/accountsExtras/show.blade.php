@@ -159,7 +159,7 @@
                                         {{ trans('cruds.accountsExtra.fields.account_interest_period') }}
                                     </th>
                                     <td>
-                                        {{ App\Models\AccountsExtra::ACCOUNT_INTEREST_PERIOD_SELECT[$accountsExtra->account_interest_period] ?? '' }}
+                                        {{ Domains\Accounts\Models\AccountsExtra::ACCOUNT_INTEREST_PERIOD_SELECT[$accountsExtra->account_interest_period] ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -167,7 +167,7 @@
                                         {{ trans('cruds.accountsExtra.fields.account_deposit_type') }}
                                     </th>
                                     <td>
-                                        {{ App\Models\AccountsExtra::ACCOUNT_DEPOSIT_TYPE_SELECT[$accountsExtra->account_deposit_type] ?? '' }}
+                                        {{ Domains\Accounts\Models\AccountsExtra::ACCOUNT_DEPOSIT_TYPE_SELECT[$accountsExtra->account_deposit_type] ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -175,7 +175,7 @@
                                         {{ trans('cruds.accountsExtra.fields.account_credit_payment_type') }}
                                     </th>
                                     <td>
-                                        {{ App\Models\AccountsExtra::ACCOUNT_CREDIT_PAYMENT_TYPE_SELECT[$accountsExtra->account_credit_payment_type] ?? '' }}
+                                        {{ Domains\Accounts\Models\AccountsExtra::ACCOUNT_CREDIT_PAYMENT_TYPE_SELECT[$accountsExtra->account_credit_payment_type] ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -247,7 +247,7 @@
                                         {{ trans('cruds.accountsExtra.fields.immovables_estate_type') }}
                                     </th>
                                     <td>
-                                        {{ App\Models\AccountsExtra::IMMOVABLES_ESTATE_TYPE_SELECT[$accountsExtra->immovables_estate_type] ?? '' }}
+                                        {{ Domains\Accounts\Models\AccountsExtra::IMMOVABLES_ESTATE_TYPE_SELECT[$accountsExtra->immovables_estate_type] ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -359,7 +359,7 @@
                                         {{ trans('cruds.accountsExtra.fields.auto_fuel_type') }}
                                     </th>
                                     <td>
-                                        {{ App\Models\AccountsExtra::AUTO_FUEL_TYPE_SELECT[$accountsExtra->auto_fuel_type] ?? '' }}
+                                        {{ Domains\Accounts\Models\AccountsExtra::AUTO_FUEL_TYPE_SELECT[$accountsExtra->auto_fuel_type] ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -367,7 +367,7 @@
                                         {{ trans('cruds.accountsExtra.fields.auto_transmission_type') }}
                                     </th>
                                     <td>
-                                        {{ App\Models\AccountsExtra::AUTO_TRANSMISSION_TYPE_SELECT[$accountsExtra->auto_transmission_type] ?? '' }}
+                                        {{ Domains\Accounts\Models\AccountsExtra::AUTO_TRANSMISSION_TYPE_SELECT[$accountsExtra->auto_transmission_type] ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>

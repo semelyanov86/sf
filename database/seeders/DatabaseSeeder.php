@@ -2,12 +2,14 @@
 
 namespace Database\Seeders;
 
+use Domains\Accounts\Seeders\AccountTypesTableSeeder;
 use Domains\AutoBrands\Seeders\AutoBrandsTableSeeder;
 use Domains\Banks\Seeders\BanksTableSeeder;
 use Domains\CardTypes\Seeders\CardTypesTableSeeder;
 use Domains\Categories\Seeders\CategoriesTableSeeder;
 use Domains\Countries\Seeders\CountriesTableSeeder;
 use Domains\Currencies\Seeders\CurrenciesTableSeeder;
+use Domains\Targets\Seeders\TargetCategoriesTableSeeder;
 use Domains\Teams\Seeders\TeamsTableSeeder;
 use Domains\Users\Seeders\PermissionRoleTableSeeder;
 use Domains\Users\Seeders\PermissionsTableSeeder;
