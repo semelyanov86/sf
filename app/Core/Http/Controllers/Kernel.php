@@ -50,8 +50,7 @@ class Kernel extends HttpKernel
             \Support\Localization\Middleware\SetLocale::class,
         ],
         'api' => [
-            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            'throttle:60,1',
+            'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             AuthGates::class,
         ],

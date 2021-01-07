@@ -14,6 +14,31 @@ use Request;
 abstract class ApiController extends Controller
 {
     /**
+     * @OA\Info(
+     *      version="1.0.0",
+     *      title="SimpleFinance OpenApi Documentation",
+     *      description="Documentation about API of Sumple Finance App",
+     *      @OA\Contact(
+     *          email="se@sergeyem.ru"
+     *      ),
+     *      @OA\License(
+     *          name="Apache 2.0",
+     *          url="http://www.apache.org/licenses/LICENSE-2.0.html"
+     *      )
+     * )
+     *
+     * @OA\Server(
+     *      url=L5_SWAGGER_CONST_HOST,
+     *      description="Demo SimpleFinance server"
+     * )
+
+     *
+     * @OA\Tag(
+     *     name="Users",
+     *     description="API Endpoints of Users"
+     * )
+     */
+    /**
      * @var  array
      */
     protected $metaData = [];

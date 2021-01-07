@@ -5,6 +5,7 @@ namespace Domains\Users\Models;
 use Domains\Currencies\Models\Currency;
 use Domains\Operations\Models\Operation;
 use Domains\Teams\Models\Team;
+use Laravel\Passport\HasApiTokens;
 use Parents\Models\UserModel;
 use Carbon\Carbon;
 use Hash;
@@ -13,6 +14,7 @@ use \DateTimeInterface;
 
 class User extends UserModel
 {
+    use HasApiTokens;
     public $table = 'users';
 
     protected $hidden = [
