@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Operation;
+use Domains\Operations\Models\Operation;
 use Domains\Users\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

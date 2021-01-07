@@ -9,7 +9,7 @@ class SystemCalendarController extends Controller
 {
     public $sources = [
         [
-            'model'      => '\App\Models\Operation',
+            'model'      => '\Domains\Operations\Models\Operation',
             'date_field' => 'done_at',
             'field'      => 'description',
             'prefix'     => '',

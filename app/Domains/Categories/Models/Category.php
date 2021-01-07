@@ -2,7 +2,7 @@
 
 namespace Domains\Categories\Models;
 
-use App\Models\Operation;
+use Domains\Operations\Models\Operation;
 use Carbon\Carbon;
 use Domains\Budgets\Models\Budget;
 use Parents\Models\Model;

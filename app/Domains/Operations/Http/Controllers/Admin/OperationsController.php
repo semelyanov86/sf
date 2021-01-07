@@ -1,42 +1,83 @@
 <?php
 
-namespace App\Http\Controllers\Frontend;
+namespace Domains\Operations\Http\Controllers\Admin;
 
-use Parents\Controllers\WebController as Controller;
+use Parents\Controllers\Controller;
 use Support\CsvImport\Traits\CsvImportTrait;
 use Support\MediaUpload\Traits\MediaUploadingTrait;
-use App\Http\Requests\MassDestroyOperationRequest;
-use App\Http\Requests\StoreOperationRequest;
-use App\Http\Requests\UpdateOperationRequest;
+use Domains\Operations\Http\Requests\MassDestroyOperationRequest;
+use Domains\Operations\Http\Requests\StoreOperationRequest;
+use Domains\Operations\Http\Requests\UpdateOperationRequest;
 use App\Models\Account;
 use Domains\Categories\Models\Category;
-use App\Models\Operation;
+use Domains\Operations\Models\Operation;
 use Domains\Teams\Models\Team;
 use Domains\Users\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class OperationsController extends Controller
 {
     use MediaUploadingTrait, CsvImportTrait;
 
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('operation_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $operations = Operation::with(['source_account', 'to_account', 'category', 'user', 'team', 'media'])->get();
+        if ($request->ajax()) {
+            $query = Operation::with(['source_account', 'to_account', 'category', 'user', 'team'])->select(sprintf('%s.*', (new Operation)->table));
+            $table = Datatables::of($query);
 
-        $accounts = Account::get();
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
 
+            $table->editColumn('actions', function ($row) {
+                $viewGate      = 'operation_show';
+                $editGate      = 'operation_edit';
+                $deleteGate    = 'operation_delete';
+                $crudRoutePart = 'operations';
+
+                return view('partials.datatablesActions', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : "";
+            });
+            $table->editColumn('amount', function ($row) {
+                return $row->amount ? $row->amount : "";
+            });
+
+            $table->addColumn('source_account_name', function ($row) {
+                return $row->source_account ? $row->source_account->name : '';
+            });
+
+            $table->editColumn('type', function ($row) {
+                return $row->type ? Operation::TYPE_SELECT[$row->type] : '';
+            });
+            $table->addColumn('category_name', function ($row) {
+                return $row->category ? $row->category->name : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'source_account', 'category']);
+
+            return $table->make(true);
+        }
+
+        $accounts   = Account::get();
         $categories = Category::get();
+        $users      = User::get();
+        $teams      = Team::get();
 
-        $users = User::get();
-
-        $teams = Team::get();
-
-        return view('frontend.operations.index', compact('operations', 'accounts', 'categories', 'users', 'teams'));
+        return view('admin.operations.index', compact('accounts', 'categories', 'users', 'teams'));
     }
 
     public function create()
@@ -51,7 +92,7 @@ class OperationsController extends Controller
 
         $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('frontend.operations.create', compact('source_accounts', 'to_accounts', 'categories', 'users'));
+        return view('admin.operations.create', compact('source_accounts', 'to_accounts', 'categories', 'users'));
     }
 
     public function store(StoreOperationRequest $request)
@@ -66,7 +107,7 @@ class OperationsController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $operation->id]);
         }
 
-        return redirect()->route('frontend.operations.index');
+        return redirect()->route('admin.operations.index');
     }
 
     public function edit(Operation $operation)
@@ -83,7 +124,7 @@ class OperationsController extends Controller
 
         $operation->load('source_account', 'to_account', 'category', 'user', 'team');
 
-        return view('frontend.operations.edit', compact('source_accounts', 'to_accounts', 'categories', 'users', 'operation'));
+        return view('admin.operations.edit', compact('source_accounts', 'to_accounts', 'categories', 'users', 'operation'));
     }
 
     public function update(UpdateOperationRequest $request, Operation $operation)
@@ -102,7 +143,7 @@ class OperationsController extends Controller
             $operation->attachment->delete();
         }
 
-        return redirect()->route('frontend.operations.index');
+        return redirect()->route('admin.operations.index');
     }
 
     public function show(Operation $operation)
@@ -111,7 +152,7 @@ class OperationsController extends Controller
 
         $operation->load('source_account', 'to_account', 'category', 'user', 'team');
 
-        return view('frontend.operations.show', compact('operation'));
+        return view('admin.operations.show', compact('operation'));
     }
 
     public function destroy(Operation $operation)

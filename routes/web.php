@@ -87,12 +87,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::resource('accounts-extras', \App\Http\Controllers\Admin\AccountsExtraController::class);
 
     // Operations
-    Route::delete('operations/destroy', [\App\Http\Controllers\Admin\OperationsController::class, 'massDestroy'])->name('operations.massDestroy');
-    Route::post('operations/media', [\App\Http\Controllers\Admin\OperationsController::class, 'storeMedia'])->name('operations.storeMedia');
-    Route::post('operations/ckmedia', [\App\Http\Controllers\Admin\OperationsController::class, 'storeCKEditorImages'])->name('operations.storeCKEditorImages');
-    Route::post('operations/parse-csv-import', [\App\Http\Controllers\Admin\OperationsController::class, 'parseCsvImport'])->name('operations.parseCsvImport');
-    Route::post('operations/process-csv-import', [\App\Http\Controllers\Admin\OperationsController::class, 'processCsvImport'])->name('operations.processCsvImport');
-    Route::resource('operations', \App\Http\Controllers\Admin\OperationsController::class);
+    Route::delete('operations/destroy', [\Domains\Operations\Http\Controllers\Admin\OperationsController::class, 'massDestroy'])->name('operations.massDestroy');
+    Route::post('operations/media', [\Domains\Operations\Http\Controllers\Admin\OperationsController::class, 'storeMedia'])->name('operations.storeMedia');
+    Route::post('operations/ckmedia', [\Domains\Operations\Http\Controllers\Admin\OperationsController::class, 'storeCKEditorImages'])->name('operations.storeCKEditorImages');
+    Route::post('operations/parse-csv-import', [\Domains\Operations\Http\Controllers\Admin\OperationsController::class, 'parseCsvImport'])->name('operations.parseCsvImport');
+    Route::post('operations/process-csv-import', [\Domains\Operations\Http\Controllers\Admin\OperationsController::class, 'processCsvImport'])->name('operations.processCsvImport');
+    Route::resource('operations', \Domains\Operations\Http\Controllers\Admin\OperationsController::class);
 
     // Hidden Categories
     Route::delete('hidden-categories/destroy', [\Domains\Categories\Http\Controllers\Admin\HiddenCategoriesController::class, 'massDestroy'])->name('hidden-categories.massDestroy');

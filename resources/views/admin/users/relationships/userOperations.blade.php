@@ -63,7 +63,7 @@
                                 {{ $operation->source_account->name ?? '' }}
                             </td>
                             <td>
-                                {{ App\Models\Operation::TYPE_SELECT[$operation->type] ?? '' }}
+                                {{ Domains\Operations\Models\Operation::TYPE_SELECT[$operation->type] ?? '' }}
                             </td>
                             <td>
                                 {{ $operation->category->name ?? '' }}
@@ -144,7 +144,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

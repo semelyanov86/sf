@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Factories;
+namespace Domains\Operations\Factories;
 
 use App\Models\Account;
 use Domains\Categories\Models\Category;
-use App\Models\Operation;
+use Domains\Operations\Models\Operation;
 use Domains\Teams\Models\Team;
 use Domains\Users\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Parents\Factories\Factory;
 use Illuminate\Support\Carbon;
 
 class OperationFactory extends Factory
@@ -19,7 +19,7 @@ class OperationFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         $categories = Category::all()->pluck('id')->toArray();
         $users = User::all()->pluck('id')->toArray();

@@ -3,7 +3,7 @@
 namespace Domains\Users\Models;
 
 use Domains\Currencies\Models\Currency;
-use App\Models\Operation;
+use Domains\Operations\Models\Operation;
 use Domains\Teams\Models\Team;
 use Parents\Models\UserModel;
 use Carbon\Carbon;

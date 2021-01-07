@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace Domains\Operations\Models;
 
 use Domains\Categories\Models\Category;
 use Domains\Teams\Models\Team;
 use Domains\Users\Models\User;
 use Units\Auth\Traits\MultiTenantModelTrait;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Parents\Models\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -19,7 +17,7 @@ use Akaunting\Money\Money;
 
 class Operation extends Model implements HasMedia
 {
-    use SoftDeletes, MultiTenantModelTrait, InteractsWithMedia, HasFactory;
+    use MultiTenantModelTrait, InteractsWithMedia;
 
     public $table = 'operations';
 

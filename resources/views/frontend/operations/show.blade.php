@@ -63,7 +63,7 @@
                                         {{ trans('cruds.operation.fields.type') }}
                                     </th>
                                     <td>
-                                        {{ App\Models\Operation::TYPE_SELECT[$operation->type] ?? '' }}
+                                        {{ Domains\Operations\Models\Operation::TYPE_SELECT[$operation->type] ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>

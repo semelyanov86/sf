@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Admin;
+namespace Domains\Operations\Http\Controllers\Api;
 
 use Parents\Controllers\ApiController as Controller;
 use Support\MediaUpload\Traits\MediaUploadingTrait;
-use App\Http\Requests\StoreOperationRequest;
-use App\Http\Requests\UpdateOperationRequest;
-use App\Http\Controllers\Resources\Admin\OperationResource;
-use App\Models\Operation;
+use Domains\Operations\Http\Requests\StoreOperationRequest;
+use Domains\Operations\Http\Requests\UpdateOperationRequest;
+use Domains\Operations\Http\Resources\OperationResource;
+use Domains\Operations\Models\Operation;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

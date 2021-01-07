@@ -70,7 +70,7 @@
                                     <td>
                                         <select class="search" strict="true">
                                             <option value>{{ trans('global.all') }}</option>
-                                            @foreach(App\Models\Operation::TYPE_SELECT as $key => $item)
+                                            @foreach(Domains\Operations\Models\Operation::TYPE_SELECT as $key => $item)
                                                 <option value="{{ $item }}">{{ $item }}</option>
                                             @endforeach
                                         </select>
@@ -103,7 +103,7 @@
                                             {{ $operation->source_account->name ?? '' }}
                                         </td>
                                         <td>
-                                            {{ App\Models\Operation::TYPE_SELECT[$operation->type] ?? '' }}
+                                            {{ Domains\Operations\Models\Operation::TYPE_SELECT[$operation->type] ?? '' }}
                                         </td>
                                         <td>
                                             {{ $operation->category->name ?? '' }}
@@ -188,7 +188,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 let visibleColumnsIndexes = null;
 $('.datatable thead').on('input', '.search', function () {
       let strict = $(this).attr('strict') || false

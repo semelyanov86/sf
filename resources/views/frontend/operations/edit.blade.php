@@ -65,7 +65,7 @@
                             <label class="required">{{ trans('cruds.operation.fields.type') }}</label>
                             <select class="form-control" name="type" id="type" required>
                                 <option value disabled {{ old('type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                                @foreach(App\Models\Operation::TYPE_SELECT as $key => $label)
+                                @foreach(Domains\Operations\Models\Operation::TYPE_SELECT as $key => $label)
                                     <option value="{{ $key }}" {{ old('type', $operation->type) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
                                 @endforeach
                             </select>

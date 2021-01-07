@@ -52,6 +52,6 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('accounts-extras', \App\Http\Controllers\Api\V1\Admin\AccountsExtraApiController::class);
 
     // Operations
-    Route::post('operations/media', [\App\Http\Controllers\Api\V1\Admin\OperationsApiController::class, 'storeMedia'])->name('operations.storeMedia');
-    Route::apiResource('operations', \App\Http\Controllers\Api\V1\Admin\OperationsApiController::class);
+    Route::post('operations/media', [\Domains\Operations\Http\Controllers\Api\OperationsApiController::class, 'storeMedia'])->name('operations.storeMedia');
+    Route::apiResource('operations', \Domains\Operations\Http\Controllers\Api\OperationsApiController::class);
 });
