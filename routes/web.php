@@ -103,8 +103,86 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::get('team-members', [\Domains\Teams\Http\Controllers\Admin\TeamMembersController::class, 'index'])->name('team-members.index');
     Route::post('team-members', [\Domains\Teams\Http\Controllers\Admin\TeamMembersController::class, 'invite'])->name('team-members.invite');
 });
-Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['auth']], function () {
+Route::group(['as' => 'frontend.', 'middleware' => ['auth']], function () {
     Route::get('/home', [\Units\Home\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
+
+    // Permissions
+    Route::delete('permissions/destroy', [\Domains\Users\Http\Controllers\Frontend\PermissionsController::class, 'massDestroy'])->name('permissions.massDestroy');
+    Route::resource('permissions', \Domains\Users\Http\Controllers\Frontend\PermissionsController::class);
+
+    // Roles
+    Route::delete('roles/destroy', [\Domains\Users\Http\Controllers\Frontend\RolesController::class, 'massDestroy'])->name('roles.massDestroy');
+    Route::resource('roles', \Domains\Users\Http\Controllers\Frontend\RolesController::class);
+
+    // Users
+    Route::delete('users/destroy', [\Domains\Users\Http\Controllers\Frontend\UsersController::class, 'massDestroy'])->name('users.massDestroy');
+    Route::resource('users', \Domains\Users\Http\Controllers\Frontend\UsersController::class);
+
+    // Teams
+    Route::delete('teams/destroy', [\Domains\Teams\Http\Controllers\Frontend\TeamController::class, 'massDestroy'])->name('teams.massDestroy');
+    Route::resource('teams', \Domains\Teams\Http\Controllers\Frontend\TeamController::class);
+
+    // Countries
+    Route::delete('countries/destroy', [\Domains\Countries\Http\Controllers\Frontend\CountriesController::class, 'massDestroy'])->name('countries.massDestroy');
+    Route::resource('countries', \Domains\Countries\Http\Controllers\Frontend\CountriesController::class);
+
+    // Currencies
+    Route::delete('currencies/destroy', [\Domains\Currencies\Http\Controllers\Frontend\CurrenciesController::class, 'massDestroy'])->name('currencies.massDestroy');
+    Route::resource('currencies', \Domains\Currencies\Http\Controllers\Frontend\CurrenciesController::class);
+
+    // Banks
+    Route::delete('banks/destroy', [\Domains\Banks\Http\Controllers\Frontend\BanksController::class, 'massDestroy'])->name('banks.massDestroy');
+    Route::resource('banks', \Domains\Banks\Http\Controllers\Frontend\BanksController::class);
+
+    // Categories
+    Route::delete('categories/destroy', [\Domains\Categories\Http\Controllers\Frontend\CategoriesController::class, 'massDestroy'])->name('categories.massDestroy');
+    Route::resource('categories', \Domains\Categories\Http\Controllers\Frontend\CategoriesController::class);
+
+    // Target Categories
+    Route::delete('target-categories/destroy', [\Domains\Targets\Http\Controllers\Frontend\TargetCategoriesController::class, 'massDestroy'])->name('target-categories.massDestroy');
+    Route::post('target-categories/media', [\Domains\Targets\Http\Controllers\Frontend\TargetCategoriesController::class, 'storeMedia'])->name('target-categories.storeMedia');
+    Route::post('target-categories/ckmedia', [\Domains\Targets\Http\Controllers\Frontend\TargetCategoriesController::class, 'storeCKEditorImages'])->name('target-categories.storeCKEditorImages');
+    Route::resource('target-categories', \Domains\Targets\Http\Controllers\Frontend\TargetCategoriesController::class);
+
+    // Budgets
+    Route::delete('budgets/destroy', [\Domains\Budgets\Http\Controllers\Frontend\BudgetsController::class, 'massDestroy'])->name('budgets.massDestroy');
+    Route::resource('budgets', \Domains\Budgets\Http\Controllers\Frontend\BudgetsController::class);
+
+    // Targets
+    Route::delete('targets/destroy', [\Domains\Targets\Http\Controllers\Frontend\TargetsController::class, 'massDestroy'])->name('targets.massDestroy');
+    Route::post('targets/media', [\Domains\Targets\Http\Controllers\Frontend\TargetsController::class, 'storeMedia'])->name('targets.storeMedia');
+    Route::post('targets/ckmedia', [\Domains\Targets\Http\Controllers\Frontend\TargetsController::class, 'storeCKEditorImages'])->name('targets.storeCKEditorImages');
+    Route::resource('targets', \Domains\Targets\Http\Controllers\Frontend\TargetsController::class);
+
+    // Accounts
+    Route::delete('accounts/destroy', [\Domains\Accounts\Http\Controllers\Frontend\AccountsController::class, 'massDestroy'])->name('accounts.massDestroy');
+    Route::resource('accounts', \Domains\Accounts\Http\Controllers\Frontend\AccountsController::class);
+
+    // Account Types
+    Route::delete('account-types/destroy', [\Domains\Accounts\Http\Controllers\Admin\AccountTypesController::class, 'massDestroy'])->name('account-types.massDestroy');
+    Route::resource('account-types', \Domains\Accounts\Http\Controllers\Frontend\AccountTypesController::class);
+
+    // Card Types
+    Route::delete('card-types/destroy', [\Domains\CardTypes\Http\Controllers\Frontend\CardTypesController::class, 'massDestroy'])->name('card-types.massDestroy');
+    Route::resource('card-types', \Domains\CardTypes\Http\Controllers\Frontend\CardTypesController::class);
+
+    // Auto Brands
+    Route::delete('auto-brands/destroy', [\Domains\AutoBrands\Http\Controllers\Admin\AutoBrandsController::class, 'massDestroy'])->name('auto-brands.massDestroy');
+    Route::resource('auto-brands', \Domains\AutoBrands\Http\Controllers\Frontend\AutoBrandsController::class);
+
+    // Accounts Extras
+    Route::delete('accounts-extras/destroy', [\Domains\Accounts\Http\Controllers\Frontend\AccountsExtraController::class, 'massDestroy'])->name('accounts-extras.massDestroy');
+    Route::resource('accounts-extras', \Domains\Accounts\Http\Controllers\Admin\AccountsExtraController::class);
+
+    // Operations
+    Route::delete('operations/destroy', [\Domains\Operations\Http\Controllers\Frontend\OperationsController::class, 'massDestroy'])->name('operations.massDestroy');
+    Route::post('operations/media', [\Domains\Operations\Http\Controllers\Frontend\OperationsController::class, 'storeMedia'])->name('operations.storeMedia');
+    Route::post('operations/ckmedia', [\Domains\Operations\Http\Controllers\Frontend\OperationsController::class, 'storeCKEditorImages'])->name('operations.storeCKEditorImages');
+    Route::resource('operations', \Domains\Operations\Http\Controllers\Frontend\OperationsController::class);
+
+    // Hidden Categories
+    Route::delete('hidden-categories/destroy', [\Domains\Categories\Http\Controllers\Admin\HiddenCategoriesController::class, 'massDestroy'])->name('hidden-categories.massDestroy');
+    Route::resource('hidden-categories', \Domains\Categories\Http\Controllers\Admin\HiddenCategoriesController::class);
 
     Route::get('frontend/profile', [\Domains\Users\Http\Controllers\Frontend\ProfileController::class, 'index'])->name('profile.index');
     Route::post('frontend/profile', [\Domains\Users\Http\Controllers\Frontend\ProfileController::class, 'update'])->name('profile.update');
