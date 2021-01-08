@@ -37,10 +37,18 @@ class OperationFactory extends Factory
             'updated_at' => Carbon::now(),
 
             'source_account_id' => function () {
-                return Account::factory()->create()->id;
+                /**
+                 * @var Account
+                 */
+                $account = Account::factory()->create();
+                return $account->id;
             },
             'to_account_id' => function () {
-                return Account::factory()->create()->id;
+                /**
+                 * @var Account
+                 */
+                $account = Account::factory()->create();
+                return $account->id;
             },
             'category_id' => $this->faker->randomElement($categories),
             'user_id' => $this->faker->randomElement($users),

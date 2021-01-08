@@ -44,7 +44,11 @@ class TargetFactory extends Factory
                 return 1;
             },
             'account_from_id' => function () {
-                return Account::factory()->create()->id;
+                /**
+                 * @var Account
+                 */
+                $account = Account::factory()->create();
+                return $account->id;
             },
             'user_id' => function () {
                 return 1;

@@ -3,8 +3,8 @@
 namespace Units\Auth\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Requests\UpdatePasswordRequest;
-use App\Http\Controllers\Requests\UpdateProfileRequest;
+use Domains\Users\Http\Requests\UpdatePasswordRequest;
+use Domains\Users\Http\Requests\UpdateProfileRequest;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

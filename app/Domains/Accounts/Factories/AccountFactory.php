@@ -6,7 +6,6 @@ use Domains\Accounts\Models\Account;
 use Domains\Accounts\Models\AccountType;
 use Domains\Banks\Models\Bank;
 use Domains\Currencies\Models\Currency;
-use Domains\Teams\Models\Team;
 use Parents\Factories\Factory;
 use Illuminate\Support\Carbon;
 
@@ -35,10 +34,18 @@ class AccountFactory extends Factory
 
             'account_type_id' => $this->faker->randomElement($types),
             'currency_id' => function () {
-                return Currency::factory()->create()->id;
+                /**
+                 * @var Currency
+                 */
+                $currency = Currency::factory()->create();
+                return $currency->id;
             },
             'bank_id' => function () {
-                return Bank::factory()->create()->id;
+                /**
+                 * @var Bank
+                 */
+                $bank = Bank::factory()->create();
+                return $bank->id;
             },
             'team_id' => 1,
         ];

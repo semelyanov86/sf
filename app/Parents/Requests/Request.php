@@ -31,7 +31,7 @@ class Request extends LaravelRequest
      * Overriding this function to modify the any user input before
      * applying the validation rules.
      *
-     * @param null $keys
+     * @param array|mixed|null $keys
      *
      * @return  array
      */

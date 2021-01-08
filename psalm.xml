@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="4"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="app/Core"/>
+        <directory name="app/Domains"/>
+        <directory name="app/Parents"/>
+        <directory name="app/Support"/>
+        <directory name="app/Units"/>
+        <directory name="database/factories"/>
+        <directory name="database/seeders"/>
+        <ignoreFiles>
+            <directory name="vendor"/>
+        </ignoreFiles>
+        <ignoreFiles>
+            <directory name="Virtual"/>
+        </ignoreFiles>
+    </projectFiles>
+<plugins><pluginClass class="Psalm\LaravelPlugin\Plugin"/></plugins></psalm>

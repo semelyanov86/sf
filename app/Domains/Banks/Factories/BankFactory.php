@@ -25,7 +25,11 @@ class BankFactory extends Factory
             'updated_at' => Carbon::now(),
 
             'country_id' => function () {
-                return Country::factory()->create()->id;
+                /**
+                 * @var Country
+                 */    
+                $country = Country::factory()->create();
+                return $country->id;
             },
         ];
     }

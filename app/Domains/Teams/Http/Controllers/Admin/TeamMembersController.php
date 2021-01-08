@@ -2,6 +2,7 @@
 
 namespace Domains\Teams\Http\Controllers\Admin;
 
+use Domains\Teams\Notifications\TeamMemberInvite;
 use Parents\Controllers\WebController as Controller;
 use Domains\Teams\Models\Team;
 use Domains\Users\Models\User;
@@ -26,7 +27,7 @@ class TeamMembersController extends Controller
         $request->validate(['email' => 'email']);
         $team    = Team::where('owner_id', auth()->user()->id)->first();
         $url     = URL::signedRoute('register', ['team' => $team->id]);
-        $message = new \Units\Auth\Notifications\TeamMemberInvite($url);
+        $message = new TeamMemberInvite($url);
         Notification::route('mail', $request->input('email'))->notify($message);
 
         return redirect()->back()->with('message', 'Invite sent.');

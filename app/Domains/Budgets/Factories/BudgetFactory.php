@@ -26,7 +26,11 @@ class BudgetFactory extends Factory
             'updated_at' => Carbon::now(),
 
             'category_id' => function () {
-                return Category::factory()->create()->id;
+                /**
+                 * @var Category
+                 */
+                $category = Category::factory()->create();
+                return $category->id;
             },
             'user_id' => function () {
                 return 1;

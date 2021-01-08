@@ -5,7 +5,7 @@ namespace Domains\Users\Http\Controllers\Admin;
 use Parents\Controllers\WebController as Controller;
 use Domains\Users\Http\Requests\MassDestroyPermissionRequest;
 use Domains\Users\Http\Requests\StorePermissionRequest;
-use App\Http\Controllers\Requests\UpdatePermissionRequest;
+use Domains\Users\Http\Requests\UpdatePermissionRequest;
 use Domains\Users\Models\Permission;
 use Gate;
 use Parents\Requests\Request;
