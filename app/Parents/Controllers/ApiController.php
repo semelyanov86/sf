@@ -37,6 +37,30 @@ abstract class ApiController extends Controller
      *     name="Users",
      *     description="API Endpoints of Users"
      * )
+     * @OA\Tag(
+     *     name="Teams",
+     *     description="Everything about your Teams",
+     *     @OA\ExternalDocumentation(
+     *         description="Find out more",
+     *         url="http://swagger.io"
+     *     )
+     * )
+     * @OA\Tag(
+     *     name="Permissions",
+     *     description="All permissions in your system",
+     *     @OA\ExternalDocumentation(
+     *         description="Find out more",
+     *         url="http://swagger.io"
+     *     )
+     * )
+     * @OA\Tag(
+     *     name="Roles",
+     *     description="All roles in your system",
+     *     @OA\ExternalDocumentation(
+     *         description="Find out more",
+     *         url="http://swagger.io"
+     *     )
+     * )
      */
     /**
      * @var  array

@@ -1,14 +1,14 @@
 <?php
 /**
  * @OA\Schema(
- *     title="UserResource",
- *     description="User resource",
+ *     title="PermissionResource",
+ *     description="Permission resource",
  *     @OA\Xml(
- *         name="UserResource"
+ *         name="PermissionResource"
  *     )
  * )
  */
-class UserResource
+class PermissionResource
 {
     /**
      * @OA\Property(
@@ -16,7 +16,7 @@ class UserResource
      *     description="Data wrapper"
      * )
      *
-     * @var \Domains\Users\Virtual\Models\User[]
+     * @var \Domains\Users\Virtual\Models\Permission[]
      */
     private $data;
 }

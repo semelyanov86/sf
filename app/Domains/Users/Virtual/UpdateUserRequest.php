@@ -44,4 +44,50 @@ class UpdateUserRequest
      * @var integer
      */
     public $team_id;
+
+    /**
+     * @OA\Property(
+     *      title="Phone",
+     *      description="User [phone number]",
+     *      example="+79876757777"
+     * )
+     *
+     * @var string
+     */
+    public $phone;
+
+    /**
+     * @OA\Property(
+     *      title="Language",
+     *      description="User language interface",
+     *      example="ru_ru"
+     * )
+     *
+     * @var string
+     */
+    public $language;
+
+    /**
+     * @OA\Property(
+     *     title="Operations Number",
+     *     description="List of operations per page",
+     *     format="int64",
+     *     example=10
+     * )
+     *
+     * @var integer
+     */
+    public $operations_number;
+
+    /**
+     * @OA\Property(
+     *     title="Budget Day Start",
+     *     description="When starts of budget day of user",
+     *     format="int64",
+     *     example=1
+     * )
+     *
+     * @var integer
+     */
+    public $budget_day_start;
 }
