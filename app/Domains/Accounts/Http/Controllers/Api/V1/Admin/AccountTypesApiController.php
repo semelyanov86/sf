@@ -20,7 +20,7 @@ class AccountTypesApiController extends Controller
         return new AccountTypeResource(AccountType::all());
     }
 
-    public function store(StoreAccountTypeRequest $request): static
+    public function store(StoreAccountTypeRequest $request): \Illuminate\Http\JsonResponse
     {
         $accountType = AccountType::create($request->all());
 
@@ -36,7 +36,7 @@ class AccountTypesApiController extends Controller
         return new AccountTypeResource($accountType);
     }
 
-    public function update(UpdateAccountTypeRequest $request, AccountType $accountType): static
+    public function update(UpdateAccountTypeRequest $request, AccountType $accountType): \Illuminate\Http\JsonResponse
     {
         $accountType->update($request->all());
 

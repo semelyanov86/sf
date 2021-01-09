@@ -18,14 +18,14 @@ class ChangePasswordController extends Controller
         return view('auth.passwords.edit');
     }
 
-    public function update(UpdatePasswordRequest $request): static
+    public function update(UpdatePasswordRequest $request): \Illuminate\Http\RedirectResponse
     {
         auth()->user()->update($request->validated());
 
         return redirect()->route('profile.password.edit')->with('message', __('global.change_password_success'));
     }
 
-    public function updateProfile(UpdateProfileRequest $request): static
+    public function updateProfile(UpdateProfileRequest $request): \Illuminate\Http\RedirectResponse
     {
         $user = auth()->user();
 
@@ -34,7 +34,7 @@ class ChangePasswordController extends Controller
         return redirect()->route('profile.password.edit')->with('message', __('global.update_profile_success'));
     }
 
-    public function destroy(): static
+    public function destroy(): \Illuminate\Http\RedirectResponse
     {
         $user = auth()->user();
 

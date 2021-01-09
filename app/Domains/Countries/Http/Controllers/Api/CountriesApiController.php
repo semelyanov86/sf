@@ -19,7 +19,7 @@ class CountriesApiController extends Controller
         return new CountryResource(Country::all());
     }
 
-    public function store(StoreCountryRequest $request): static
+    public function store(StoreCountryRequest $request): \Illuminate\Http\JsonResponse
     {
         $country = Country::create($request->all());
 
@@ -35,7 +35,7 @@ class CountriesApiController extends Controller
         return new CountryResource($country);
     }
 
-    public function update(UpdateCountryRequest $request, Country $country): static
+    public function update(UpdateCountryRequest $request, Country $country): \Illuminate\Http\JsonResponse
     {
         $country->update($request->all());
 

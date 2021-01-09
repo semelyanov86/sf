@@ -20,7 +20,7 @@ class BudgetsApiController extends Controller
         return new BudgetResource(Budget::with(['category', 'user', 'team'])->get());
     }
 
-    public function store(StoreBudgetRequest $request): static
+    public function store(StoreBudgetRequest $request): \Illuminate\Http\JsonResponse
     {
         $budget = Budget::create($request->all());
 
@@ -36,7 +36,7 @@ class BudgetsApiController extends Controller
         return new BudgetResource($budget->load(['category', 'user', 'team']));
     }
 
-    public function update(UpdateBudgetRequest $request, Budget $budget): static
+    public function update(UpdateBudgetRequest $request, Budget $budget): \Illuminate\Http\JsonResponse
     {
         $budget->update($request->all());
 

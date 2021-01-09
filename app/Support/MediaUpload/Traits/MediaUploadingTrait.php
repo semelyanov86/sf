@@ -2,22 +2,30 @@
 
 namespace Support\MediaUpload\Traits;
 
+use Parents\Exceptions\Codes\ApplicationErrorCodesTable;
 use Parents\Requests\Request;
+use Support\MediaUpload\Exceptions\InvalidFileException;
 
 trait MediaUploadingTrait
 {
+    /**
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     * @psalm-suppress PossiblyInvalidMethodCall
+     */
     public function storeMedia(Request $request): \Illuminate\Http\JsonResponse
     {
 // Validates file size
+        /** @psalm-suppress PossiblyInvalidMethodCall */
         if (request()->has('size')) {
-            $this->validate(request(), [
-                'file' => 'max:' . request()->input('size') * 1024,
+            $this->validate($request, [
+                'file' => 'max:' . $request->input('size') * 1024,
             ]);
         }
 
 // If width or height is preset - we are validating it as an image
         if (request()->has('width') || request()->has('height')) {
-            $this->validate(request(), [
+            $this->validate($request, [
                 'file' => sprintf(
                     'image|dimensions:max_width=%s,max_height=%s',
                     request()->input('width', 100000),
@@ -36,6 +44,9 @@ trait MediaUploadingTrait
         }
 
         $file = $request->file('file');
+        if (!$file) {
+            throw new InvalidFileException('Error in getting media file!', 500, ApplicationErrorCodesTable::REQUEST_GENERAL_ERROR['code']);
+        }
 
         $name = uniqid() . '_' . trim($file->getClientOriginalName());
 

@@ -51,18 +51,18 @@ abstract class Exception extends SymfonyHttpException
     /**
      * Exception constructor.
      *
-     * @param null            $message
-     * @param null            $errors
-     * @param null            $statusCode
-     * @param int             $code
-     * @param \Exception|null $previous
-     * @param array           $headers
+     * @param  string|null  $message
+     * @param  int|null  $statusCode
+     * @param  int  $code
+     * @param  ?array  $errors
+     * @param  \Exception|null  $previous
+     * @param  array  $headers
      */
     public function __construct(
-        $message = null,
-        $errors = null,
-        $statusCode = null,
-        $code = 0,
+        ?string $message = null,
+        ?int $statusCode = null,
+        int $code = 0,
+        ?array $errors = null,
         BaseException $previous = null,
         $headers = []
     ) {
@@ -73,7 +73,9 @@ abstract class Exception extends SymfonyHttpException
         $message = $this->prepareMessage($message);
         $error = $this->prepareError($errors);
         $statusCode = $this->prepareStatusCode($statusCode);
-
+        if (!$statusCode) {
+            $statusCode = 200;
+        }
         $this->logTheError($statusCode, $message, $code);
 
         parent::__construct($statusCode, $message, $previous, $headers, $code);
@@ -126,12 +128,10 @@ abstract class Exception extends SymfonyHttpException
     }
 
     /**
-     * @param $statusCode
-     * @param $message
-     * @param $code
-     * @param int|null $statusCode
-     * @param null|string $message
+     * @param  int|null  $statusCode
+     * @param  null|string  $message
      *
+     * @param  int  $code
      * @return void
      */
     private function logTheError(?int $statusCode, ?string $message, int $code): void
@@ -148,11 +148,11 @@ abstract class Exception extends SymfonyHttpException
     }
 
     /**
-     * @param null $errors
+     * @param ?array $errors
      *
      * @return  MessageBag|array
      */
-    private function prepareError($errors = null): array|MessageBag
+    private function prepareError(?array $errors = null): array|MessageBag
     {
         return is_null($errors) ? new MessageBag() : $this->prepareArrayError($errors);
     }
@@ -168,21 +168,22 @@ abstract class Exception extends SymfonyHttpException
     }
 
     /**
-     * @param null $message
+     * @param ?string $message
      *
      * @return  ?string
      */
-    private function prepareMessage($message = null): ?string
+    private function prepareMessage(?string $message = null): ?string
     {
         return is_null($message) && property_exists($this, 'message') ? $this->message : $message;
     }
 
     /**
      * @param $statusCode
+     * @param int|null $statusCode
      *
-     * @return  ?int
+     * @return ?int
      */
-    private function prepareStatusCode($statusCode = null) : ?int
+    private function prepareStatusCode(?int $statusCode = null) : ?int
     {
         return is_null($statusCode) ? $this->findStatusCode() : $statusCode;
     }

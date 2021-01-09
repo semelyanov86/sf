@@ -23,7 +23,7 @@ class OperationsApiController extends Controller
         return new OperationResource(Operation::with(['source_account', 'to_account', 'category', 'user', 'team'])->get());
     }
 
-    public function store(StoreOperationRequest $request): static
+    public function store(StoreOperationRequest $request): \Illuminate\Http\JsonResponse
     {
         $operation = Operation::create($request->all());
 
@@ -43,7 +43,7 @@ class OperationsApiController extends Controller
         return new OperationResource($operation->load(['source_account', 'to_account', 'category', 'user', 'team']));
     }
 
-    public function update(UpdateOperationRequest $request, Operation $operation): static
+    public function update(UpdateOperationRequest $request, Operation $operation): \Illuminate\Http\JsonResponse
     {
         $operation->update($request->all());
 

@@ -16,6 +16,7 @@ class UpdateUserRequest extends FormRequest
 
     public function rules(): array
     {
+        /** @psalm-suppress all */
         return [
             'name'              => [
                 'string',

@@ -61,6 +61,7 @@ class RegisterController extends Controller
      *
      * @param  array  $data
      * @return User
+     * @psalm-suppress PossiblyInvalidMethodCall
      */
     protected function create(array $data)
     {
@@ -83,7 +84,11 @@ class RegisterController extends Controller
         return $user;
     }
 
-    public function showRegistrationForm(): \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
+     * @psalm-suppress PossiblyInvalidMethodCall
+     */
+    public function showRegistrationForm(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         if (request()->has('signature') && !request()->hasValidSignature()) {
             return redirect()->route('register');

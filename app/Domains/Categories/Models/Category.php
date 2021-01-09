@@ -64,11 +64,13 @@ class Category extends Model
 
     public function getLastUsedAtAttribute($value): ?string
     {
+        /** @psalm-suppress PossiblyFalseReference */
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
     }
 
     public function setLastUsedAtAttribute($value): void
     {
+        /** @psalm-suppress PossiblyFalseReference */
         $this->attributes['last_used_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
     }
 }

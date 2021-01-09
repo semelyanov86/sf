@@ -112,7 +112,8 @@ class Account extends Model
 
     public function getStartBalanceAttribute($value): ?\Akaunting\Money\Money
     {
-        return $value ? money($value, \Auth::user()->currency->code) : null;
+        /** @psalm-suppress PossiblyNullArgument */
+        return $value ? money($value, \Auth::user()?->currency?->code) : null;
     }
 
     public function setStartBalanceAttribute($value): void
@@ -122,7 +123,8 @@ class Account extends Model
 
     public function getMarketValueAttribute($value): ?\Akaunting\Money\Money
     {
-        return $value ? money($value, \Auth::user()->currency->code) : null;
+        /** @psalm-suppress PossiblyNullArgument */
+        return $value ? money($value, \Auth::user()?->currency?->code) : null;
     }
 
     public function setMarketValueAttribute($value): void

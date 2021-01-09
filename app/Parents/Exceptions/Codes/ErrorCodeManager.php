@@ -46,10 +46,9 @@ class ErrorCodeManager
     /**
      * Returns the value for a given key in the array or a default value
      *
-     * @param array $error
-     * @param $key
-     * @param $default
-     * @param int|string $default
+     * @param  array  $error
+     * @param  string  $key
+     * @param  int|string  $default
      *
      * @return mixed
      */

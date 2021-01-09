@@ -120,16 +120,19 @@ class Target extends Model implements HasMedia
 
     public function setFirstPayDateAttribute($value): void
     {
+        /** @psalm-suppress PossiblyFalseReference */
         $this->attributes['first_pay_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
     public function getPayToDateAttribute($value): ?string
     {
+        /** @psalm-suppress PossiblyFalseReference */
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
     public function setPayToDateAttribute($value): void
     {
+        /** @psalm-suppress PossiblyFalseReference */
         $this->attributes['pay_to_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
@@ -158,7 +161,11 @@ class Target extends Model implements HasMedia
 
     public function getAmountAttribute($value): ?\Akaunting\Money\Money
     {
-        return $value ? money($value, \Auth::user()->currency->code) : null;
+        $code = \Auth::user()?->currency?->code;
+        if (!$code) {
+            return null;
+        }
+        return $value ? money($value, $code) : null;
     }
 
     public function setAmountAttribute($value): void
@@ -168,7 +175,11 @@ class Target extends Model implements HasMedia
 
     public function getMonthlyPayAmountAttribute($value): ?\Akaunting\Money\Money
     {
-        return $value ? money($value, \Auth::user()->currency->code) : null;
+        $code = \Auth::user()?->currency?->code;
+        if (!$code) {
+            return null;
+        }
+        return $value ? money($value, $code) : null;
     }
 
     public function setMonthlyPayAmountAttribute($value): void

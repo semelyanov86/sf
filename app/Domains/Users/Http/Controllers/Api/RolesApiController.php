@@ -54,6 +54,7 @@ class RolesApiController extends Controller
 
         return RoleResource::collection(Role::with(['permissions'])->get());
     }
+
     /**
      * @OA\Post (
      *      path="/[roles]",
@@ -87,9 +88,10 @@ class RolesApiController extends Controller
      *      )
      * )
      *
+     * @param  StoreRoleRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreRoleRequest $request): static
+    public function store(StoreRoleRequest $request): \Illuminate\Http\JsonResponse
     {
         $role = Role::create($request->all());
         $role->permissions()->sync($request->input('permissions', []));
@@ -98,6 +100,7 @@ class RolesApiController extends Controller
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
+
     /**
      * @OA\Get (
      *      path="/roles/{id}",
@@ -137,6 +140,7 @@ class RolesApiController extends Controller
      * @OA\JsonContent (ref="#/components/schemas/Role")
      *       ),
      *
+     * @param  Role  $role
      * @return RoleResource
      */
     public function show(Role $role): RoleResource
@@ -145,6 +149,7 @@ class RolesApiController extends Controller
 
         return new RoleResource($role->load(['permissions']));
     }
+
     /**
      * @OA\Put (
      *      path="/role/{id}",
@@ -193,9 +198,11 @@ class RolesApiController extends Controller
      *      )
      * )
      *
+     * @param  UpdateRoleRequest  $request
+     * @param  Role  $role
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateRoleRequest $request, Role $role): static
+    public function update(UpdateRoleRequest $request, Role $role): \Illuminate\Http\JsonResponse
     {
         $role->update($request->all());
         $role->permissions()->sync($request->input('permissions', []));
@@ -204,6 +211,7 @@ class RolesApiController extends Controller
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
+
     /**
      * @OA\Delete (
      *      path="/roles/{id}",
@@ -243,7 +251,9 @@ class RolesApiController extends Controller
      * @OA\JsonContent ()
      *       ),
      *
+     * @param  Role  $role
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Role $role): \Illuminate\Http\Response
     {

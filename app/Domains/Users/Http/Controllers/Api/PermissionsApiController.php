@@ -54,6 +54,7 @@ class PermissionsApiController extends Controller
 
         return PermissionResource::collection(Permission::all());
     }
+
     /**
      * @OA\Post (
      *      path="/[permissions]",
@@ -87,9 +88,10 @@ class PermissionsApiController extends Controller
      *      )
      * )
      *
+     * @param  StorePermissionRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StorePermissionRequest $request): static
+    public function store(StorePermissionRequest $request): \Illuminate\Http\JsonResponse
     {
         $permission = Permission::create($request->all());
 
@@ -97,6 +99,7 @@ class PermissionsApiController extends Controller
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
+
     /**
      * @OA\Get (
      *      path="/permissions/{id}",
@@ -136,6 +139,7 @@ class PermissionsApiController extends Controller
      * @OA\JsonContent (ref="#/components/schemas/User")
      *       ),
      *
+     * @param  Permission  $permission
      * @return PermissionResource
      */
     public function show(Permission $permission): PermissionResource
@@ -144,6 +148,7 @@ class PermissionsApiController extends Controller
 
         return new PermissionResource($permission);
     }
+
     /**
      * @OA\Put (
      *      path="/permissions/{id}",
@@ -192,9 +197,11 @@ class PermissionsApiController extends Controller
      *      )
      * )
      *
+     * @param  UpdatePermissionRequest  $request
+     * @param  Permission  $permission
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdatePermissionRequest $request, Permission $permission): static
+    public function update(UpdatePermissionRequest $request, Permission $permission): \Illuminate\Http\JsonResponse
     {
         $permission->update($request->all());
 
@@ -202,6 +209,7 @@ class PermissionsApiController extends Controller
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
+
     /**
      * @OA\Delete (
      *      path="/permissions/{id}",
@@ -241,7 +249,9 @@ class PermissionsApiController extends Controller
      * @OA\JsonContent ()
      *       ),
      *
+     * @param  Permission  $permission
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Permission $permission): \Illuminate\Http\Response
     {

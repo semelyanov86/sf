@@ -20,7 +20,7 @@ class AutoBrandsApiController extends Controller
         return new AutoBrandResource(AutoBrand::all());
     }
 
-    public function store(StoreAutoBrandRequest $request): static
+    public function store(StoreAutoBrandRequest $request): \Illuminate\Http\JsonResponse
     {
         $autoBrand = AutoBrand::create($request->all());
 
@@ -36,7 +36,7 @@ class AutoBrandsApiController extends Controller
         return new AutoBrandResource($autoBrand);
     }
 
-    public function update(UpdateAutoBrandRequest $request, AutoBrand $autoBrand): static
+    public function update(UpdateAutoBrandRequest $request, AutoBrand $autoBrand): \Illuminate\Http\JsonResponse
     {
         $autoBrand->update($request->all());
 

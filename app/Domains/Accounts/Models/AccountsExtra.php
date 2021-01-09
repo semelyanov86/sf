@@ -156,6 +156,7 @@ class AccountsExtra extends Model
 
     public function setCardExpireDateAttribute($value): void
     {
+        /** @psalm-suppress PossiblyFalseReference */
         $this->attributes['card_expire_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
@@ -166,6 +167,7 @@ class AccountsExtra extends Model
 
     public function setAccountOpenDateAttribute($value): void
     {
+        /** @psalm-suppress PossiblyFalseReference */
         $this->attributes['account_open_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
@@ -176,6 +178,7 @@ class AccountsExtra extends Model
 
     public function setAccountCloseDateAttribute($value): void
     {
+        /** @psalm-suppress PossiblyFalseReference */
         $this->attributes['account_close_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
@@ -186,6 +189,7 @@ class AccountsExtra extends Model
 
     public function setLoanGiveDateAttribute($value): void
     {
+        /** @psalm-suppress PossiblyFalseReference */
         $this->attributes['loan_give_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
@@ -196,16 +200,19 @@ class AccountsExtra extends Model
 
     public function setLoanTakeDateAttribute($value): void
     {
+        /** @psalm-suppress PossiblyFalseReference */
         $this->attributes['loan_take_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
     public function getImmovablesPurchaseDateAttribute($value): ?string
     {
+        /** @psalm-suppress PossiblyFalseReference */
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
     public function setImmovablesPurchaseDateAttribute($value): void
     {
+        /** @psalm-suppress PossiblyFalseReference */
         $this->attributes['immovables_purchase_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
@@ -226,6 +233,7 @@ class AccountsExtra extends Model
 
     public function setAutoPurchaseDateAttribute($value): void
     {
+        /** @psalm-suppress PossiblyFalseReference */
         $this->attributes['auto_purchase_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
@@ -241,7 +249,11 @@ class AccountsExtra extends Model
 
     public function getCardYearCostAttribute($value): ?\Akaunting\Money\Money
     {
-        return $value ? money($value, \Auth::user()->currency->code) : null;
+        $code = \Auth::user()?->currency?->code;
+        if (!$code) {
+            return null;
+        }
+        return $value ? money($value, $code) : null;
     }
 
     public function setCardYearCostAttribute($value): void

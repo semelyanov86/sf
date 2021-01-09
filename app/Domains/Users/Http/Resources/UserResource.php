@@ -15,7 +15,7 @@ class UserResource extends Resource
             'email' => $this->email,
             'operations_number' => $this->operations_number,
             'budget_day_start' => $this->budget_day_start,
-            'primary_currency' => $this->primany_currency,
+            'primary_currency' => $this->currency,
             'timezone' => $this->timezone,
             'language' => $this->language,
             'team' => new TeamResource($this->team),

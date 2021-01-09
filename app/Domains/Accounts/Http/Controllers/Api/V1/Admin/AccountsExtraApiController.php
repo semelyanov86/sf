@@ -20,7 +20,7 @@ class AccountsExtraApiController extends Controller
         return new AccountsExtraResource(AccountsExtra::with(['card_type', 'auto_brand', 'team'])->get());
     }
 
-    public function store(StoreAccountsExtraRequest $request): static
+    public function store(StoreAccountsExtraRequest $request): \Illuminate\Http\JsonResponse
     {
         $accountsExtra = AccountsExtra::create($request->all());
 
@@ -36,7 +36,7 @@ class AccountsExtraApiController extends Controller
         return new AccountsExtraResource($accountsExtra->load(['card_type', 'auto_brand', 'team']));
     }
 
-    public function update(UpdateAccountsExtraRequest $request, AccountsExtra $accountsExtra): static
+    public function update(UpdateAccountsExtraRequest $request, AccountsExtra $accountsExtra): \Illuminate\Http\JsonResponse
     {
         $accountsExtra->update($request->all());
 

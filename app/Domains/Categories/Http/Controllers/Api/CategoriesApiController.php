@@ -20,7 +20,7 @@ class CategoriesApiController extends Controller
         return new CategoryResource(Category::all());
     }
 
-    public function store(StoreCategoryRequest $request): static
+    public function store(StoreCategoryRequest $request): \Illuminate\Http\JsonResponse
     {
         $category = Category::create($request->all());
 
@@ -36,7 +36,7 @@ class CategoriesApiController extends Controller
         return new CategoryResource($category);
     }
 
-    public function update(UpdateCategoryRequest $request, Category $category): static
+    public function update(UpdateCategoryRequest $request, Category $category): \Illuminate\Http\JsonResponse
     {
         $category->update($request->all());
 

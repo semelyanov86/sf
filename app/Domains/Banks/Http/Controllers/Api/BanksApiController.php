@@ -20,7 +20,7 @@ class BanksApiController extends Controller
         return new BankResource(Bank::with(['country'])->get());
     }
 
-    public function store(StoreBankRequest $request): static
+    public function store(StoreBankRequest $request): \Illuminate\Http\JsonResponse
     {
         $bank = Bank::create($request->all());
 
@@ -36,7 +36,7 @@ class BanksApiController extends Controller
         return new BankResource($bank->load(['country']));
     }
 
-    public function update(UpdateBankRequest $request, Bank $bank): static
+    public function update(UpdateBankRequest $request, Bank $bank): \Illuminate\Http\JsonResponse
     {
         $bank->update($request->all());
 

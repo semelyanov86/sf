@@ -23,7 +23,7 @@ class TargetCategoriesApiController extends Controller
         return new TargetCategoryResource(TargetCategory::all());
     }
 
-    public function store(StoreTargetCategoryRequest $request): static
+    public function store(StoreTargetCategoryRequest $request): \Illuminate\Http\JsonResponse
     {
         $targetCategory = TargetCategory::create($request->all());
 
@@ -43,7 +43,7 @@ class TargetCategoriesApiController extends Controller
         return new TargetCategoryResource($targetCategory);
     }
 
-    public function update(UpdateTargetCategoryRequest $request, TargetCategory $targetCategory): static
+    public function update(UpdateTargetCategoryRequest $request, TargetCategory $targetCategory): \Illuminate\Http\JsonResponse
     {
         $targetCategory->update($request->all());
 

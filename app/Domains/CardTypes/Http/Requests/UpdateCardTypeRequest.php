@@ -16,13 +16,15 @@ class UpdateCardTypeRequest extends FormRequest
 
     public function rules(): array
     {
+        /** @psalm-suppress all */
+        $id = request()->route('card_type')->id;
         return [
             'name'        => [
                 'string',
                 'min:2',
                 'max:100',
                 'required',
-                'unique:card_types,name,' . request()->route('card_type')->id,
+                'unique:card_types,name,' . $id,
             ],
             'description' => [
                 'string',

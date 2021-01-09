@@ -11,7 +11,7 @@ class VerifyUserNotification extends Notification
 {
     use Queueable;
 
-    private $user = null;
+    private User $user;
 
     public function __construct(User $user)
     {
@@ -28,7 +28,7 @@ class VerifyUserNotification extends Notification
         return ['mail'];
     }
 
-    public function toMail($notifiable): static
+    public function toMail($notifiable): MailMessage
     {
         return (new MailMessage)
             ->line(trans('global.verifyYourUser'))

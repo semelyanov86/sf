@@ -16,6 +16,7 @@ class UpdateCurrencyRequest extends FormRequest
 
     public function rules(): array
     {
+        /** @psalm-suppress all */
         return [
             'code'        => [
                 'string',

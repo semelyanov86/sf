@@ -54,6 +54,7 @@ class TeamApiController extends Controller
 
         return TeamResource::collection(Team::with(['owner'])->get());
     }
+
     /**
      * @OA\Post (
      *      path="/teams",
@@ -87,9 +88,10 @@ class TeamApiController extends Controller
      *      )
      * )
      *
+     * @param  StoreTeamRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreTeamRequest $request): static
+    public function store(StoreTeamRequest $request): \Illuminate\Http\JsonResponse
     {
         $team = Team::create($request->all());
 
@@ -97,6 +99,7 @@ class TeamApiController extends Controller
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
+
     /**
      * @OA\Get (
      *      path="/teams/{id}",
@@ -136,6 +139,7 @@ class TeamApiController extends Controller
      * @OA\JsonContent (ref="#/components/schemas/Team")
      *       ),
      *
+     * @param  Team  $team
      * @return TeamResource
      */
     public function show(Team $team): TeamResource
@@ -144,6 +148,7 @@ class TeamApiController extends Controller
 
         return new TeamResource($team->load(['owner']));
     }
+
     /**
      * @OA\Put (
      *      path="/teams/{id}",
@@ -192,9 +197,11 @@ class TeamApiController extends Controller
      *      )
      * )
      *
+     * @param  UpdateTeamRequest  $request
+     * @param  Team  $team
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateTeamRequest $request, Team $team): static
+    public function update(UpdateTeamRequest $request, Team $team): \Illuminate\Http\JsonResponse
     {
         $team->update($request->all());
 
@@ -202,6 +209,7 @@ class TeamApiController extends Controller
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
+
     /**
      * @OA\Delete (
      *      path="/teams/{id}",
@@ -241,7 +249,9 @@ class TeamApiController extends Controller
      * @OA\JsonContent ()
      *       ),
      *
+     * @param  Team  $team
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Team $team): \Illuminate\Http\Response
     {

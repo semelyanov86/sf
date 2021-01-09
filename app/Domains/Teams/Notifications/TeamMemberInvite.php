@@ -28,12 +28,12 @@ class TeamMemberInvite extends Notification
         return ['mail'];
     }
 
-    public function toMail($notifiable)
+    public function toMail($notifiable): MailMessage
     {
         return $this->getMessage();
     }
 
-    public function getMessage(): static
+    public function getMessage(): MailMessage
     {
         return (new MailMessage)
             ->subject(config('app.name') . ': invitation ')

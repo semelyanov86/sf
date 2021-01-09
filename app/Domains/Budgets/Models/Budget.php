@@ -68,7 +68,11 @@ class Budget extends Model
 
     public function getPlanAttribute($value): ?\Akaunting\Money\Money
     {
-        return $value ? money($value, \Auth::user()->currency->code) : null;
+        $code = \Auth::user()?->currency?->code;
+        if (!$code) {
+            return null;
+        }
+        return $value ? money($value, $code) : null;
     }
 
     public function setPlanAttribute($value): void

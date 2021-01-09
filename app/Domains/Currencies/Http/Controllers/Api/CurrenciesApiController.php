@@ -20,7 +20,7 @@ class CurrenciesApiController extends Controller
         return new CurrencyResource(Currency::with(['users'])->get());
     }
 
-    public function store(StoreCurrencyRequest $request): static
+    public function store(StoreCurrencyRequest $request): \Illuminate\Http\JsonResponse
     {
         $currency = Currency::create($request->all());
         $currency->users()->sync($request->input('users', []));
@@ -37,7 +37,7 @@ class CurrenciesApiController extends Controller
         return new CurrencyResource($currency->load(['users']));
     }
 
-    public function update(UpdateCurrencyRequest $request, Currency $currency): static
+    public function update(UpdateCurrencyRequest $request, Currency $currency): \Illuminate\Http\JsonResponse
     {
         $currency->update($request->all());
         $currency->users()->sync($request->input('users', []));

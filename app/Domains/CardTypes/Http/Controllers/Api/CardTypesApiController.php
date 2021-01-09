@@ -20,7 +20,7 @@ class CardTypesApiController extends Controller
         return new CardTypeResource(CardType::all());
     }
 
-    public function store(StoreCardTypeRequest $request): static
+    public function store(StoreCardTypeRequest $request): \Illuminate\Http\JsonResponse
     {
         $cardType = CardType::create($request->all());
 
@@ -36,7 +36,7 @@ class CardTypesApiController extends Controller
         return new CardTypeResource($cardType);
     }
 
-    public function update(UpdateCardTypeRequest $request, CardType $cardType): static
+    public function update(UpdateCardTypeRequest $request, CardType $cardType): \Illuminate\Http\JsonResponse
     {
         $cardType->update($request->all());
 

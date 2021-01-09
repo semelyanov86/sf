@@ -88,7 +88,7 @@ class User extends UserModel
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function getIsAdminAttribute()
+    public function getIsAdminAttribute(): bool
     {
         return $this->roles()->where('id', 1)->exists();
     }
@@ -137,11 +137,13 @@ class User extends UserModel
 
     public function getEmailVerifiedAtAttribute($value): ?string
     {
+        /** @psalm-suppress PossiblyFalseReference */
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
     }
 
     public function setEmailVerifiedAtAttribute($value): void
     {
+        /** @psalm-suppress PossiblyFalseReference */
         $this->attributes['email_verified_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
     }
 
@@ -159,11 +161,13 @@ class User extends UserModel
 
     public function getVerifiedAtAttribute($value): ?string
     {
+        /** @psalm-suppress PossiblyFalseReference */
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
     }
 
     public function setVerifiedAtAttribute($value): void
     {
+        /** @psalm-suppress PossiblyFalseReference */
         $this->attributes['verified_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
     }
 

@@ -23,7 +23,7 @@ class TargetsApiController extends Controller
         return new TargetResource(Target::with(['target_category', 'currency', 'account_from', 'user', 'team'])->get());
     }
 
-    public function store(StoreTargetRequest $request): static
+    public function store(StoreTargetRequest $request): \Illuminate\Http\JsonResponse
     {
         $target = Target::create($request->all());
 
@@ -43,7 +43,7 @@ class TargetsApiController extends Controller
         return new TargetResource($target->load(['target_category', 'currency', 'account_from', 'user', 'team']));
     }
 
-    public function update(UpdateTargetRequest $request, Target $target): static
+    public function update(UpdateTargetRequest $request, Target $target): \Illuminate\Http\JsonResponse
     {
         $target->update($request->all());
 

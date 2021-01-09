@@ -20,7 +20,7 @@ class AccountsApiController extends Controller
         return new AccountResource(Account::with(['account_type', 'currency', 'bank', 'team'])->get());
     }
 
-    public function store(StoreAccountRequest $request): static
+    public function store(StoreAccountRequest $request): \Illuminate\Http\JsonResponse
     {
         $account = Account::create($request->all());
 
@@ -36,7 +36,7 @@ class AccountsApiController extends Controller
         return new AccountResource($account->load(['account_type', 'currency', 'bank', 'team']));
     }
 
-    public function update(UpdateAccountRequest $request, Account $account): static
+    public function update(UpdateAccountRequest $request, Account $account): \Illuminate\Http\JsonResponse
     {
         $account->update($request->all());
 

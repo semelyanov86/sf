@@ -2,10 +2,13 @@
 
 namespace Support\CsvImport\Traits;
 
+use Illuminate\Support\Pluralizer;
+use Parents\Exceptions\InternalErrorException;
 use Parents\Requests\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use SpreadsheetReader;
+use Support\CsvImport\Exceptions\InvalidFileException;
 
 trait CsvImportTrait
 {
@@ -63,14 +66,23 @@ trait CsvImportTrait
         }
     }
 
-    public function parseCsvImport(Request $request): \Illuminate\View\View
+    /**
+     * @param  Request  $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Exception
+     * @psalm-suppress PossiblyInvalidMethodCall
+     */
+    public function parseCsvImport(Request $request): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $file = $request->file('csv_file');
+        if (!$file) {
+            throw new InvalidFileException('Error in getting file!');
+        }
         $request->validate([
             'csv_file' => 'mimes:csv,txt',
         ]);
 
-        $path      = $file->path();
+        $path      = $file?->path();
         $hasHeader = $request->input('header', false) ? true : false;
 
         $reader  = new SpreadsheetReader($path);
@@ -83,7 +95,8 @@ trait CsvImportTrait
         $file->storeAs('csv_import', $filename);
 
         $modelName     = $request->input('model', false);
-        $fullModelName = "App\Models\\" . $modelName;
+        $resourceKey = Pluralizer::plural($modelName);
+        $fullModelName = "\Domains\\" . $resourceKey . "Models\\" . $modelName;
 
         $model     = new $fullModelName();
         $fillables = $model->getFillable();

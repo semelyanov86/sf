@@ -16,13 +16,15 @@ class UpdateAutoBrandRequest extends FormRequest
 
     public function rules(): array
     {
+        /** @psalm-suppress all */
+        $id = request()->route('auto_brand')->id;
         return [
             'name' => [
                 'string',
                 'min:2',
                 'max:100',
                 'required',
-                'unique:auto_brands,name,' . request()->route('auto_brand')->id,
+                'unique:auto_brands,name,' . $id,
             ],
         ];
     }
