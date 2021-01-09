@@ -18,7 +18,7 @@ class UsersController extends Controller
 {
     use CsvImportTrait;
 
-    public function index(): \Illuminate\View\View
+    public function index(): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -31,7 +31,7 @@ class UsersController extends Controller
         return view('admin.users.index', compact('users', 'roles', 'teams'));
     }
 
-    public function create(): \Illuminate\View\View
+    public function create(): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -50,7 +50,7 @@ class UsersController extends Controller
         return redirect()->route('admin.users.index');
     }
 
-    public function edit(User $user): \Illuminate\View\View
+    public function edit(User $user): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -58,7 +58,7 @@ class UsersController extends Controller
 
         $teams = Team::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $user->load('roles', 'team');
+        $user->load(['roles', 'team']);
 
         return view('admin.users.edit', compact('roles', 'teams', 'user'));
     }
@@ -71,11 +71,11 @@ class UsersController extends Controller
         return redirect()->route('admin.users.index');
     }
 
-    public function show(User $user): \Illuminate\View\View
+    public function show(User $user): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $user->load('roles', 'team', 'userOperations', 'usersCurrencies');
+        $user->load(['roles', 'team', 'userOperations', 'usersCurrencies']);
 
         return view('admin.users.show', compact('user'));
     }

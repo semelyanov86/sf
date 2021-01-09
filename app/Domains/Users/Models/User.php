@@ -159,13 +159,13 @@ class User extends UserModel
         $this->notify(new ResetPassword($token));
     }
 
-    public function getVerifiedAtAttribute($value): ?string
+    public function getVerifiedAtAttribute(?string $value): ?string
     {
         /** @psalm-suppress PossiblyFalseReference */
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
     }
 
-    public function setVerifiedAtAttribute($value): void
+    public function setVerifiedAtAttribute(?string $value): void
     {
         /** @psalm-suppress PossiblyFalseReference */
         $this->attributes['verified_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
