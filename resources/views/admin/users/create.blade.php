@@ -198,8 +198,8 @@
                 <label class="required">{{ trans('cruds.user.fields.sms_days_before') }}</label>
                 <select class="form-control {{ $errors->has('sms_days_before') ? 'is-invalid' : '' }}" name="sms_days_before" id="sms_days_before" required>
                     <option value disabled {{ old('sms_days_before', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(Domains\Users\Models\User::SMS_DAYS_BEFORE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('sms_days_before', '0') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @foreach(\Domains\Users\Enums\SmsDayBefore::getInstances() as $key => $label)
+                        <option value="{{ $label->value }}" {{ old('sms_days_before', '0') === (string) $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('sms_days_before'))
@@ -223,8 +223,8 @@
                 <label>{{ trans('cruds.user.fields.language') }}</label>
                 <select class="form-control {{ $errors->has('language') ? 'is-invalid' : '' }}" name="language" id="language">
                     <option value disabled {{ old('language', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(Domains\Users\Models\User::LANGUAGE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('language', 'ru_ru') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @foreach(\Domains\Users\Enums\LanguageEnum::getInstances() as $key => $label)
+                        <option value="{{ $label->value }}" {{ old('language', 'ru_ru') === (string) $label->value ? 'selected' : '' }}>{{$label->description}}</option>
                     @endforeach
                 </select>
                 @if($errors->has('language'))

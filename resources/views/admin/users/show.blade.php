@@ -166,7 +166,7 @@
                             {{ trans('cruds.user.fields.sms_days_before') }}
                         </th>
                         <td>
-                            {{ Domains\Users\Models\User::SMS_DAYS_BEFORE_SELECT[$user->sms_days_before] ?? '' }}
+                            {{ \Domains\Users\Enums\LanguageEnum::fromValue($user->language)?->description ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -182,7 +182,7 @@
                             {{ trans('cruds.user.fields.language') }}
                         </th>
                         <td>
-                            {{ Domains\Users\Models\User::LANGUAGE_SELECT[$user->language] ?? '' }}
+                            {{ \Domains\Users\Enums\LanguageEnum::fromValue($user->language)?->description ?? '' }}
                         </td>
                     </tr>
                 </tbody>

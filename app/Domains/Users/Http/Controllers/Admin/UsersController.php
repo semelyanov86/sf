@@ -2,6 +2,7 @@
 
 namespace Domains\Users\Http\Controllers\Admin;
 
+use Domains\Users\Enums\LanguageEnum;
 use Parents\Controllers\WebController as Controller;
 use Support\CsvImport\Traits\CsvImportTrait;
 use Domains\Users\Http\Requests\MassDestroyUserRequest;

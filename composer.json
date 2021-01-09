@@ -10,6 +10,7 @@
     "require": {
         "php": "^8.0",
         "akaunting/money": "^1.2",
+        "bensampo/laravel-enum": "^3.2",
         "bugsnag/bugsnag-laravel": "^2.20",
         "darkaonline/l5-swagger": "^8.0",
         "doctrine/dbal": "^2.10",
@@ -25,7 +26,6 @@
         "nuovo/spreadsheet-reader": "^0.5.11",
         "predis/predis": "^1.1",
         "spatie/data-transfer-object": "^2.6",
-        "spatie/laravel-enum": "^2.2",
         "spatie/laravel-medialibrary": "^9.4.1",
         "spatie/laravel-query-builder": "^3.3",
         "spatie/laravel-tags": "^3.0",

@@ -22,26 +22,12 @@ class User extends UserModel
         'password',
     ];
 
-    const LANGUAGE_SELECT = [
-        'ru_ru' => 'Russian',
-        'en_us' => 'English',
-    ];
-
     protected $dates = [
         'email_verified_at',
         'verified_at',
         'created_at',
         'updated_at',
         'deleted_at',
-    ];
-
-    const SMS_DAYS_BEFORE_SELECT = [
-        '0'  => 'The same day',
-        '1'  => 'Before 1 day',
-        '2'  => 'Before 2 days',
-        '3'  => 'Before 3 days',
-        '7'  => 'Before week',
-        '31' => 'Before month',
     ];
 
     const MAIL_DAYS_BEFORE_SELECT = [
