@@ -13,14 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AccountTypesApiController extends Controller
 {
-    public function index()
+    public function index(): AccountTypeResource
     {
         abort_if(Gate::denies('account_type_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new AccountTypeResource(AccountType::all());
     }
 
-    public function store(StoreAccountTypeRequest $request)
+    public function store(StoreAccountTypeRequest $request): static
     {
         $accountType = AccountType::create($request->all());
 
@@ -29,14 +29,14 @@ class AccountTypesApiController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(AccountType $accountType)
+    public function show(AccountType $accountType): AccountTypeResource
     {
         abort_if(Gate::denies('account_type_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new AccountTypeResource($accountType);
     }
 
-    public function update(UpdateAccountTypeRequest $request, AccountType $accountType)
+    public function update(UpdateAccountTypeRequest $request, AccountType $accountType): static
     {
         $accountType->update($request->all());
 
@@ -45,7 +45,7 @@ class AccountTypesApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(AccountType $accountType)
+    public function destroy(AccountType $accountType): \Illuminate\Http\Response
     {
         abort_if(Gate::denies('account_type_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

@@ -14,71 +14,82 @@ use Symfony\Component\HttpFoundation\Response;
 class PermissionsApiController extends Controller
 {
     /**
-     * @OA\Get(
+     * @OA\Get (
      *      path="/permissions",
      *      operationId="getPermissionsList",
      *      tags={"Permissions"},
      *      summary="Get list of permissions in system",
      *      description="Returns list of permissions",
-     *     @OA\Response(
+     *
+     * @OA\Response (
      *         response=200,
      *         description="successful operation",
-     *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Permission")
-     *         ),
-     *         @OA\XmlContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Permission")
-     *         )
-     *     ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=403,
      *          description="Forbidden"
      *      )
      *     )
+     *
+     * @OA\JsonContent (
+     *             type="array",
+     *
+     * @OA\Items (ref="#/components/schemas/Permission")
+     *         ),
+     * @OA\Items (ref="#/components/schemas/Permission")
+     *         )
+     *     ),
+     *
+     * @OA\XmlContent (
+     *             type="array",
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         abort_if(Gate::denies('permission_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return PermissionResource::collection(Permission::all());
     }
     /**
-     * @OA\Post(
+     * @OA\Post (
      *      path="/[permissions]",
      *      operationId="storePermission",
      *      tags={"Permissions"},
      *      summary="Store new permission",
      *      description="Returns permission data",
-     *      @OA\RequestBody(
+     *
+     * @OA\RequestBody (
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/StorePermissionRequest")
+     *
+     * @OA\JsonContent (ref="#/components/schemas/StorePermissionRequest")
      *      ),
-     *      @OA\Response(
+     * @OA\JsonContent (ref="#/components/schemas/Permission")
+     *       ),
+     *
+     * @OA\Response (
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Permission")
-     *       ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=400,
      *          description="Bad Request"
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=403,
      *          description="Forbidden"
      *      )
      * )
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StorePermissionRequest $request)
+    public function store(StorePermissionRequest $request): static
     {
         $permission = Permission::create($request->all());
 
@@ -87,90 +98,103 @@ class PermissionsApiController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
     /**
-     * @OA\Get(
+     * @OA\Get (
      *      path="/permissions/{id}",
      *      operationId="getPermissionById",
      *      tags={"Permissions"},
      *      summary="Get permission information",
      *      description="Returns permission data",
-     *      @OA\Parameter(
+     *
+     * @OA\Parameter (
      *          name="id",
      *          description="Permission id",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(
+     *
+     * @OA\Schema (
      *              type="integer"
      *          )
      *      ),
-     *      @OA\Response(
+     *
+     * @OA\Response (
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/User")
-     *       ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=400,
      *          description="Bad Request"
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=403,
      *          description="Forbidden"
      *      )
      * )
+     *
+     * @OA\JsonContent (ref="#/components/schemas/User")
+     *       ),
+     *
+     * @return PermissionResource
      */
-    public function show(Permission $permission)
+    public function show(Permission $permission): PermissionResource
     {
         abort_if(Gate::denies('permission_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new PermissionResource($permission);
     }
     /**
-     * @OA\Put(
+     * @OA\Put (
      *      path="/permissions/{id}",
      *      operationId="updatePermission",
      *      tags={"Permissions"},
      *      summary="Update existing permission",
      *      description="Returns updated permission data",
-     *      @OA\Parameter(
+     *
+     * @OA\Parameter (
      *          name="id",
      *          description="Permission id",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(
+     *
+     * @OA\Schema (
      *              type="integer"
      *          )
      *      ),
-     *      @OA\RequestBody(
+     *
+     * @OA\RequestBody (
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/UpdatePermissionRequest")
+     *
+     * @OA\JsonContent (ref="#/components/schemas/UpdatePermissionRequest")
      *      ),
-     *      @OA\Response(
+     * @OA\JsonContent (ref="#/components/schemas/Permission")
+     *       ),
+     *
+     * @OA\Response (
      *          response=202,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Permission")
-     *       ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=400,
      *          description="Bad Request"
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=403,
      *          description="Forbidden"
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=404,
      *          description="Resource Not Found"
      *      )
      * )
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdatePermissionRequest $request, Permission $permission)
+    public function update(UpdatePermissionRequest $request, Permission $permission): static
     {
         $permission->update($request->all());
 
@@ -179,41 +203,47 @@ class PermissionsApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
     /**
-     * @OA\Delete(
+     * @OA\Delete (
      *      path="/permissions/{id}",
      *      operationId="deletePermission",
      *      tags={"Permissions"},
      *      summary="Delete existing permission",
      *      description="Deletes a record and returns no content",
-     *      @OA\Parameter(
+     *
+     * @OA\Parameter (
      *          name="id",
      *          description="Permission id",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(
+     *
+     * @OA\Schema (
      *              type="integer"
      *          )
      *      ),
-     *      @OA\Response(
+     *
+     * @OA\Response (
      *          response=204,
      *          description="Successful operation",
-     *          @OA\JsonContent()
-     *       ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=403,
      *          description="Forbidden"
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=404,
      *          description="Resource Not Found"
      *      )
      * )
+     *
+     * @OA\JsonContent ()
+     *       ),
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function destroy(Permission $permission)
+    public function destroy(Permission $permission): \Illuminate\Http\Response
     {
         abort_if(Gate::denies('permission_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

@@ -12,14 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CountriesApiController extends Controller
 {
-    public function index()
+    public function index(): CountryResource
     {
         abort_if(Gate::denies('country_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new CountryResource(Country::all());
     }
 
-    public function store(StoreCountryRequest $request)
+    public function store(StoreCountryRequest $request): static
     {
         $country = Country::create($request->all());
 
@@ -28,14 +28,14 @@ class CountriesApiController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(Country $country)
+    public function show(Country $country): CountryResource
     {
         abort_if(Gate::denies('country_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new CountryResource($country);
     }
 
-    public function update(UpdateCountryRequest $request, Country $country)
+    public function update(UpdateCountryRequest $request, Country $country): static
     {
         $country->update($request->all());
 
@@ -44,7 +44,7 @@ class CountriesApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Country $country)
+    public function destroy(Country $country): \Illuminate\Http\Response
     {
         abort_if(Gate::denies('country_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

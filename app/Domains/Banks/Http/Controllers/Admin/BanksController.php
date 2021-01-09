@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BanksController extends Controller
 {
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         abort_if(Gate::denies('bank_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -23,7 +23,7 @@ class BanksController extends Controller
         return view('admin.banks.index', compact('banks'));
     }
 
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         abort_if(Gate::denies('bank_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -32,14 +32,14 @@ class BanksController extends Controller
         return view('admin.banks.create', compact('countries'));
     }
 
-    public function store(StoreBankRequest $request)
+    public function store(StoreBankRequest $request): \Illuminate\Http\RedirectResponse
     {
         $bank = Bank::create($request->all());
 
         return redirect()->route('admin.banks.index');
     }
 
-    public function edit(Bank $bank)
+    public function edit(Bank $bank): \Illuminate\View\View
     {
         abort_if(Gate::denies('bank_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -50,14 +50,14 @@ class BanksController extends Controller
         return view('admin.banks.edit', compact('countries', 'bank'));
     }
 
-    public function update(UpdateBankRequest $request, Bank $bank)
+    public function update(UpdateBankRequest $request, Bank $bank): \Illuminate\Http\RedirectResponse
     {
         $bank->update($request->all());
 
         return redirect()->route('admin.banks.index');
     }
 
-    public function show(Bank $bank)
+    public function show(Bank $bank): \Illuminate\View\View
     {
         abort_if(Gate::denies('bank_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -66,7 +66,7 @@ class BanksController extends Controller
         return view('admin.banks.show', compact('bank'));
     }
 
-    public function destroy(Bank $bank)
+    public function destroy(Bank $bank): \Illuminate\Http\RedirectResponse
     {
         abort_if(Gate::denies('bank_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -75,7 +75,7 @@ class BanksController extends Controller
         return back();
     }
 
-    public function massDestroy(MassDestroyBankRequest $request)
+    public function massDestroy(MassDestroyBankRequest $request): \Illuminate\Http\Response
     {
         Bank::whereIn('id', request('ids'))->delete();
 

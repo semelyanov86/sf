@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 class UserVerificationController extends Controller
 {
-    public function approve($token)
+    public function approve($token): static
     {
         $user = User::where('verification_token', $token)->first();
         abort_if(!$user, 404);

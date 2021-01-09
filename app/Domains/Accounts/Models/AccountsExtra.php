@@ -139,97 +139,112 @@ class AccountsExtra extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function card_type()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<CardType>
+     */
+    public function card_type(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(CardType::class, 'card_type_id');
     }
 
-    public function getCardExpireDateAttribute($value)
+    public function getCardExpireDateAttribute($value): ?string
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function setCardExpireDateAttribute($value)
+    public function setCardExpireDateAttribute($value): void
     {
         $this->attributes['card_expire_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
-    public function getAccountOpenDateAttribute($value)
+    public function getAccountOpenDateAttribute($value): ?string
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function setAccountOpenDateAttribute($value)
+    public function setAccountOpenDateAttribute($value): void
     {
         $this->attributes['account_open_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
-    public function getAccountCloseDateAttribute($value)
+    public function getAccountCloseDateAttribute($value): ?string
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function setAccountCloseDateAttribute($value)
+    public function setAccountCloseDateAttribute($value): void
     {
         $this->attributes['account_close_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
-    public function getLoanGiveDateAttribute($value)
+    public function getLoanGiveDateAttribute($value): ?string
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function setLoanGiveDateAttribute($value)
+    public function setLoanGiveDateAttribute($value): void
     {
         $this->attributes['loan_give_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
-    public function getLoanTakeDateAttribute($value)
+    public function getLoanTakeDateAttribute($value): ?string
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function setLoanTakeDateAttribute($value)
+    public function setLoanTakeDateAttribute($value): void
     {
         $this->attributes['loan_take_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
-    public function getImmovablesPurchaseDateAttribute($value)
+    public function getImmovablesPurchaseDateAttribute($value): ?string
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function setImmovablesPurchaseDateAttribute($value)
+    public function setImmovablesPurchaseDateAttribute($value): void
     {
         $this->attributes['immovables_purchase_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
-    public function auto_brand()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<AutoBrand>
+     */
+    public function auto_brand(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(AutoBrand::class, 'auto_brand_id');
     }
 
-    public function getAutoPurchaseDateAttribute($value)
+    public function getAutoPurchaseDateAttribute($value): ?string
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function setAutoPurchaseDateAttribute($value)
+    public function setAutoPurchaseDateAttribute($value): void
     {
         $this->attributes['auto_purchase_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
-    public function team()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Team>
+     */
+    public function team(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Team::class, 'team_id');
     }
 
-    public function getCardYearCostAttribute($value)
+    public function getCardYearCostAttribute($value): ?\Akaunting\Money\Money
     {
         return $value ? money($value, \Auth::user()->currency->code) : null;
     }
 
-    public function setCardYearCostAttribute($value)
+    public function setCardYearCostAttribute($value): void
     {
         $this->attributes['card_year_cost'] = $value ? $value * 100 : null;
     }

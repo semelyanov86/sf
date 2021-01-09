@@ -105,32 +105,47 @@ class User extends UserModel
         });
     }
 
-    public function userOperations()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\HasMany<Operation>
+     */
+    public function userOperations(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Operation::class, 'user_id', 'id');
     }
 
-    public function usersCurrencies()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsToMany<Currency>
+     */
+    public function usersCurrencies(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Currency::class);
     }
 
-    public function currency()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Currency>
+     */
+    public function currency(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Currency::class, 'primary_currency');
     }
 
-    public function getEmailVerifiedAtAttribute($value)
+    public function getEmailVerifiedAtAttribute($value): ?string
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
     }
 
-    public function setEmailVerifiedAtAttribute($value)
+    public function setEmailVerifiedAtAttribute($value): void
     {
         $this->attributes['email_verified_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
     }
 
-    public function setPasswordAttribute($input)
+    public function setPasswordAttribute($input): void
     {
         if ($input) {
             $this->attributes['password'] = app('hash')->needsRehash($input) ? Hash::make($input) : $input;
@@ -142,22 +157,32 @@ class User extends UserModel
         $this->notify(new ResetPassword($token));
     }
 
-    public function getVerifiedAtAttribute($value)
+    public function getVerifiedAtAttribute($value): ?string
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
     }
 
-    public function setVerifiedAtAttribute($value)
+    public function setVerifiedAtAttribute($value): void
     {
         $this->attributes['verified_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
     }
 
-    public function roles()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsToMany<Role>
+     */
+    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Role::class);
     }
 
-    public function team()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Team>
+     */
+    public function team(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Team::class, 'team_id');
     }

@@ -14,71 +14,82 @@ use Symfony\Component\HttpFoundation\Response;
 class RolesApiController extends Controller
 {
     /**
-     * @OA\Get(
+     * @OA\Get (
      *      path="/roles",
      *      operationId="getRolesList",
      *      tags={"Roles"},
      *      summary="Get list of roles in system",
      *      description="Returns list of roles",
-     *     @OA\Response(
+     *
+     * @OA\Response (
      *         response=200,
      *         description="successful operation",
-     *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Role")
-     *         ),
-     *         @OA\XmlContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Role")
-     *         )
-     *     ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=403,
      *          description="Forbidden"
      *      )
      *     )
+     *
+     * @OA\JsonContent (
+     *             type="array",
+     *
+     * @OA\Items (ref="#/components/schemas/Role")
+     *         ),
+     * @OA\Items (ref="#/components/schemas/Role")
+     *         )
+     *     ),
+     *
+     * @OA\XmlContent (
+     *             type="array",
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         abort_if(Gate::denies('role_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return RoleResource::collection(Role::with(['permissions'])->get());
     }
     /**
-     * @OA\Post(
+     * @OA\Post (
      *      path="/[roles]",
      *      operationId="storeRole",
      *      tags={"Roles"},
      *      summary="Store new role",
      *      description="Returns role data",
-     *      @OA\RequestBody(
+     *
+     * @OA\RequestBody (
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/StoreRoleRequest")
+     *
+     * @OA\JsonContent (ref="#/components/schemas/StoreRoleRequest")
      *      ),
-     *      @OA\Response(
+     * @OA\JsonContent (ref="#/components/schemas/Role")
+     *       ),
+     *
+     * @OA\Response (
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Role")
-     *       ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=400,
      *          description="Bad Request"
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=403,
      *          description="Forbidden"
      *      )
      * )
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreRoleRequest $request)
+    public function store(StoreRoleRequest $request): static
     {
         $role = Role::create($request->all());
         $role->permissions()->sync($request->input('permissions', []));
@@ -88,90 +99,103 @@ class RolesApiController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
     /**
-     * @OA\Get(
+     * @OA\Get (
      *      path="/roles/{id}",
      *      operationId="getRoleById",
      *      tags={"Roles"},
      *      summary="Get role information",
      *      description="Returns role data",
-     *      @OA\Parameter(
+     *
+     * @OA\Parameter (
      *          name="id",
      *          description="Role id",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(
+     *
+     * @OA\Schema (
      *              type="integer"
      *          )
      *      ),
-     *      @OA\Response(
+     *
+     * @OA\Response (
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Role")
-     *       ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=400,
      *          description="Bad Request"
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=403,
      *          description="Forbidden"
      *      )
      * )
+     *
+     * @OA\JsonContent (ref="#/components/schemas/Role")
+     *       ),
+     *
+     * @return RoleResource
      */
-    public function show(Role $role)
+    public function show(Role $role): RoleResource
     {
         abort_if(Gate::denies('role_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new RoleResource($role->load(['permissions']));
     }
     /**
-     * @OA\Put(
+     * @OA\Put (
      *      path="/role/{id}",
      *      operationId="updateRole",
      *      tags={"Roles"},
      *      summary="Update existing role",
      *      description="Returns updated role data",
-     *      @OA\Parameter(
+     *
+     * @OA\Parameter (
      *          name="id",
      *          description="Role id",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(
+     *
+     * @OA\Schema (
      *              type="integer"
      *          )
      *      ),
-     *      @OA\RequestBody(
+     *
+     * @OA\RequestBody (
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/UpdateRoleRequest")
+     *
+     * @OA\JsonContent (ref="#/components/schemas/UpdateRoleRequest")
      *      ),
-     *      @OA\Response(
+     * @OA\JsonContent (ref="#/components/schemas/Role")
+     *       ),
+     *
+     * @OA\Response (
      *          response=202,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Role")
-     *       ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=400,
      *          description="Bad Request"
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=403,
      *          description="Forbidden"
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=404,
      *          description="Resource Not Found"
      *      )
      * )
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateRoleRequest $request, Role $role)
+    public function update(UpdateRoleRequest $request, Role $role): static
     {
         $role->update($request->all());
         $role->permissions()->sync($request->input('permissions', []));
@@ -181,41 +205,47 @@ class RolesApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
     /**
-     * @OA\Delete(
+     * @OA\Delete (
      *      path="/roles/{id}",
      *      operationId="deleteRole",
      *      tags={"Roles"},
      *      summary="Delete existing role",
      *      description="Deletes a record and returns no content",
-     *      @OA\Parameter(
+     *
+     * @OA\Parameter (
      *          name="id",
      *          description="Role id",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(
+     *
+     * @OA\Schema (
      *              type="integer"
      *          )
      *      ),
-     *      @OA\Response(
+     *
+     * @OA\Response (
      *          response=204,
      *          description="Successful operation",
-     *          @OA\JsonContent()
-     *       ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=403,
      *          description="Forbidden"
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=404,
      *          description="Resource Not Found"
      *      )
      * )
+     *
+     * @OA\JsonContent ()
+     *       ),
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function destroy(Role $role)
+    public function destroy(Role $role): \Illuminate\Http\Response
     {
         abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

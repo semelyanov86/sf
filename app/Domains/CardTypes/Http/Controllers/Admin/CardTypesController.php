@@ -16,7 +16,7 @@ class CardTypesController extends Controller
 {
     use CsvImportTrait;
 
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         abort_if(Gate::denies('card_type_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -25,42 +25,42 @@ class CardTypesController extends Controller
         return view('admin.cardTypes.index', compact('cardTypes'));
     }
 
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         abort_if(Gate::denies('card_type_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.cardTypes.create');
     }
 
-    public function store(StoreCardTypeRequest $request)
+    public function store(StoreCardTypeRequest $request): \Illuminate\Http\RedirectResponse
     {
         $cardType = CardType::create($request->all());
 
         return redirect()->route('admin.card-types.index');
     }
 
-    public function edit(CardType $cardType)
+    public function edit(CardType $cardType): \Illuminate\View\View
     {
         abort_if(Gate::denies('card_type_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.cardTypes.edit', compact('cardType'));
     }
 
-    public function update(UpdateCardTypeRequest $request, CardType $cardType)
+    public function update(UpdateCardTypeRequest $request, CardType $cardType): \Illuminate\Http\RedirectResponse
     {
         $cardType->update($request->all());
 
         return redirect()->route('admin.card-types.index');
     }
 
-    public function show(CardType $cardType)
+    public function show(CardType $cardType): \Illuminate\View\View
     {
         abort_if(Gate::denies('card_type_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.cardTypes.show', compact('cardType'));
     }
 
-    public function destroy(CardType $cardType)
+    public function destroy(CardType $cardType): \Illuminate\Http\RedirectResponse
     {
         abort_if(Gate::denies('card_type_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -69,7 +69,7 @@ class CardTypesController extends Controller
         return back();
     }
 
-    public function massDestroy(MassDestroyCardTypeRequest $request)
+    public function massDestroy(MassDestroyCardTypeRequest $request): \Illuminate\Http\Response
     {
         CardType::whereIn('id', request('ids'))->delete();
 

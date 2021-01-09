@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CountriesController extends Controller
 {
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         abort_if(Gate::denies('country_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -21,35 +21,35 @@ class CountriesController extends Controller
         return view('admin.countries.index', compact('countries'));
     }
 
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         abort_if(Gate::denies('country_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.countries.create');
     }
 
-    public function store(StoreCountryRequest $request)
+    public function store(StoreCountryRequest $request): \Illuminate\Http\RedirectResponse
     {
         $country = Country::create($request->all());
 
         return redirect()->route('admin.countries.index');
     }
 
-    public function edit(Country $country)
+    public function edit(Country $country): \Illuminate\View\View
     {
         abort_if(Gate::denies('country_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.countries.edit', compact('country'));
     }
 
-    public function update(UpdateCountryRequest $request, Country $country)
+    public function update(UpdateCountryRequest $request, Country $country): \Illuminate\Http\RedirectResponse
     {
         $country->update($request->all());
 
         return redirect()->route('admin.countries.index');
     }
 
-    public function show(Country $country)
+    public function show(Country $country): \Illuminate\View\View
     {
         abort_if(Gate::denies('country_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -58,7 +58,7 @@ class CountriesController extends Controller
         return view('admin.countries.show', compact('country'));
     }
 
-    public function destroy(Country $country)
+    public function destroy(Country $country): \Illuminate\Http\RedirectResponse
     {
         abort_if(Gate::denies('country_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -67,7 +67,7 @@ class CountriesController extends Controller
         return back();
     }
 
-    public function massDestroy(MassDestroyCountryRequest $request)
+    public function massDestroy(MassDestroyCountryRequest $request): \Illuminate\Http\Response
     {
         Country::whereIn('id', request('ids'))->delete();
 

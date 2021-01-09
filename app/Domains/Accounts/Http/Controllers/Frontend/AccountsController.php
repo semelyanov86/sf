@@ -19,7 +19,7 @@ class AccountsController extends Controller
 {
     use CsvImportTrait;
 
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         abort_if(Gate::denies('account_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -28,7 +28,7 @@ class AccountsController extends Controller
         return view('frontend.accounts.index', compact('accounts'));
     }
 
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         abort_if(Gate::denies('account_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -41,14 +41,14 @@ class AccountsController extends Controller
         return view('frontend.accounts.create', compact('account_types', 'currencies', 'banks'));
     }
 
-    public function store(StoreAccountRequest $request)
+    public function store(StoreAccountRequest $request): \Illuminate\Http\RedirectResponse
     {
         $account = Account::create($request->all());
 
         return redirect()->route('frontend.accounts.index');
     }
 
-    public function edit(Account $account)
+    public function edit(Account $account): \Illuminate\View\View
     {
         abort_if(Gate::denies('account_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -63,14 +63,14 @@ class AccountsController extends Controller
         return view('frontend.accounts.edit', compact('account_types', 'currencies', 'banks', 'account'));
     }
 
-    public function update(UpdateAccountRequest $request, Account $account)
+    public function update(UpdateAccountRequest $request, Account $account): \Illuminate\Http\RedirectResponse
     {
         $account->update($request->all());
 
         return redirect()->route('frontend.accounts.index');
     }
 
-    public function show(Account $account)
+    public function show(Account $account): \Illuminate\View\View
     {
         abort_if(Gate::denies('account_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -79,7 +79,7 @@ class AccountsController extends Controller
         return view('frontend.accounts.show', compact('account'));
     }
 
-    public function destroy(Account $account)
+    public function destroy(Account $account): \Illuminate\Http\RedirectResponse
     {
         abort_if(Gate::denies('account_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -88,7 +88,7 @@ class AccountsController extends Controller
         return back();
     }
 
-    public function massDestroy(MassDestroyAccountRequest $request)
+    public function massDestroy(MassDestroyAccountRequest $request): \Illuminate\Http\Response
     {
         Account::whereIn('id', request('ids'))->delete();
 

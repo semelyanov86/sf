@@ -9,7 +9,7 @@ use SpreadsheetReader;
 
 trait CsvImportTrait
 {
-    public function processCsvImport(Request $request)
+    public function processCsvImport(Request $request): \Illuminate\Http\RedirectResponse
     {
         try {
             $filename = $request->input('filename', false);
@@ -63,7 +63,7 @@ trait CsvImportTrait
         }
     }
 
-    public function parseCsvImport(Request $request)
+    public function parseCsvImport(Request $request): \Illuminate\View\View
     {
         $file = $request->file('csv_file');
         $request->validate([

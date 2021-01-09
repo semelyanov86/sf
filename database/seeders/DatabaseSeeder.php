@@ -20,7 +20,7 @@ use Parents\Seeders\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $this->call([
             PermissionsTableSeeder::class,

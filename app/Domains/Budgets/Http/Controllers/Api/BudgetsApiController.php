@@ -13,14 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BudgetsApiController extends Controller
 {
-    public function index()
+    public function index(): BudgetResource
     {
         abort_if(Gate::denies('budget_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new BudgetResource(Budget::with(['category', 'user', 'team'])->get());
     }
 
-    public function store(StoreBudgetRequest $request)
+    public function store(StoreBudgetRequest $request): static
     {
         $budget = Budget::create($request->all());
 
@@ -29,14 +29,14 @@ class BudgetsApiController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(Budget $budget)
+    public function show(Budget $budget): BudgetResource
     {
         abort_if(Gate::denies('budget_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new BudgetResource($budget->load(['category', 'user', 'team']));
     }
 
-    public function update(UpdateBudgetRequest $request, Budget $budget)
+    public function update(UpdateBudgetRequest $request, Budget $budget): static
     {
         $budget->update($request->all());
 
@@ -45,7 +45,7 @@ class BudgetsApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Budget $budget)
+    public function destroy(Budget $budget): \Illuminate\Http\Response
     {
         abort_if(Gate::denies('budget_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

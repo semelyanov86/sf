@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HiddenCategoriesController extends Controller
 {
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         abort_if(Gate::denies('hidden_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -24,7 +24,7 @@ class HiddenCategoriesController extends Controller
         return view('admin.hiddenCategories.index', compact('hiddenCategories'));
     }
 
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         abort_if(Gate::denies('hidden_category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -35,14 +35,14 @@ class HiddenCategoriesController extends Controller
         return view('admin.hiddenCategories.create', compact('categories', 'users'));
     }
 
-    public function store(StoreHiddenCategoryRequest $request)
+    public function store(StoreHiddenCategoryRequest $request): \Illuminate\Http\RedirectResponse
     {
         $hiddenCategory = HiddenCategory::create($request->all());
 
         return redirect()->route('admin.hidden-categories.index');
     }
 
-    public function edit(HiddenCategory $hiddenCategory)
+    public function edit(HiddenCategory $hiddenCategory): \Illuminate\View\View
     {
         abort_if(Gate::denies('hidden_category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -55,14 +55,14 @@ class HiddenCategoriesController extends Controller
         return view('admin.hiddenCategories.edit', compact('categories', 'users', 'hiddenCategory'));
     }
 
-    public function update(UpdateHiddenCategoryRequest $request, HiddenCategory $hiddenCategory)
+    public function update(UpdateHiddenCategoryRequest $request, HiddenCategory $hiddenCategory): \Illuminate\Http\RedirectResponse
     {
         $hiddenCategory->update($request->all());
 
         return redirect()->route('admin.hidden-categories.index');
     }
 
-    public function show(HiddenCategory $hiddenCategory)
+    public function show(HiddenCategory $hiddenCategory): \Illuminate\View\View
     {
         abort_if(Gate::denies('hidden_category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -71,7 +71,7 @@ class HiddenCategoriesController extends Controller
         return view('admin.hiddenCategories.show', compact('hiddenCategory'));
     }
 
-    public function destroy(HiddenCategory $hiddenCategory)
+    public function destroy(HiddenCategory $hiddenCategory): \Illuminate\Http\RedirectResponse
     {
         abort_if(Gate::denies('hidden_category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -80,7 +80,7 @@ class HiddenCategoriesController extends Controller
         return back();
     }
 
-    public function massDestroy(MassDestroyHiddenCategoryRequest $request)
+    public function massDestroy(MassDestroyHiddenCategoryRequest $request): \Illuminate\Http\Response
     {
         HiddenCategory::whereIn('id', request('ids'))->delete();
 

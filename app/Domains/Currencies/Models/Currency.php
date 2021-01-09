@@ -34,17 +34,22 @@ class Currency extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function getUpdateDateAttribute($value)
+    public function getUpdateDateAttribute($value): ?string
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function setUpdateDateAttribute($value)
+    public function setUpdateDateAttribute($value): void
     {
         $this->attributes['update_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
-    public function users()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsToMany<User>
+     */
+    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(User::class);
     }

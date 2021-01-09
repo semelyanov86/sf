@@ -13,14 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CategoriesApiController extends Controller
 {
-    public function index()
+    public function index(): CategoryResource
     {
         abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new CategoryResource(Category::all());
     }
 
-    public function store(StoreCategoryRequest $request)
+    public function store(StoreCategoryRequest $request): static
     {
         $category = Category::create($request->all());
 
@@ -29,14 +29,14 @@ class CategoriesApiController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(Category $category)
+    public function show(Category $category): CategoryResource
     {
         abort_if(Gate::denies('category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new CategoryResource($category);
     }
 
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category): static
     {
         $category->update($request->all());
 
@@ -45,7 +45,7 @@ class CategoriesApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Category $category)
+    public function destroy(Category $category): \Illuminate\Http\Response
     {
         abort_if(Gate::denies('category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

@@ -13,14 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AutoBrandsApiController extends Controller
 {
-    public function index()
+    public function index(): AutoBrandResource
     {
         abort_if(Gate::denies('auto_brand_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new AutoBrandResource(AutoBrand::all());
     }
 
-    public function store(StoreAutoBrandRequest $request)
+    public function store(StoreAutoBrandRequest $request): static
     {
         $autoBrand = AutoBrand::create($request->all());
 
@@ -29,14 +29,14 @@ class AutoBrandsApiController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(AutoBrand $autoBrand)
+    public function show(AutoBrand $autoBrand): AutoBrandResource
     {
         abort_if(Gate::denies('auto_brand_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new AutoBrandResource($autoBrand);
     }
 
-    public function update(UpdateAutoBrandRequest $request, AutoBrand $autoBrand)
+    public function update(UpdateAutoBrandRequest $request, AutoBrand $autoBrand): static
     {
         $autoBrand->update($request->all());
 
@@ -45,7 +45,7 @@ class AutoBrandsApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(AutoBrand $autoBrand)
+    public function destroy(AutoBrand $autoBrand): \Illuminate\Http\Response
     {
         abort_if(Gate::denies('auto_brand_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

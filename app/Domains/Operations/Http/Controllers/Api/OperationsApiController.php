@@ -16,14 +16,14 @@ class OperationsApiController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index()
+    public function index(): OperationResource
     {
         abort_if(Gate::denies('operation_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new OperationResource(Operation::with(['source_account', 'to_account', 'category', 'user', 'team'])->get());
     }
 
-    public function store(StoreOperationRequest $request)
+    public function store(StoreOperationRequest $request): static
     {
         $operation = Operation::create($request->all());
 
@@ -36,14 +36,14 @@ class OperationsApiController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(Operation $operation)
+    public function show(Operation $operation): OperationResource
     {
         abort_if(Gate::denies('operation_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new OperationResource($operation->load(['source_account', 'to_account', 'category', 'user', 'team']));
     }
 
-    public function update(UpdateOperationRequest $request, Operation $operation)
+    public function update(UpdateOperationRequest $request, Operation $operation): static
     {
         $operation->update($request->all());
 
@@ -64,7 +64,7 @@ class OperationsApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Operation $operation)
+    public function destroy(Operation $operation): \Illuminate\Http\Response
     {
         abort_if(Gate::denies('operation_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

@@ -9,12 +9,17 @@ use Response;
 
 class UpdatePermissionRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         return Gate::allows('permission_edit');
     }
 
-    public function rules()
+    /**
+     * @return string[][]
+     *
+     * @psalm-return array{title: array{0: string, 1: string}}
+     */
+    public function rules(): array
     {
         return [
             'title' => [

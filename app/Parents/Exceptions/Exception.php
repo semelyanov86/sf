@@ -129,8 +129,12 @@ abstract class Exception extends SymfonyHttpException
      * @param $statusCode
      * @param $message
      * @param $code
+     * @param int|null $statusCode
+     * @param null|string $message
+     *
+     * @return void
      */
-    private function logTheError($statusCode, $message, $code)
+    private function logTheError(?int $statusCode, ?string $message, int $code): void
     {
         // if not testing environment, log the error message
         if ($this->environment != 'testing') {

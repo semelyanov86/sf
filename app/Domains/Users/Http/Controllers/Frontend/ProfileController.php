@@ -11,12 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProfileController extends Controller
 {
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         return view('frontend.profile');
     }
 
-    public function update(UpdateProfileRequest $request)
+    public function update(UpdateProfileRequest $request): static
     {
         $user = auth()->user();
 
@@ -25,7 +25,7 @@ class ProfileController extends Controller
         return redirect()->route('frontend.profile.index')->with('message', __('global.update_profile_success'));
     }
 
-    public function destroy()
+    public function destroy(): static
     {
         $user = auth()->user();
 
@@ -38,7 +38,7 @@ class ProfileController extends Controller
         return redirect()->route('login')->with('message', __('global.delete_account_success'));
     }
 
-    public function password(UpdatePasswordRequest $request)
+    public function password(UpdatePasswordRequest $request): static
     {
         auth()->user()->update($request->validated());
 

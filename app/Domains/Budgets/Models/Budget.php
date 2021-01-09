@@ -36,27 +36,42 @@ class Budget extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function category()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Category>
+     */
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
 
-    public function user()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
+     */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function team()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Team>
+     */
+    public function team(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Team::class, 'team_id');
     }
 
-    public function getPlanAttribute($value)
+    public function getPlanAttribute($value): ?\Akaunting\Money\Money
     {
         return $value ? money($value, \Auth::user()->currency->code) : null;
     }
 
-    public function setPlanAttribute($value)
+    public function setPlanAttribute($value): void
     {
         $this->attributes['plan'] = $value ? $value * 100 : null;
     }

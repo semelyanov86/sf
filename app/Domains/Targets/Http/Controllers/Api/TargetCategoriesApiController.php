@@ -16,14 +16,14 @@ class TargetCategoriesApiController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index()
+    public function index(): TargetCategoryResource
     {
         abort_if(Gate::denies('target_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new TargetCategoryResource(TargetCategory::all());
     }
 
-    public function store(StoreTargetCategoryRequest $request)
+    public function store(StoreTargetCategoryRequest $request): static
     {
         $targetCategory = TargetCategory::create($request->all());
 
@@ -36,14 +36,14 @@ class TargetCategoriesApiController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(TargetCategory $targetCategory)
+    public function show(TargetCategory $targetCategory): TargetCategoryResource
     {
         abort_if(Gate::denies('target_category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new TargetCategoryResource($targetCategory);
     }
 
-    public function update(UpdateTargetCategoryRequest $request, TargetCategory $targetCategory)
+    public function update(UpdateTargetCategoryRequest $request, TargetCategory $targetCategory): static
     {
         $targetCategory->update($request->all());
 
@@ -64,7 +64,7 @@ class TargetCategoriesApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(TargetCategory $targetCategory)
+    public function destroy(TargetCategory $targetCategory): \Illuminate\Http\Response
     {
         abort_if(Gate::denies('target_category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

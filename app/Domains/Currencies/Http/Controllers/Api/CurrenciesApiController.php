@@ -13,14 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CurrenciesApiController extends Controller
 {
-    public function index()
+    public function index(): CurrencyResource
     {
         abort_if(Gate::denies('currency_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new CurrencyResource(Currency::with(['users'])->get());
     }
 
-    public function store(StoreCurrencyRequest $request)
+    public function store(StoreCurrencyRequest $request): static
     {
         $currency = Currency::create($request->all());
         $currency->users()->sync($request->input('users', []));
@@ -30,14 +30,14 @@ class CurrenciesApiController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(Currency $currency)
+    public function show(Currency $currency): CurrencyResource
     {
         abort_if(Gate::denies('currency_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new CurrencyResource($currency->load(['users']));
     }
 
-    public function update(UpdateCurrencyRequest $request, Currency $currency)
+    public function update(UpdateCurrencyRequest $request, Currency $currency): static
     {
         $currency->update($request->all());
         $currency->users()->sync($request->input('users', []));
@@ -47,7 +47,7 @@ class CurrenciesApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Currency $currency)
+    public function destroy(Currency $currency): \Illuminate\Http\Response
     {
         abort_if(Gate::denies('currency_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

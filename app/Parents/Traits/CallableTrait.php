@@ -93,14 +93,15 @@ trait CallableTrait
     }
 
     /**
-     *
      * $this->ui is coming, should be attached on the parent controller, from where the actions was called.
      * It can be WebController and ApiController. Each of them has ui, to inform the action
      * if it needs to handle the request differently.
      *
      * @param $class
+     *
+     * @return void
      */
-    private function setUIIfExist($class)
+    private function setUIIfExist($class): void
     {
         if (method_exists($class, 'setUI') && property_exists($this, 'ui')) {
             $class->setUI($this->ui);
@@ -110,8 +111,10 @@ trait CallableTrait
     /**
      * @param $class
      * @param $extraMethodsToCall
+     *
+     * @return void
      */
-    private function callExtraMethods($class, $extraMethodsToCall)
+    private function callExtraMethods($class, $extraMethodsToCall): void
     {
         // allows calling other methods in the class before calling the main `run` function.
         foreach ($extraMethodsToCall as $methodInfo) {
@@ -128,8 +131,10 @@ trait CallableTrait
     /**
      * @param $class
      * @param $methodInfo
+     *
+     * @return void
      */
-    private function callWithArguments($class, $methodInfo)
+    private function callWithArguments($class, $methodInfo): void
     {
         $method = key($methodInfo);
         $arguments = $methodInfo[$method];
@@ -141,8 +146,10 @@ trait CallableTrait
     /**
      * @param $class
      * @param $methodInfo
+     *
+     * @return void
      */
-    private function callWithoutArguments($class, $methodInfo)
+    private function callWithoutArguments($class, $methodInfo): void
     {
         if (method_exists($class, $methodInfo)) {
             $class->$methodInfo();

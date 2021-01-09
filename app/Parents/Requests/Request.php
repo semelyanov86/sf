@@ -115,8 +115,10 @@ class Request extends LaravelRequest
      * Be sure you know what you do!
      *
      * @param array $fields
+     *
+     * @return void
      */
-    public function mapInput(array $fields)
+    public function mapInput(array $fields): void
     {
         $data = $this->all();
 
@@ -205,7 +207,7 @@ class Request extends LaravelRequest
      *
      * @return  array
      */
-    private function hasAnyPermissionAccess($user)
+    private function hasAnyPermissionAccess(User $user)
     {
         if (!array_key_exists('permissions', $this->access) || !$this->access['permissions']) {
             return [];
@@ -227,7 +229,7 @@ class Request extends LaravelRequest
      *
      * @return  array
      */
-    private function hasAnyRoleAccess($user)
+    private function hasAnyRoleAccess(User $user)
     {
         if (!array_key_exists('roles', $this->access) || !$this->access['roles']) {
             return [];

@@ -6,7 +6,7 @@ use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
 class HomeController
 {
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         $settings1 = [
             'chart_title'           => trans('global.operations-30-days'),

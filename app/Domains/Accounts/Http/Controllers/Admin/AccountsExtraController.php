@@ -18,7 +18,7 @@ class AccountsExtraController extends Controller
 {
     use CsvImportTrait;
 
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         abort_if(Gate::denies('accounts_extra_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -27,7 +27,7 @@ class AccountsExtraController extends Controller
         return view('admin.accountsExtras.index', compact('accountsExtras'));
     }
 
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         abort_if(Gate::denies('accounts_extra_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -38,14 +38,14 @@ class AccountsExtraController extends Controller
         return view('admin.accountsExtras.create', compact('card_types', 'auto_brands'));
     }
 
-    public function store(StoreAccountsExtraRequest $request)
+    public function store(StoreAccountsExtraRequest $request): \Illuminate\Http\RedirectResponse
     {
         $accountsExtra = AccountsExtra::create($request->all());
 
         return redirect()->route('admin.accounts-extras.index');
     }
 
-    public function edit(AccountsExtra $accountsExtra)
+    public function edit(AccountsExtra $accountsExtra): \Illuminate\View\View
     {
         abort_if(Gate::denies('accounts_extra_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -58,14 +58,14 @@ class AccountsExtraController extends Controller
         return view('admin.accountsExtras.edit', compact('card_types', 'auto_brands', 'accountsExtra'));
     }
 
-    public function update(UpdateAccountsExtraRequest $request, AccountsExtra $accountsExtra)
+    public function update(UpdateAccountsExtraRequest $request, AccountsExtra $accountsExtra): \Illuminate\Http\RedirectResponse
     {
         $accountsExtra->update($request->all());
 
         return redirect()->route('admin.accounts-extras.index');
     }
 
-    public function show(AccountsExtra $accountsExtra)
+    public function show(AccountsExtra $accountsExtra): \Illuminate\View\View
     {
         abort_if(Gate::denies('accounts_extra_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -74,7 +74,7 @@ class AccountsExtraController extends Controller
         return view('admin.accountsExtras.show', compact('accountsExtra'));
     }
 
-    public function destroy(AccountsExtra $accountsExtra)
+    public function destroy(AccountsExtra $accountsExtra): \Illuminate\Http\RedirectResponse
     {
         abort_if(Gate::denies('accounts_extra_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -83,7 +83,7 @@ class AccountsExtraController extends Controller
         return back();
     }
 
-    public function massDestroy(MassDestroyAccountsExtraRequest $request)
+    public function massDestroy(MassDestroyAccountsExtraRequest $request): \Illuminate\Http\Response
     {
         AccountsExtra::whereIn('id', request('ids'))->delete();
 

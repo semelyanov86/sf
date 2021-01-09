@@ -72,12 +72,12 @@ class Operation extends Model implements HasMedia
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
-    public function getDoneAtAttribute($value)
+    public function getDoneAtAttribute($value): ?string
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function getAmountAttribute($value)
+    public function getAmountAttribute($value): ?Money
     {
         return $value ? money($value, \Auth::user()->currency->code) : null;
     }
@@ -87,42 +87,67 @@ class Operation extends Model implements HasMedia
         return $value / 100;
     }
 
-    public function setDoneAtAttribute($value)
+    public function setDoneAtAttribute($value): void
     {
         $this->attributes['done_at'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
-    public function setAmountAttribute($value)
+    public function setAmountAttribute($value): void
     {
         $this->attributes['amount'] = $value ? $value * 100 : null;
     }
 
-    public function source_account()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Account>
+     */
+    public function source_account(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Account::class, 'source_account_id');
     }
 
-    public function to_account()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Account>
+     */
+    public function to_account(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Account::class, 'to_account_id');
     }
 
-    public function category()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Category>
+     */
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
 
-    public function user()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
+     */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function getAttachmentAttribute()
+    public function getAttachmentAttribute(): ?\Illuminate\Database\Eloquent\Model
     {
         return $this->getMedia('attachment')->last();
     }
 
-    public function team()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Team>
+     */
+    public function team(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Team::class, 'team_id');
     }

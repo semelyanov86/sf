@@ -13,14 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AccountsExtraApiController extends Controller
 {
-    public function index()
+    public function index(): AccountsExtraResource
     {
         abort_if(Gate::denies('accounts_extra_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new AccountsExtraResource(AccountsExtra::with(['card_type', 'auto_brand', 'team'])->get());
     }
 
-    public function store(StoreAccountsExtraRequest $request)
+    public function store(StoreAccountsExtraRequest $request): static
     {
         $accountsExtra = AccountsExtra::create($request->all());
 
@@ -29,14 +29,14 @@ class AccountsExtraApiController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(AccountsExtra $accountsExtra)
+    public function show(AccountsExtra $accountsExtra): AccountsExtraResource
     {
         abort_if(Gate::denies('accounts_extra_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new AccountsExtraResource($accountsExtra->load(['card_type', 'auto_brand', 'team']));
     }
 
-    public function update(UpdateAccountsExtraRequest $request, AccountsExtra $accountsExtra)
+    public function update(UpdateAccountsExtraRequest $request, AccountsExtra $accountsExtra): static
     {
         $accountsExtra->update($request->all());
 
@@ -45,7 +45,7 @@ class AccountsExtraApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(AccountsExtra $accountsExtra)
+    public function destroy(AccountsExtra $accountsExtra): \Illuminate\Http\Response
     {
         abort_if(Gate::denies('accounts_extra_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

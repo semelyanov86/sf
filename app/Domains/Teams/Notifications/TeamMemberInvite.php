@@ -18,7 +18,12 @@ class TeamMemberInvite extends Notification
         $this->url = $url;
     }
 
-    public function via($notifiable)
+    /**
+     * @return string[]
+     *
+     * @psalm-return array{0: string}
+     */
+    public function via($notifiable): array
     {
         return ['mail'];
     }
@@ -28,7 +33,7 @@ class TeamMemberInvite extends Notification
         return $this->getMessage();
     }
 
-    public function getMessage()
+    public function getMessage(): static
     {
         return (new MailMessage)
             ->subject(config('app.name') . ': invitation ')

@@ -13,14 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BanksApiController extends Controller
 {
-    public function index()
+    public function index(): BankResource
     {
         abort_if(Gate::denies('bank_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new BankResource(Bank::with(['country'])->get());
     }
 
-    public function store(StoreBankRequest $request)
+    public function store(StoreBankRequest $request): static
     {
         $bank = Bank::create($request->all());
 
@@ -29,14 +29,14 @@ class BanksApiController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(Bank $bank)
+    public function show(Bank $bank): BankResource
     {
         abort_if(Gate::denies('bank_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new BankResource($bank->load(['country']));
     }
 
-    public function update(UpdateBankRequest $request, Bank $bank)
+    public function update(UpdateBankRequest $request, Bank $bank): static
     {
         $bank->update($request->all());
 
@@ -45,7 +45,7 @@ class BanksApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Bank $bank)
+    public function destroy(Bank $bank): \Illuminate\Http\Response
     {
         abort_if(Gate::denies('bank_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

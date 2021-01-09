@@ -83,7 +83,7 @@ class RegisterController extends Controller
         return $user;
     }
 
-    public function showRegistrationForm()
+    public function showRegistrationForm(): \Illuminate\View\View|\Illuminate\Http\RedirectResponse
     {
         if (request()->has('signature') && !request()->hasValidSignature()) {
             return redirect()->route('register');

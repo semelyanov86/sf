@@ -7,7 +7,7 @@ use Parents\Seeders\Seeder;
 
 class CurrenciesTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $currencies = [
             ["id"=>"1", "code"=> "RUB", "name"=> "Российский рубль"],

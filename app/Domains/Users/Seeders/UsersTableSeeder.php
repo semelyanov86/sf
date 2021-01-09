@@ -7,7 +7,7 @@ use Parents\Seeders\Seeder;
 
 class UsersTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $users = [
             [

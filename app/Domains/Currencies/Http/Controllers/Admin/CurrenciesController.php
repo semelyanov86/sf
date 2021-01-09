@@ -17,7 +17,7 @@ class CurrenciesController extends Controller
 {
     use CsvImportTrait;
 
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         abort_if(Gate::denies('currency_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -26,7 +26,7 @@ class CurrenciesController extends Controller
         return view('admin.currencies.index', compact('currencies'));
     }
 
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         abort_if(Gate::denies('currency_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -35,7 +35,7 @@ class CurrenciesController extends Controller
         return view('admin.currencies.create', compact('users'));
     }
 
-    public function store(StoreCurrencyRequest $request)
+    public function store(StoreCurrencyRequest $request): \Illuminate\Http\RedirectResponse
     {
         $currency = Currency::create($request->all());
         $currency->users()->sync($request->input('users', []));
@@ -43,7 +43,7 @@ class CurrenciesController extends Controller
         return redirect()->route('admin.currencies.index');
     }
 
-    public function edit(Currency $currency)
+    public function edit(Currency $currency): \Illuminate\View\View
     {
         abort_if(Gate::denies('currency_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -54,7 +54,7 @@ class CurrenciesController extends Controller
         return view('admin.currencies.edit', compact('users', 'currency'));
     }
 
-    public function update(UpdateCurrencyRequest $request, Currency $currency)
+    public function update(UpdateCurrencyRequest $request, Currency $currency): \Illuminate\Http\RedirectResponse
     {
         $currency->update($request->all());
         $currency->users()->sync($request->input('users', []));
@@ -62,7 +62,7 @@ class CurrenciesController extends Controller
         return redirect()->route('admin.currencies.index');
     }
 
-    public function show(Currency $currency)
+    public function show(Currency $currency): \Illuminate\View\View
     {
         abort_if(Gate::denies('currency_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -71,7 +71,7 @@ class CurrenciesController extends Controller
         return view('admin.currencies.show', compact('currency'));
     }
 
-    public function destroy(Currency $currency)
+    public function destroy(Currency $currency): \Illuminate\Http\RedirectResponse
     {
         abort_if(Gate::denies('currency_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -80,7 +80,7 @@ class CurrenciesController extends Controller
         return back();
     }
 
-    public function massDestroy(MassDestroyCurrencyRequest $request)
+    public function massDestroy(MassDestroyCurrencyRequest $request): \Illuminate\Http\Response
     {
         Currency::whereIn('id', request('ids'))->delete();
 

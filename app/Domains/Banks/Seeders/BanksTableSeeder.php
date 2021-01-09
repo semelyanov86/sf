@@ -7,7 +7,7 @@ use Parents\Seeders\Seeder;
 
 class BanksTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $banks = [
             ["id" => "1", "name" => "TalkBank 5% cashback", "country_id" => 176],

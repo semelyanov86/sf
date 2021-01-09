@@ -64,7 +64,7 @@ class BudgetsController extends Controller
         return view('admin.budgets.index');
     }
 
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         abort_if(Gate::denies('budget_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -75,14 +75,14 @@ class BudgetsController extends Controller
         return view('admin.budgets.create', compact('categories', 'users'));
     }
 
-    public function store(StoreBudgetRequest $request)
+    public function store(StoreBudgetRequest $request): \Illuminate\Http\RedirectResponse
     {
         $budget = Budget::create($request->all());
 
         return redirect()->route('admin.budgets.index');
     }
 
-    public function edit(Budget $budget)
+    public function edit(Budget $budget): \Illuminate\View\View
     {
         abort_if(Gate::denies('budget_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -95,14 +95,14 @@ class BudgetsController extends Controller
         return view('admin.budgets.edit', compact('categories', 'users', 'budget'));
     }
 
-    public function update(UpdateBudgetRequest $request, Budget $budget)
+    public function update(UpdateBudgetRequest $request, Budget $budget): \Illuminate\Http\RedirectResponse
     {
         $budget->update($request->all());
 
         return redirect()->route('admin.budgets.index');
     }
 
-    public function show(Budget $budget)
+    public function show(Budget $budget): \Illuminate\View\View
     {
         abort_if(Gate::denies('budget_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -111,7 +111,7 @@ class BudgetsController extends Controller
         return view('admin.budgets.show', compact('budget'));
     }
 
-    public function destroy(Budget $budget)
+    public function destroy(Budget $budget): \Illuminate\Http\RedirectResponse
     {
         abort_if(Gate::denies('budget_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -120,7 +120,7 @@ class BudgetsController extends Controller
         return back();
     }
 
-    public function massDestroy(MassDestroyBudgetRequest $request)
+    public function massDestroy(MassDestroyBudgetRequest $request): \Illuminate\Http\Response
     {
         Budget::whereIn('id', request('ids'))->delete();
 

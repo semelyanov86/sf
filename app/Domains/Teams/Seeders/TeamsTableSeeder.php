@@ -8,7 +8,7 @@ use Parents\Seeders\Seeder;
 
 class TeamsTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $teams = [
             [

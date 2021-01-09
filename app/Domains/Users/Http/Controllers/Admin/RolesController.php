@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RolesController extends Controller
 {
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         abort_if(Gate::denies('role_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -23,7 +23,7 @@ class RolesController extends Controller
         return view('admin.roles.index', compact('roles'));
     }
 
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         abort_if(Gate::denies('role_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -32,7 +32,7 @@ class RolesController extends Controller
         return view('admin.roles.create', compact('permissions'));
     }
 
-    public function store(StoreRoleRequest $request)
+    public function store(StoreRoleRequest $request): \Illuminate\Http\RedirectResponse
     {
         $role = Role::create($request->all());
         $role->permissions()->sync($request->input('permissions', []));
@@ -40,7 +40,7 @@ class RolesController extends Controller
         return redirect()->route('admin.roles.index');
     }
 
-    public function edit(Role $role)
+    public function edit(Role $role): \Illuminate\View\View
     {
         abort_if(Gate::denies('role_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -51,7 +51,7 @@ class RolesController extends Controller
         return view('admin.roles.edit', compact('permissions', 'role'));
     }
 
-    public function update(UpdateRoleRequest $request, Role $role)
+    public function update(UpdateRoleRequest $request, Role $role): \Illuminate\Http\RedirectResponse
     {
         $role->update($request->all());
         $role->permissions()->sync($request->input('permissions', []));
@@ -59,7 +59,7 @@ class RolesController extends Controller
         return redirect()->route('admin.roles.index');
     }
 
-    public function show(Role $role)
+    public function show(Role $role): \Illuminate\View\View
     {
         abort_if(Gate::denies('role_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -68,7 +68,7 @@ class RolesController extends Controller
         return view('admin.roles.show', compact('role'));
     }
 
-    public function destroy(Role $role)
+    public function destroy(Role $role): \Illuminate\Http\RedirectResponse
     {
         abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -77,7 +77,7 @@ class RolesController extends Controller
         return back();
     }
 
-    public function massDestroy(MassDestroyRoleRequest $request)
+    public function massDestroy(MassDestroyRoleRequest $request): \Illuminate\Http\Response
     {
         Role::whereIn('id', request('ids'))->delete();
 

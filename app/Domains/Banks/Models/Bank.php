@@ -31,7 +31,12 @@ class Bank extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function country()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Country>
+     */
+    public function country(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Country::class, 'country_id');
     }

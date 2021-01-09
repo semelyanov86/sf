@@ -73,47 +73,67 @@ class Target extends Model implements HasMedia
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
-    public function target_category()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<TargetCategory>
+     */
+    public function target_category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(TargetCategory::class, 'target_category_id');
     }
 
-    public function currency()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Currency>
+     */
+    public function currency(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Currency::class, 'currency_id');
     }
 
-    public function account_from()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Account>
+     */
+    public function account_from(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Account::class, 'account_from_id');
     }
 
-    public function user()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
+     */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function getFirstPayDateAttribute($value)
+    public function getFirstPayDateAttribute($value): ?string
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function setFirstPayDateAttribute($value)
+    public function setFirstPayDateAttribute($value): void
     {
         $this->attributes['first_pay_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
-    public function getPayToDateAttribute($value)
+    public function getPayToDateAttribute($value): ?string
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function setPayToDateAttribute($value)
+    public function setPayToDateAttribute($value): void
     {
         $this->attributes['pay_to_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
-    public function getImageAttribute()
+    public function getImageAttribute(): ?\Illuminate\Database\Eloquent\Model
     {
         $file = $this->getMedia('image')->last();
 
@@ -126,27 +146,32 @@ class Target extends Model implements HasMedia
         return $file;
     }
 
-    public function team()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Team>
+     */
+    public function team(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Team::class, 'team_id');
     }
 
-    public function getAmountAttribute($value)
+    public function getAmountAttribute($value): ?\Akaunting\Money\Money
     {
         return $value ? money($value, \Auth::user()->currency->code) : null;
     }
 
-    public function setAmountAttribute($value)
+    public function setAmountAttribute($value): void
     {
         $this->attributes['amount'] = $value ? $value * 100 : null;
     }
 
-    public function getMonthlyPayAmountAttribute($value)
+    public function getMonthlyPayAmountAttribute($value): ?\Akaunting\Money\Money
     {
         return $value ? money($value, \Auth::user()->currency->code) : null;
     }
 
-    public function setMonthlyPayAmountAttribute($value)
+    public function setMonthlyPayAmountAttribute($value): void
     {
         $this->attributes['monthly_pay_amount'] = $value ? $value * 100 : null;
     }

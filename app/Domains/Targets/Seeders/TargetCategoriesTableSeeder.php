@@ -8,7 +8,7 @@ use Parents\Seeders\Seeder;
 
 class TargetCategoriesTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $categories = [
             ['id' => 1, 'target_category_name' => 'Долг по ипотеке', 'target_category_type' => '2'],

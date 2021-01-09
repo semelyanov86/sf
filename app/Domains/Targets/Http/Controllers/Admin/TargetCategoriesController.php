@@ -17,7 +17,7 @@ class TargetCategoriesController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         abort_if(Gate::denies('target_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -26,14 +26,14 @@ class TargetCategoriesController extends Controller
         return view('admin.targetCategories.index', compact('targetCategories'));
     }
 
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         abort_if(Gate::denies('target_category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.targetCategories.create');
     }
 
-    public function store(StoreTargetCategoryRequest $request)
+    public function store(StoreTargetCategoryRequest $request): \Illuminate\Http\RedirectResponse
     {
         $targetCategory = TargetCategory::create($request->all());
 
@@ -48,14 +48,14 @@ class TargetCategoriesController extends Controller
         return redirect()->route('admin.target-categories.index');
     }
 
-    public function edit(TargetCategory $targetCategory)
+    public function edit(TargetCategory $targetCategory): \Illuminate\View\View
     {
         abort_if(Gate::denies('target_category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.targetCategories.edit', compact('targetCategory'));
     }
 
-    public function update(UpdateTargetCategoryRequest $request, TargetCategory $targetCategory)
+    public function update(UpdateTargetCategoryRequest $request, TargetCategory $targetCategory): \Illuminate\Http\RedirectResponse
     {
         $targetCategory->update($request->all());
 
@@ -74,7 +74,7 @@ class TargetCategoriesController extends Controller
         return redirect()->route('admin.target-categories.index');
     }
 
-    public function show(TargetCategory $targetCategory)
+    public function show(TargetCategory $targetCategory): \Illuminate\View\View
     {
         abort_if(Gate::denies('target_category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -83,7 +83,7 @@ class TargetCategoriesController extends Controller
         return view('admin.targetCategories.show', compact('targetCategory'));
     }
 
-    public function destroy(TargetCategory $targetCategory)
+    public function destroy(TargetCategory $targetCategory): \Illuminate\Http\RedirectResponse
     {
         abort_if(Gate::denies('target_category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -92,14 +92,14 @@ class TargetCategoriesController extends Controller
         return back();
     }
 
-    public function massDestroy(MassDestroyTargetCategoryRequest $request)
+    public function massDestroy(MassDestroyTargetCategoryRequest $request): \Illuminate\Http\Response
     {
         TargetCategory::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function storeCKEditorImages(Request $request)
+    public function storeCKEditorImages(Request $request): \Illuminate\Http\JsonResponse
     {
         abort_if(Gate::denies('target_category_create') && Gate::denies('target_category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

@@ -21,7 +21,7 @@ class TargetsController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         abort_if(Gate::denies('target_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -30,7 +30,7 @@ class TargetsController extends Controller
         return view('frontend.targets.index', compact('targets'));
     }
 
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         abort_if(Gate::denies('target_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -45,7 +45,7 @@ class TargetsController extends Controller
         return view('frontend.targets.create', compact('target_categories', 'currencies', 'account_froms', 'users'));
     }
 
-    public function store(StoreTargetRequest $request)
+    public function store(StoreTargetRequest $request): \Illuminate\Http\RedirectResponse
     {
         $target = Target::create($request->all());
 
@@ -60,7 +60,7 @@ class TargetsController extends Controller
         return redirect()->route('frontend.targets.index');
     }
 
-    public function edit(Target $target)
+    public function edit(Target $target): \Illuminate\View\View
     {
         abort_if(Gate::denies('target_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -77,7 +77,7 @@ class TargetsController extends Controller
         return view('frontend.targets.edit', compact('target_categories', 'currencies', 'account_froms', 'users', 'target'));
     }
 
-    public function update(UpdateTargetRequest $request, Target $target)
+    public function update(UpdateTargetRequest $request, Target $target): \Illuminate\Http\RedirectResponse
     {
         $target->update($request->all());
 
@@ -96,7 +96,7 @@ class TargetsController extends Controller
         return redirect()->route('frontend.targets.index');
     }
 
-    public function show(Target $target)
+    public function show(Target $target): \Illuminate\View\View
     {
         abort_if(Gate::denies('target_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -105,7 +105,7 @@ class TargetsController extends Controller
         return view('frontend.targets.show', compact('target'));
     }
 
-    public function destroy(Target $target)
+    public function destroy(Target $target): \Illuminate\Http\RedirectResponse
     {
         abort_if(Gate::denies('target_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -114,14 +114,14 @@ class TargetsController extends Controller
         return back();
     }
 
-    public function massDestroy(MassDestroyTargetRequest $request)
+    public function massDestroy(MassDestroyTargetRequest $request): \Illuminate\Http\Response
     {
         Target::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function storeCKEditorImages(Request $request)
+    public function storeCKEditorImages(Request $request): \Illuminate\Http\JsonResponse
     {
         abort_if(Gate::denies('target_create') && Gate::denies('target_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

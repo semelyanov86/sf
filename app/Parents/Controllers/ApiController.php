@@ -117,10 +117,11 @@ abstract class ApiController extends Controller
      * @param int   $status
      * @param array $headers
      * @param int   $options
+     * @param null|string[] $message
      *
-     * @return  JsonResponse
+     * @return JsonResponse
      */
-    public function accepted($message = null, $status = 202, array $headers = [], $options = 0)
+    public function accepted(?array $message = null, $status = 202, array $headers = [], $options = 0)
     {
         return new JsonResponse($message, $status, $headers, $options);
     }

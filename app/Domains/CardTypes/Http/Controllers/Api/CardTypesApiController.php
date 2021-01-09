@@ -13,14 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CardTypesApiController extends Controller
 {
-    public function index()
+    public function index(): CardTypeResource
     {
         abort_if(Gate::denies('card_type_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new CardTypeResource(CardType::all());
     }
 
-    public function store(StoreCardTypeRequest $request)
+    public function store(StoreCardTypeRequest $request): static
     {
         $cardType = CardType::create($request->all());
 
@@ -29,14 +29,14 @@ class CardTypesApiController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(CardType $cardType)
+    public function show(CardType $cardType): CardTypeResource
     {
         abort_if(Gate::denies('card_type_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new CardTypeResource($cardType);
     }
 
-    public function update(UpdateCardTypeRequest $request, CardType $cardType)
+    public function update(UpdateCardTypeRequest $request, CardType $cardType): static
     {
         $cardType->update($request->all());
 
@@ -45,7 +45,7 @@ class CardTypesApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(CardType $cardType)
+    public function destroy(CardType $cardType): \Illuminate\Http\Response
     {
         abort_if(Gate::denies('card_type_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

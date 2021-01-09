@@ -30,7 +30,12 @@ class Team extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function owner()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
+     */
+    public function owner(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id');
     }

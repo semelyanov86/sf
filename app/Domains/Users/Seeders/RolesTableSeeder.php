@@ -7,7 +7,7 @@ use Parents\Seeders\Seeder;
 
 class RolesTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $roles = [
             [

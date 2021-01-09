@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 trait MultiTenantModelTrait
 {
-    public static function bootMultiTenantModelTrait()
+    public static function bootMultiTenantModelTrait(): void
     {
         if (!app()->runningInConsole() && auth()->check()) {
             $isAdmin = auth()->user()->roles->contains(1);

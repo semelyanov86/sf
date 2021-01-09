@@ -18,12 +18,17 @@ class VerifyUserNotification extends Notification
         $this->user = $user;
     }
 
-    public function via($notifiable)
+    /**
+     * @return string[]
+     *
+     * @psalm-return array{0: string}
+     */
+    public function via($notifiable): array
     {
         return ['mail'];
     }
 
-    public function toMail($notifiable)
+    public function toMail($notifiable): static
     {
         return (new MailMessage)
             ->line(trans('global.verifyYourUser'))
@@ -31,7 +36,12 @@ class VerifyUserNotification extends Notification
             ->line(trans('global.thankYouForUsingOurApplication'));
     }
 
-    public function toArray($notifiable)
+    /**
+     * @return array
+     *
+     * @psalm-return array<empty, empty>
+     */
+    public function toArray($notifiable): array
     {
         return [];
     }

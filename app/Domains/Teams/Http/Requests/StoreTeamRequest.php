@@ -9,12 +9,17 @@ use Illuminate\Http\Response;
 
 class StoreTeamRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         return Gate::allows('team_create');
     }
 
-    public function rules()
+    /**
+     * @return string[][]
+     *
+     * @psalm-return array{name: array{0: string, 1: string}}
+     */
+    public function rules(): array
     {
         return [
             'name' => [

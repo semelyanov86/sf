@@ -14,35 +14,41 @@ use Symfony\Component\HttpFoundation\Response;
 class UsersApiController extends Controller
 {
     /**
-     * @OA\Get(
+     * @OA\Get (
      *      path="/users",
      *      operationId="getUsersList",
      *      tags={"Users"},
      *      summary="Get list of users registered in system",
      *      description="Returns list of users",
-     *     @OA\Response(
+     *
+     * @OA\Response (
      *         response=200,
      *         description="successful operation",
-     *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/User")
-     *         ),
-     *         @OA\XmlContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/User")
-     *         )
-     *     ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
      *      ),
-     *      @OA\Response(
+     * @OA\Response (
      *          response=403,
      *          description="Forbidden"
      *      )
      *     )
+     *
+     * @OA\JsonContent (
+     *             type="array",
+     *
+     * @OA\Items (ref="#/components/schemas/User")
+     *         ),
+     * @OA\Items (ref="#/components/schemas/User")
+     *         )
+     *     ),
+     *
+     * @OA\XmlContent (
+     *             type="array",
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

@@ -7,7 +7,7 @@ use Parents\Seeders\Seeder;
 
 class AutoBrandsTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $brands = [
             ["id" => "1", "name" => "AC"],

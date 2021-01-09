@@ -16,7 +16,7 @@ class AccountTypesController extends Controller
 {
     use CsvImportTrait;
 
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         abort_if(Gate::denies('account_type_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -25,42 +25,42 @@ class AccountTypesController extends Controller
         return view('admin.accountTypes.index', compact('accountTypes'));
     }
 
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         abort_if(Gate::denies('account_type_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.accountTypes.create');
     }
 
-    public function store(StoreAccountTypeRequest $request)
+    public function store(StoreAccountTypeRequest $request): \Illuminate\Http\RedirectResponse
     {
         $accountType = AccountType::create($request->all());
 
         return redirect()->route('admin.account-types.index');
     }
 
-    public function edit(AccountType $accountType)
+    public function edit(AccountType $accountType): \Illuminate\View\View
     {
         abort_if(Gate::denies('account_type_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.accountTypes.edit', compact('accountType'));
     }
 
-    public function update(UpdateAccountTypeRequest $request, AccountType $accountType)
+    public function update(UpdateAccountTypeRequest $request, AccountType $accountType): \Illuminate\Http\RedirectResponse
     {
         $accountType->update($request->all());
 
         return redirect()->route('admin.account-types.index');
     }
 
-    public function show(AccountType $accountType)
+    public function show(AccountType $accountType): \Illuminate\View\View
     {
         abort_if(Gate::denies('account_type_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.accountTypes.show', compact('accountType'));
     }
 
-    public function destroy(AccountType $accountType)
+    public function destroy(AccountType $accountType): \Illuminate\Http\RedirectResponse
     {
         abort_if(Gate::denies('account_type_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -69,7 +69,7 @@ class AccountTypesController extends Controller
         return back();
     }
 
-    public function massDestroy(MassDestroyAccountTypeRequest $request)
+    public function massDestroy(MassDestroyAccountTypeRequest $request): \Illuminate\Http\Response
     {
         AccountType::whereIn('id', request('ids'))->delete();
 

@@ -28,7 +28,12 @@ class Role extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function permissions()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsToMany<Permission>
+     */
+    public function permissions(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Permission::class);
     }

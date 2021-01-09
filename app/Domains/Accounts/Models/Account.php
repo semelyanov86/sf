@@ -50,52 +50,82 @@ class Account extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function sourceAccountOperations()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\HasMany<Operation>
+     */
+    public function sourceAccountOperations(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Operation::class, 'source_account_id', 'id');
     }
 
-    public function accountFromTargets()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\HasMany<Target>
+     */
+    public function accountFromTargets(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Target::class, 'account_from_id', 'id');
     }
 
-    public function account_type()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<AccountType>
+     */
+    public function account_type(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(AccountType::class, 'account_type_id');
     }
 
-    public function currency()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Currency>
+     */
+    public function currency(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Currency::class, 'currency_id');
     }
 
-    public function bank()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Bank>
+     */
+    public function bank(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Bank::class, 'bank_id');
     }
 
-    public function team()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\BelongsTo<Team>
+     */
+    public function team(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Team::class, 'team_id');
     }
 
-    public function getStartBalanceAttribute($value)
+    public function getStartBalanceAttribute($value): ?\Akaunting\Money\Money
     {
         return $value ? money($value, \Auth::user()->currency->code) : null;
     }
 
-    public function setStartBalanceAttribute($value)
+    public function setStartBalanceAttribute($value): void
     {
         $this->attributes['start_balance'] = $value ? $value * 100 : null;
     }
 
-    public function getMarketValueAttribute($value)
+    public function getMarketValueAttribute($value): ?\Akaunting\Money\Money
     {
         return $value ? money($value, \Auth::user()->currency->code) : null;
     }
 
-    public function setMarketValueAttribute($value)
+    public function setMarketValueAttribute($value): void
     {
         $this->attributes['market_value'] = $value ? $value * 100 : null;
     }

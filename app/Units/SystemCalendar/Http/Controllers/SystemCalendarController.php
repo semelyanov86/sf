@@ -18,7 +18,7 @@ class SystemCalendarController extends Controller
         ],
     ];
 
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         $events = [];
 

@@ -14,7 +14,7 @@ class GlobalSearchController extends Controller
 
     ];
 
-    public function search(Request $request)
+    public function search(Request $request): \Illuminate\Http\JsonResponse
     {
         $search = $request->input('search');
 

@@ -80,7 +80,7 @@ class OperationsController extends Controller
         return view('admin.operations.index', compact('accounts', 'categories', 'users', 'teams'));
     }
 
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         abort_if(Gate::denies('operation_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -95,7 +95,7 @@ class OperationsController extends Controller
         return view('admin.operations.create', compact('source_accounts', 'to_accounts', 'categories', 'users'));
     }
 
-    public function store(StoreOperationRequest $request)
+    public function store(StoreOperationRequest $request): \Illuminate\Http\RedirectResponse
     {
         $operation = Operation::create($request->all());
 
@@ -110,7 +110,7 @@ class OperationsController extends Controller
         return redirect()->route('admin.operations.index');
     }
 
-    public function edit(Operation $operation)
+    public function edit(Operation $operation): \Illuminate\View\View
     {
         abort_if(Gate::denies('operation_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -127,7 +127,7 @@ class OperationsController extends Controller
         return view('admin.operations.edit', compact('source_accounts', 'to_accounts', 'categories', 'users', 'operation'));
     }
 
-    public function update(UpdateOperationRequest $request, Operation $operation)
+    public function update(UpdateOperationRequest $request, Operation $operation): \Illuminate\Http\RedirectResponse
     {
         $operation->update($request->all());
 
@@ -146,7 +146,7 @@ class OperationsController extends Controller
         return redirect()->route('admin.operations.index');
     }
 
-    public function show(Operation $operation)
+    public function show(Operation $operation): \Illuminate\View\View
     {
         abort_if(Gate::denies('operation_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -155,7 +155,7 @@ class OperationsController extends Controller
         return view('admin.operations.show', compact('operation'));
     }
 
-    public function destroy(Operation $operation)
+    public function destroy(Operation $operation): \Illuminate\Http\RedirectResponse
     {
         abort_if(Gate::denies('operation_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -164,14 +164,14 @@ class OperationsController extends Controller
         return back();
     }
 
-    public function massDestroy(MassDestroyOperationRequest $request)
+    public function massDestroy(MassDestroyOperationRequest $request): \Illuminate\Http\Response
     {
         Operation::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function storeCKEditorImages(Request $request)
+    public function storeCKEditorImages(Request $request): \Illuminate\Http\JsonResponse
     {
         abort_if(Gate::denies('operation_create') && Gate::denies('operation_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

@@ -42,22 +42,32 @@ class Category extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function categoryBudgets()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\HasMany<Budget>
+     */
+    public function categoryBudgets(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Budget::class, 'category_id', 'id');
     }
 
-    public function categoryOperations()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\HasMany<Operation>
+     */
+    public function categoryOperations(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Operation::class, 'category_id', 'id');
     }
 
-    public function getLastUsedAtAttribute($value)
+    public function getLastUsedAtAttribute($value): ?string
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
     }
 
-    public function setLastUsedAtAttribute($value)
+    public function setLastUsedAtAttribute($value): void
     {
         $this->attributes['last_used_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
     }

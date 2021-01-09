@@ -50,12 +50,17 @@ class TargetCategory extends Model implements HasMedia
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
-    public function targetCategoryTargets()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Relations\HasMany<Target>
+     */
+    public function targetCategoryTargets(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Target::class, 'target_category_id', 'id');
     }
 
-    public function getTargetCategoryImageAttribute()
+    public function getTargetCategoryImageAttribute(): ?\Illuminate\Database\Eloquent\Model
     {
         $file = $this->getMedia('target_category_image')->last();
 

@@ -7,7 +7,7 @@ use Parents\Seeders\Seeder;
 
 class CountriesTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $countries = [
             [

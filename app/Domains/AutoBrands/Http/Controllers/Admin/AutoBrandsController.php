@@ -16,7 +16,7 @@ class AutoBrandsController extends Controller
 {
     use CsvImportTrait;
 
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         abort_if(Gate::denies('auto_brand_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -25,42 +25,42 @@ class AutoBrandsController extends Controller
         return view('admin.autoBrands.index', compact('autoBrands'));
     }
 
-    public function create()
+    public function create(): \Illuminate\View\View
     {
         abort_if(Gate::denies('auto_brand_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.autoBrands.create');
     }
 
-    public function store(StoreAutoBrandRequest $request)
+    public function store(StoreAutoBrandRequest $request): \Illuminate\Http\RedirectResponse
     {
         $autoBrand = AutoBrand::create($request->all());
 
         return redirect()->route('admin.auto-brands.index');
     }
 
-    public function edit(AutoBrand $autoBrand)
+    public function edit(AutoBrand $autoBrand): \Illuminate\View\View
     {
         abort_if(Gate::denies('auto_brand_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.autoBrands.edit', compact('autoBrand'));
     }
 
-    public function update(UpdateAutoBrandRequest $request, AutoBrand $autoBrand)
+    public function update(UpdateAutoBrandRequest $request, AutoBrand $autoBrand): \Illuminate\Http\RedirectResponse
     {
         $autoBrand->update($request->all());
 
         return redirect()->route('admin.auto-brands.index');
     }
 
-    public function show(AutoBrand $autoBrand)
+    public function show(AutoBrand $autoBrand): \Illuminate\View\View
     {
         abort_if(Gate::denies('auto_brand_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.autoBrands.show', compact('autoBrand'));
     }
 
-    public function destroy(AutoBrand $autoBrand)
+    public function destroy(AutoBrand $autoBrand): \Illuminate\Http\RedirectResponse
     {
         abort_if(Gate::denies('auto_brand_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -69,7 +69,7 @@ class AutoBrandsController extends Controller
         return back();
     }
 
-    public function massDestroy(MassDestroyAutoBrandRequest $request)
+    public function massDestroy(MassDestroyAutoBrandRequest $request): \Illuminate\Http\Response
     {
         AutoBrand::whereIn('id', request('ids'))->delete();
 

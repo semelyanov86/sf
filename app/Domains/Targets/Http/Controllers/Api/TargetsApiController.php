@@ -16,14 +16,14 @@ class TargetsApiController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index()
+    public function index(): TargetResource
     {
         abort_if(Gate::denies('target_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new TargetResource(Target::with(['target_category', 'currency', 'account_from', 'user', 'team'])->get());
     }
 
-    public function store(StoreTargetRequest $request)
+    public function store(StoreTargetRequest $request): static
     {
         $target = Target::create($request->all());
 
@@ -36,14 +36,14 @@ class TargetsApiController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(Target $target)
+    public function show(Target $target): TargetResource
     {
         abort_if(Gate::denies('target_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new TargetResource($target->load(['target_category', 'currency', 'account_from', 'user', 'team']));
     }
 
-    public function update(UpdateTargetRequest $request, Target $target)
+    public function update(UpdateTargetRequest $request, Target $target): static
     {
         $target->update($request->all());
 
@@ -64,7 +64,7 @@ class TargetsApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Target $target)
+    public function destroy(Target $target): \Illuminate\Http\Response
     {
         abort_if(Gate::denies('target_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

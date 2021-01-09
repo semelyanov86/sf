@@ -7,7 +7,7 @@ use Parents\Seeders\Seeder;
 
 class CardTypesTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $cards = [
             ['id' => 1, 'name' => 'Visa'],

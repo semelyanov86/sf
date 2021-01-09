@@ -6,7 +6,7 @@ use Parents\Requests\Request;
 
 trait MediaUploadingTrait
 {
-    public function storeMedia(Request $request)
+    public function storeMedia(Request $request): \Illuminate\Http\JsonResponse
     {
 // Validates file size
         if (request()->has('size')) {

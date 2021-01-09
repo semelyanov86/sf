@@ -7,7 +7,7 @@ use Parents\Seeders\Seeder;
 
 class AccountTypesTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $types = [
             ['id' => 1, 'name' => 'Наличные', 'parent_description' => 'Деньги'],

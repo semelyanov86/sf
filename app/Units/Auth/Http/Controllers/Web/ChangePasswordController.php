@@ -11,21 +11,21 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ChangePasswordController extends Controller
 {
-    public function edit()
+    public function edit(): \Illuminate\View\View
     {
         abort_if(Gate::denies('profile_password_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('auth.passwords.edit');
     }
 
-    public function update(UpdatePasswordRequest $request)
+    public function update(UpdatePasswordRequest $request): static
     {
         auth()->user()->update($request->validated());
 
         return redirect()->route('profile.password.edit')->with('message', __('global.change_password_success'));
     }
 
-    public function updateProfile(UpdateProfileRequest $request)
+    public function updateProfile(UpdateProfileRequest $request): static
     {
         $user = auth()->user();
 
@@ -34,7 +34,7 @@ class ChangePasswordController extends Controller
         return redirect()->route('profile.password.edit')->with('message', __('global.update_profile_success'));
     }
 
-    public function destroy()
+    public function destroy(): static
     {
         $user = auth()->user();
 

@@ -47,12 +47,13 @@ class ErrorCodeManager
      * Returns the value for a given key in the array or a default value
      *
      * @param array $error
-     * @param       $key
-     * @param       $default
+     * @param $key
+     * @param $default
+     * @param int|string $default
      *
      * @return mixed
      */
-    private static function getKeyFromArray(array $error, $key, $default)
+    private static function getKeyFromArray(array $error, string $key, string|int $default)
     {
         return isset($error[$key]) ? $error[$key] : $default;
     }

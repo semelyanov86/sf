@@ -9,14 +9,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MassDestroyCategoryRequest extends FormRequest
 {
-    public function authorize()
+    /**
+     * @return true
+     */
+    public function authorize(): bool
     {
         abort_if(Gate::denies('category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
     }
 
-    public function rules()
+    /**
+     * @return string[]
+     *
+     * @psalm-return array{ids: string, 'ids.*': string}
+     */
+    public function rules(): array
     {
         return [
             'ids'   => 'required|array',
