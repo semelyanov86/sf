@@ -43,6 +43,12 @@ abstract class Exception extends SymfonyHttpException
     private $customData = null;
 
     /**
+     * Status code of error
+     * @var int
+     */
+    protected int $httpStatusCode;
+
+    /**
      * Exception constructor.
      *
      * @param null            $message
@@ -182,7 +188,7 @@ abstract class Exception extends SymfonyHttpException
      */
     private function findStatusCode() : int
     {
-        return property_exists($this, 'httpStatusCode') ? $this->httpStatusCode : Self::DEFAULT_STATUS_CODE;
+        return $this->httpStatusCode ?: self::DEFAULT_STATUS_CODE;
     }
 
     /**
@@ -232,12 +238,6 @@ abstract class Exception extends SymfonyHttpException
      */
     private function evaluateErrorCode(): int
     {
-        $code = $this->useErrorCode();
-
-        if (is_array($code)) {
-            $code = ErrorCodeManager::getCode($code);
-        }
-
-        return $code;
+        return $this->useErrorCode();
     }
 }

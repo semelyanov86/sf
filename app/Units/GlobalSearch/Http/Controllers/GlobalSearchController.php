@@ -2,6 +2,8 @@
 
 namespace Units\GlobalSearch\Http\Controllers;
 
+use Domains\Operations\Models\Operation;
+use Illuminate\Support\Pluralizer;
 use Parents\Controllers\WebController as Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -24,9 +26,10 @@ class GlobalSearchController extends Controller
         $searchableData = [];
 
         foreach ($this->models as $model => $translation) {
-            $modelClass = 'App\Models\\' . $model;
+            $resourceKey = Pluralizer::plural($model);
+            /** @var Operation */
+            $modelClass = '\Domains\\' . $resourceKey . '\Models\\' . $model;
             $query      = $modelClass::query();
-
             $fields = $modelClass::$searchable;
 
             foreach ($fields as $field) {

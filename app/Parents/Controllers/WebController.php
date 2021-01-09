@@ -12,5 +12,5 @@ abstract class WebController extends Controller
      *
      * @var  string
      */
-    public $ui = 'web';
+    public string $ui = 'web';
 }

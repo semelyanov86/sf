@@ -56,17 +56,13 @@ class Request extends LaravelRequest
     public function hasAccess(User $user = null)
     {
         // if not in parameters, take from the request object {$this}
+        /**
+         * @var User
+         */
         $user = $user ? : $this->user();
 
-        if ($user) {
-            $autoAccessRoles = Config::get('apiato.requests.allow-roles-to-access-all-routes');
-            // there are some roles defined that will automatically grant access
-            if (!empty($autoAccessRoles)) {
-                $hasAutoAccessByRole = $user->hasAnyRole($autoAccessRoles);
-                if ($hasAutoAccessByRole) {
-                    return true;
-                }
-            }
+        if ($user && $user->is_admin) {
+            return true;
         }
 
         // check if the user has any role / permission to access the route

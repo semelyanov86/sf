@@ -65,7 +65,7 @@ abstract class ApiController extends Controller
     /**
      * @var  array
      */
-    protected $metaData = [];
+    protected array $metaData = [];
 
     /**
      * The type of this controller. This will be accessible mirrored in the Actions.
@@ -73,7 +73,7 @@ abstract class ApiController extends Controller
      *
      * @var  string
      */
-    public $ui = 'api';
+    public string $ui = 'api';
 
 
     /**

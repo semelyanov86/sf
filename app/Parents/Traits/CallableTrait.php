@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
  */
 trait CallableTrait
 {
+    public string $ui = 'web';
 
     /**
      * This function will be called from anywhere (controllers, Actions,..) by the Apiato facade.
@@ -25,7 +26,7 @@ trait CallableTrait
      * @param array $extraMethodsToCall
      *
      * @return  mixed
-     * @throws \Dto\Exceptions\UnstorableValueException
+     * @throws \Exception
      */
     public function call($class, $runMethodArguments = [], $extraMethodsToCall = [])
     {
@@ -34,9 +35,6 @@ trait CallableTrait
         $this->setUIIfExist($class);
 
         $this->callExtraMethods($class, $extraMethodsToCall);
-
-        // detects Requests arguments "usually sent by controllers", and cvoert them to Transporters.
-        $runMethodArguments = $this->convertRequestsToTransporters($class, $runMethodArguments);
 
         return $class->run(...$runMethodArguments);
     }

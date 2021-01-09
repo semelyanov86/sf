@@ -14,7 +14,7 @@ class UserVerificationController extends Controller
         abort_if(!$user, 404);
 
         $user->verified           = 1;
-        $user->verified_at        = Carbon::now()->format(config('panel.date_format') . ' ' . config('panel.time_format'));
+        $user->verified_at        = Carbon::now();
         $user->verification_token = null;
         $user->save();
 
