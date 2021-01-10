@@ -161,8 +161,8 @@
                 <label class="required">{{ trans('cruds.user.fields.mail_days_before') }}</label>
                 <select class="form-control {{ $errors->has('mail_days_before') ? 'is-invalid' : '' }}" name="mail_days_before" id="mail_days_before" required>
                     <option value disabled {{ old('mail_days_before', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(Domains\Users\Models\User::MAIL_DAYS_BEFORE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('mail_days_before', $user->mail_days_before) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @foreach(\Domains\Users\Enums\MailDaysBeforeEnum::getInstances() as $key => $label)
+                        <option value="{{ $label->value }}" {{ (int) old('mail_days_before', $user->mail_days_before) === $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('mail_days_before'))
@@ -200,7 +200,7 @@
                 <select class="form-control {{ $errors->has('sms_days_before') ? 'is-invalid' : '' }}" name="sms_days_before" id="sms_days_before" required>
                     <option value disabled {{ old('sms_days_before', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
                     @foreach(\Domains\Users\Enums\SmsDayBefore::getInstances() as $key => $label)
-                        <option value="{{ $label->value }}" {{ old('sms_days_before', $user->sms_days_before) === (string) $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
+                        <option value="{{ $label->value }}" {{ (int) old('sms_days_before', $user->sms_days_before) === $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('sms_days_before'))

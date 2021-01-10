@@ -95,8 +95,8 @@
                         <td>
                             <select class="search" strict="true">
                                 <option value>{{ trans('global.all') }}</option>
-                                @foreach(Domains\Users\Models\User::MAIL_DAYS_BEFORE_SELECT as $key => $item)
-                                    <option value="{{ $item }}">{{ $item }}</option>
+                                @foreach(\Domains\Users\Enums\MailDaysBeforeEnum::getInstances() as $key => $item)
+                                    <option value="{{ $item->value }}">{{ $item->description }}</option>
                                 @endforeach
                             </select>
                         </td>
@@ -143,7 +143,7 @@
                                 <input type="checkbox" disabled="disabled" {{ $user->email_notify ? 'checked' : '' }}>
                             </td>
                             <td>
-                                {{ Domains\Users\Models\User::MAIL_DAYS_BEFORE_SELECT[$user->mail_days_before] ?? '' }}
+                                {{ $user->mail_days_before ? \Domains\Users\Enums\MailDaysBeforeEnum::getValue($user->mail_days_before)?->description : '' }}
                             </td>
                             <td>
                                 @can('user_show')

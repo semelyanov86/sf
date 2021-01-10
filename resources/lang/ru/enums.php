@@ -1,6 +1,7 @@
 <?php
 use Domains\Users\Enums\LanguageEnum;
 use Domains\Users\Enums\SmsDayBefore;
+use Domains\Users\Enums\MailDaysBeforeEnum;
 
 return [
     LanguageEnum::class => [
@@ -14,5 +15,13 @@ return [
         SmsDayBefore::BEFORE_THREE => 'За три дня',
         SmsDayBefore::BEFORE_WEEK => 'За неделю',
         SmsDayBefore::BEFORE_MONTH => 'За месяц'
+    ],
+    MailDaysBeforeEnum::class => [
+        MailDaysBeforeEnum::THE_SAME_DAY  => 'В тот же день',
+        MailDaysBeforeEnum::BEFORE_ONE_DAY  => 'За один день',
+        MailDaysBeforeEnum::BEFORE_TWO_DAYS  => 'За два дня',
+        MailDaysBeforeEnum::BEFORE_THREE_DAYS  => 'За три дня',
+        MailDaysBeforeEnum::BEFORE_WEEK  => 'За неделю',
+        MailDaysBeforeEnum::BEFORE_MONTH => 'За месяц',
     ],
 ];

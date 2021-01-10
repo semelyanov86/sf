@@ -10,4 +10,9 @@ class LanguageEnum extends \Parents\Enums\Enum implements LocalizedEnum
 {
     const Russian = 'ru_ru';
     const English = 'en_us';
+
+    public static function parseDatabase($value): int
+    {
+        return (int) $value;
+    }
 }

@@ -30,15 +30,6 @@ class User extends UserModel
         'deleted_at',
     ];
 
-    const MAIL_DAYS_BEFORE_SELECT = [
-        '0'  => 'The same day',
-        '1'  => 'Before 1 day',
-        '2'  => 'Before 2 days',
-        '3'  => 'Before 3 days',
-        '7'  => 'Before week',
-        '31' => 'Before month',
-    ];
-
     protected $fillable = [
         'name',
         'email',
@@ -121,26 +112,26 @@ class User extends UserModel
         return $this->belongsTo(Currency::class, 'primary_currency');
     }
 
-    public function getEmailVerifiedAtAttribute($value): ?string
+    public function getEmailVerifiedAtAttribute(?string $value): ?string
     {
         /** @psalm-suppress PossiblyFalseReference */
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
     }
 
-    public function setEmailVerifiedAtAttribute($value): void
+    public function setEmailVerifiedAtAttribute(?string $value): void
     {
         /** @psalm-suppress PossiblyFalseReference */
         $this->attributes['email_verified_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
     }
 
-    public function setPasswordAttribute($input): void
+    public function setPasswordAttribute(?string $input): void
     {
         if ($input) {
             $this->attributes['password'] = app('hash')->needsRehash($input) ? Hash::make($input) : $input;
         }
     }
 
-    public function sendPasswordResetNotification($token)
+    public function sendPasswordResetNotification($token): void
     {
         $this->notify(new ResetPassword($token));
     }
