@@ -59,7 +59,7 @@ final class UserData extends \Parents\DataTransferObjects\ObjectData
 
     public static function fromModel(User $user): self
     {
-        return new static([
+        return new self([
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
