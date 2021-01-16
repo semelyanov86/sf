@@ -17,6 +17,8 @@ services:
     - .:/var/www/html
     ports:
       - 8080:80
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   scheduler:
     image: sf-www
     container_name: sf-scheduler
