@@ -5,6 +5,8 @@ namespace Domains\Users\DataTransferObjects;
 
 use Carbon\Carbon;
 use Domains\Currencies\Models\Currency;
+use Domains\Teams\DataTransferObjects\TeamData;
+use Domains\Teams\DataTransferObjects\TeamDataCollection;
 use Domains\Teams\Models\Team;
 use Domains\Users\Models\User;
 use Parents\Requests\Request;
@@ -26,7 +28,7 @@ final class UserData extends \Parents\DataTransferObjects\ObjectData
 
     public ?Carbon $verified_at;
 
-    public Carbon $created_at;
+    public ?Carbon $created_at;
 
     public string $login;
 
@@ -40,11 +42,17 @@ final class UserData extends \Parents\DataTransferObjects\ObjectData
 
     public ?string $phone;
 
-    public ?Team $team;
+    public ?TeamData $team;
 
     public string $language;
 
     public bool $google_sync;
+
+    public bool $email_notify;
+
+    public RoleDataCollection $roles;
+    
+    public int $mail_days_before;
 
     public static function fromRequest(Request $request): self
     {
@@ -73,9 +81,12 @@ final class UserData extends \Parents\DataTransferObjects\ObjectData
             'primary_currency' => $user->currency,
             'timezone' => $user->timezone,
             'phone' => $user->phone,
-            'team' => $user->team,
+            'team' => TeamData::fromModel($user->team),
             'language' => $user->language,
             'google_sync' => (bool) $user->google_sync,
+            'roles' => RoleDataCollection::fromArray($user->roles->all()),
+            'email_notify' => (bool) $user->email_notify,
+            'mail_days_before' => (int) $user->mail_days_before
         ]);
     }
 

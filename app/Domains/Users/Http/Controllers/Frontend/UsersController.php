@@ -2,6 +2,8 @@
 
 namespace Domains\Users\Http\Controllers\Frontend;
 
+use Domains\Users\Actions\GetAllUsersAction;
+use Domains\Users\Http\Requests\GetAllUsersRequest;
 use Parents\Controllers\Controller;
 use Support\CsvImport\Traits\CsvImportTrait;
 use Domains\Users\Http\Requests\MassDestroyUserRequest;
@@ -18,17 +20,11 @@ class UsersController extends Controller
 {
     use CsvImportTrait;
 
-    public function index(): \Illuminate\View\View
+    public function index(GetAllUsersRequest $request, GetAllUsersAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $users = User::with(['roles', 'team'])->get();
-
-        $roles = Role::get();
-
-        $teams = Team::get();
-
-        return view('frontend.users.index', compact('users', 'roles', 'teams'));
+        return view('frontend.users.index', [
+            'viewModel' => $action()
+        ]);
     }
 
     public function create(): \Illuminate\View\View

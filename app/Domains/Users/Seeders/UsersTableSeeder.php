@@ -18,8 +18,9 @@ class UsersTableSeeder extends Seeder
                 'remember_token'     => null,
                 'verification_token' => '',
                 'login'              => 'admin',
-                'timezone'           => '',
+                'timezone'           => 'UTC+3',
                 'phone'              => '',
+                'language'          => 'ru_ru'
             ],
             [
                 'id'                 => 2,
@@ -29,8 +30,9 @@ class UsersTableSeeder extends Seeder
                 'remember_token'     => null,
                 'verification_token' => '',
                 'login'              => 'user',
-                'timezone'           => '',
+                'timezone'           => 'UTC+3',
                 'phone'              => '',
+                'language'          => 'ru_ru'
             ],
             [
                 'id'                 => 3,
@@ -40,8 +42,9 @@ class UsersTableSeeder extends Seeder
                 'remember_token'     => null,
                 'verification_token' => '',
                 'login'              => 'user1',
-                'timezone'           => '',
+                'timezone'           => 'UTC+3',
                 'phone'              => '',
+                'language'          => 'ru_ru'
             ],
         ];
 

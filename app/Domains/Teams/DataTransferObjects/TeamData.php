@@ -16,11 +16,11 @@ final class TeamData extends \Parents\DataTransferObjects\ObjectData
 
     public string $name;
 
-    public int $owner_id;
+    public ?int $owner_id;
 
     public User $owner;
 
-    public Carbon $created_at;
+    public ?Carbon $created_at;
 
     public static function fromRequest(StoreTeamRequest|UpdateTeamRequest $request): self
     {

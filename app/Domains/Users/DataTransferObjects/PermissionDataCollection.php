@@ -17,7 +17,7 @@ class PermissionDataCollection extends \Parents\DataTransferObjects\ObjectDataCo
      * @param  Permission[]  $data
      * @return PermissionDataCollection
      */
-    public static function fromArray(array $data): PermissionDataCollection
+    public static function fromArray(iterable $data): PermissionDataCollection
     {
         return new self(
             array_map(fn(Permission $item) => PermissionData::fromModel($item), $data)

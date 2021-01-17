@@ -15,7 +15,9 @@ final class RoleData extends \Parents\DataTransferObjects\ObjectData
 
     public string $title;
 
-    public Carbon $created_at;
+    public iterable $permissions;
+
+    public ?Carbon $created_at;
 
     public static function fromRequest(StoreRoleRequest|UpdateRoleRequest $request): self
     {
@@ -29,7 +31,8 @@ final class RoleData extends \Parents\DataTransferObjects\ObjectData
         return new self([
             'id' => $role->id,
             'title' => $role->title,
-            'created_at' => $role->created_at
+            'created_at' => $role->created_at,
+            'permissions' => $role->permissions,
         ]);
     }
 

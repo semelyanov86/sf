@@ -82,7 +82,7 @@
                                     <td>
                                         <select class="search">
                                             <option value>{{ trans('global.all') }}</option>
-                                            @foreach($roles as $key => $item)
+                                            @foreach($viewModel->roles() as $key => $item)
                                                 <option value="{{ $item->title }}">{{ $item->title }}</option>
                                             @endforeach
                                         </select>
@@ -105,7 +105,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($users as $key => $user)
+                                @foreach($viewModel->users() as $key => $user)
                                     <tr data-entry-id="{{ $user->id }}">
                                         <td>
                                             {{ $user->id ?? '' }}

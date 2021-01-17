@@ -5,6 +5,7 @@ namespace Domains\Users\DataTransferObjects;
 
 
 use Domains\Users\Models\User;
+use Illuminate\Support\Collection;
 
 class UserDataCollection extends \Parents\DataTransferObjects\ObjectDataCollection
 {

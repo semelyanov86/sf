@@ -15,11 +15,11 @@ class UserResource extends Resource
             'email' => $this->email,
             'operations_number' => $this->operations_number,
             'budget_day_start' => $this->budget_day_start,
-            'primary_currency' => $this->currency,
+            'primary_currency' => $this->primary_currency,
             'timezone' => $this->timezone,
             'language' => $this->language,
             'team' => new TeamResource($this->team),
-            'role' => RoleResource::collection($this->roles)
+            'role' => RoleResource::collection(collect($this->roles->items()))
         );
     }
 }

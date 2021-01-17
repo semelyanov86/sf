@@ -5,15 +5,16 @@ namespace Parents\Requests;
 use Domains\Users\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Gate;
 use Parents\Traits\StateKeeperTrait;
 use Illuminate\Foundation\Http\FormRequest as LaravelRequest;
 use Illuminate\Support\Facades\Config;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Request
  *
  *
- * @author  Mahmoud Zalt  <mahmoud@zalt.me>
  */
 class Request extends LaravelRequest
 {
@@ -53,7 +54,7 @@ class Request extends LaravelRequest
      *
      * @return  bool
      */
-    public function hasAccess(User $user = null)
+    public function hasAccess(?User $user = null): bool
     {
         // if not in parameters, take from the request object {$this}
         /**
@@ -142,43 +143,13 @@ class Request extends LaravelRequest
      * To call functions and compare their bool responses to determine
      * if the user can proceed with the request or not.
      *
-     * @param array $functions
+     * @param string $permission
      *
      * @return  bool
      */
-    protected function check(array $functions)
+    protected function check(string $permission): bool
     {
-        $orIndicator = '|';
-        $returns = [];
-
-        // iterate all functions in the array
-        foreach ($functions as $function) {
-
-            // in case the value doesn't contains a separator (single function per key)
-            if (!strpos($function, $orIndicator)) {
-                // simply call the single function and store the response.
-                $returns[] = $this->{$function}();
-            } else {
-                // in case the value contains a separator (multiple functions per key)
-                $orReturns = [];
-
-                // iterate over each function in the key
-                foreach (explode($orIndicator, $function) as $orFunction) {
-                    // dynamically call each function
-                    $orReturns[] = $this->{$orFunction}();
-                }
-
-                // if in_array returned `true` means at least one function returned `true` thus return `true` to allow access.
-                // if in_array returned `false` means no function returned `true` thus return `false` to prevent access.
-                // return single boolean for all the functions found inside the same key.
-                $returns[] = in_array(true, $orReturns) ? true : false;
-            }
-        }
-
-        // if in_array returned `true` means a function returned `false` thus return `false` to prevent access.
-        // if in_array returned `false` means all functions returned `true` thus return `true` to allow access.
-        // return the final boolean
-        return in_array(false, $returns) ? false : true;
+        return Gate::allows($permission);
     }
 
     /**

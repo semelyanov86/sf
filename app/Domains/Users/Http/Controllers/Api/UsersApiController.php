@@ -2,6 +2,8 @@
 
 namespace Domains\Users\Http\Controllers\Api;
 
+use Domains\Users\Actions\GetAllUsersAction;
+use Domains\Users\Http\Requests\GetAllUsersRequest;
 use Parents\Controllers\ApiController as Controller;
 use Domains\Users\Http\Requests\StoreUserRequest;
 use Domains\Users\Http\Requests\UpdateUserRequest;
@@ -45,14 +47,13 @@ class UsersApiController extends Controller
      *
      * @OA\XmlContent (
      *             type="array",
-     *
+     * @param GetAllUsersRequest $request
+     * @param GetAllUsersAction $action
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(GetAllUsersRequest $request, GetAllUsersAction $action): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return UserResource::collection(User::with(['roles', 'team'])->get());
+        return UserResource::collection($action()->toJson());
     }
 
     /**
