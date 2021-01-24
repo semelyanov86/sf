@@ -5,6 +5,7 @@ namespace Domains\Teams\DataTransferObjects;
 
 
 use Domains\Teams\Models\Team;
+use Illuminate\Support\Collection;
 
 class TeamDataCollection extends \Parents\DataTransferObjects\ObjectDataCollection
 {
@@ -21,6 +22,18 @@ class TeamDataCollection extends \Parents\DataTransferObjects\ObjectDataCollecti
     {
         return new self(
             array_map(fn(Team $item) => TeamData::fromModel($item), $data)
+        );
+    }
+
+    /**
+     * @param  Team[]  $data
+     * @return TeamDataCollection
+     */
+    public static function fromCollection(Collection $data): TeamDataCollection
+    {
+        $newData = $data->map(fn(Team $item) => TeamData::fromModel($item));
+        return new self(
+            $newData->toArray()
         );
     }
 }

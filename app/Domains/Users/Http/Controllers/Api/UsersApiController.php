@@ -3,7 +3,12 @@
 namespace Domains\Users\Http\Controllers\Api;
 
 use Domains\Users\Actions\GetAllUsersAction;
+use Domains\Users\Actions\ShowUserAction;
+use Domains\Users\Actions\StoreUserAction;
+use Domains\Users\Actions\UpdateUserAction;
+use Domains\Users\DataTransferObjects\UserData;
 use Domains\Users\Http\Requests\GetAllUsersRequest;
+use Domains\Users\Http\Requests\ShowUserRequest;
 use Parents\Controllers\ApiController as Controller;
 use Domains\Users\Http\Requests\StoreUserRequest;
 use Domains\Users\Http\Requests\UpdateUserRequest;
@@ -47,6 +52,7 @@ class UsersApiController extends Controller
      *
      * @OA\XmlContent (
      *             type="array",
+     *     )
      * @param GetAllUsersRequest $request
      * @param GetAllUsersAction $action
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
@@ -86,14 +92,14 @@ class UsersApiController extends Controller
      *      )
      * )
      * @param  StoreUserRequest  $request
+     * @param  StoreUserAction  $action
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreUserRequest $request): \Illuminate\Http\JsonResponse
+    public function store(StoreUserRequest $request, StoreUserAction $action): \Illuminate\Http\JsonResponse
     {
-        $user = User::create($request->all());
-        $user->roles()->sync($request->input('roles', []));
+        $dto = UserData::fromRequest($request);
 
-        return (new UserResource($user))
+        return (new UserResource($action($dto)->toJson()))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
@@ -132,14 +138,16 @@ class UsersApiController extends Controller
      *          description="Forbidden"
      *      )
      * )
+     * @param  ShowUserRequest  $request
      * @param  User  $user
+     * @param  ShowUserAction  $action
      * @return UserResource
      */
-    public function show(User $user): UserResource
+    public function show(ShowUserRequest $request, User $user, ShowUserAction $action): UserResource
     {
-        abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $user->load(['roles', 'team']);
 
-        return new UserResource($user->load(['roles', 'team']));
+        return new UserResource($action(UserData::fromModel($user))->toJson());
     }
 
     /**
@@ -186,14 +194,14 @@ class UsersApiController extends Controller
      * )
      * @param  UpdateUserRequest  $request
      * @param  User  $user
+     * @param  UpdateUserAction  $action
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateUserRequest $request, User $user): \Illuminate\Http\JsonResponse
+    public function update(UpdateUserRequest $request, User $user, UpdateUserAction $action): \Illuminate\Http\JsonResponse
     {
-        $user->update($request->all());
-        $user->roles()->sync($request->input('roles', []));
+        $viewModel = $action(UserData::fromRequest($request), $user);
 
-        return (new UserResource($user))
+        return (new UserResource($viewModel->toJson()))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }

@@ -2,9 +2,19 @@
 
 namespace Domains\Users\Http\Controllers\Admin;
 
+use Domains\Users\Actions\DeleteUserAction;
+use Domains\Users\Actions\EditUserAction;
 use Domains\Users\Actions\GetAllUsersAction;
+use Domains\Users\Actions\ShowUserAction;
+use Domains\Users\Actions\StoreUserAction;
+use Domains\Users\Actions\UpdateUserAction;
+use Domains\Users\DataTransferObjects\UserData;
 use Domains\Users\Enums\LanguageEnum;
+use Domains\Users\Http\Requests\CreateUserRequest;
+use Domains\Users\Http\Requests\EditUserRequest;
 use Domains\Users\Http\Requests\GetAllUsersRequest;
+use Domains\Users\Http\Requests\ShowUserRequest;
+use Domains\Users\ViewModels\UserEditViewModel;
 use Parents\Controllers\WebController as Controller;
 use Support\CsvImport\Traits\CsvImportTrait;
 use Domains\Users\Http\Requests\MassDestroyUserRequest;
@@ -28,67 +38,57 @@ class UsersController extends Controller
         ]);
     }
 
-    public function create(): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function create(CreateUserRequest $request, EditUserAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $roles = Role::all()->pluck('title', 'id');
-
-        $teams = Team::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.users.create', compact('roles', 'teams'));
+        return view('admin.users.create', [
+            'viewModel' => $action()
+        ]);
     }
 
-    public function store(StoreUserRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreUserRequest $request, StoreUserAction $action): \Illuminate\Http\RedirectResponse
     {
-        $user = User::create($request->all());
-        $user->roles()->sync($request->input('roles', []));
+        $action(UserData::fromRequest($request));
 
         return redirect()->route('admin.users.index');
     }
 
-    public function edit(User $user): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function edit(EditUserRequest $request, User $user, EditUserAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $roles = Role::all()->pluck('title', 'id');
-
-        $teams = Team::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
         $user->load(['roles', 'team']);
 
-        return view('admin.users.edit', compact('roles', 'teams', 'user'));
+        return view('admin.users.edit', [
+            'viewModel' => $action(UserData::fromModel($user))
+        ]);
     }
 
-    public function update(UpdateUserRequest $request, User $user): \Illuminate\Http\RedirectResponse
+    public function update(UpdateUserRequest $request, User $user, UpdateUserAction $action): \Illuminate\Http\RedirectResponse
     {
-        $user->update($request->all());
-        $user->roles()->sync($request->input('roles', []));
+        $action(UserData::fromRequest($request), $user);
 
         return redirect()->route('admin.users.index');
     }
 
-    public function show(User $user): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function show(ShowUserRequest $request, User $user, ShowUserAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $user->load(['roles', 'team', 'userOperations', 'usersCurrencies']);
 
-        return view('admin.users.show', compact('user'));
+        return view('admin.users.show', [
+            'viewModel' => $action(UserData::fromModel($user))
+        ]);
     }
 
-    public function destroy(User $user): \Illuminate\Http\RedirectResponse
+    public function destroy(User $user, DeleteUserAction $action): \Illuminate\Http\RedirectResponse
     {
-        abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $user->delete();
+        $action(UserData::fromModel($user));
 
         return back();
     }
 
-    public function massDestroy(MassDestroyUserRequest $request): \Illuminate\Http\Response
+    public function massDestroy(MassDestroyUserRequest $request, DeleteUserAction $action): \Illuminate\Http\Response
     {
-        User::whereIn('id', request('ids'))->delete();
+        foreach (\request('ids') as $id) {
+            $action(UserData::fromModel(User::whereId($id)->first()));
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

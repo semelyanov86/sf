@@ -20,7 +20,7 @@
                             {{ trans('cruds.user.fields.id') }}
                         </th>
                         <td>
-                            {{ $user->id }}
+                            {{ $viewModel->user()->id }}
                         </td>
                     </tr>
                     <tr>
@@ -28,7 +28,7 @@
                             {{ trans('cruds.user.fields.name') }}
                         </th>
                         <td>
-                            {{ $user->name }}
+                            {{ $viewModel->user()->name }}
                         </td>
                     </tr>
                     <tr>
@@ -36,7 +36,7 @@
                             {{ trans('cruds.user.fields.email') }}
                         </th>
                         <td>
-                            {{ $user->email }}
+                            {{ $viewModel->user()->email }}
                         </td>
                     </tr>
                     <tr>
@@ -44,7 +44,7 @@
                             {{ trans('cruds.user.fields.email_verified_at') }}
                         </th>
                         <td>
-                            {{ $user->email_verified_at }}
+                            {{ $viewModel->user()->email_verified_at }}
                         </td>
                     </tr>
                     <tr>
@@ -52,7 +52,7 @@
                             {{ trans('cruds.user.fields.approved') }}
                         </th>
                         <td>
-                            <input type="checkbox" disabled="disabled" {{ $user->approved ? 'checked' : '' }}>
+                            <input type="checkbox" disabled="disabled" {{ $viewModel->user()->approved ? 'checked' : '' }}>
                         </td>
                     </tr>
                     <tr>
@@ -60,7 +60,7 @@
                             {{ trans('cruds.user.fields.verified') }}
                         </th>
                         <td>
-                            <input type="checkbox" disabled="disabled" {{ $user->verified ? 'checked' : '' }}>
+                            <input type="checkbox" disabled="disabled" {{ $viewModel->user()->verified ? 'checked' : '' }}>
                         </td>
                     </tr>
                     <tr>
@@ -68,8 +68,8 @@
                             {{ trans('cruds.user.fields.roles') }}
                         </th>
                         <td>
-                            @foreach($user->roles as $key => $roles)
-                                <span class="label label-info">{{ $roles->title }}</span>
+                            @foreach($viewModel->user()->roles as $role)
+                                <span class="label label-info">{{ $role->title }}</span>
                             @endforeach
                         </td>
                     </tr>
@@ -78,7 +78,7 @@
                             {{ trans('cruds.user.fields.login') }}
                         </th>
                         <td>
-                            {{ $user->login }}
+                            {{ $viewModel->user()->login }}
                         </td>
                     </tr>
                     <tr>
@@ -86,7 +86,7 @@
                             {{ trans('cruds.user.fields.operations_number') }}
                         </th>
                         <td>
-                            {{ $user->operations_number }}
+                            {{ $viewModel->user()->operations_number }}
                         </td>
                     </tr>
                     <tr>
@@ -94,7 +94,7 @@
                             {{ trans('cruds.user.fields.budget_day_start') }}
                         </th>
                         <td>
-                            {{ $user->budget_day_start }}
+                            {{ $viewModel->user()->budget_day_start }}
                         </td>
                     </tr>
                     <tr>
@@ -102,7 +102,7 @@
                             {{ trans('cruds.user.fields.primary_currency') }}
                         </th>
                         <td>
-                            {{ $user->primary_currency }}
+                            {{ $viewModel->user()->primary_currency->name }}
                         </td>
                     </tr>
                     <tr>
@@ -110,7 +110,7 @@
                             {{ trans('cruds.user.fields.timezone') }}
                         </th>
                         <td>
-                            {{ $user->timezone }}
+                            {{ $viewModel->user()->timezone }}
                         </td>
                     </tr>
                     <tr>
@@ -118,7 +118,7 @@
                             {{ trans('cruds.user.fields.phone') }}
                         </th>
                         <td>
-                            {{ $user->phone }}
+                            {{ $viewModel->user()->phone }}
                         </td>
                     </tr>
                     <tr>
@@ -126,7 +126,7 @@
                             {{ trans('cruds.user.fields.google_sync') }}
                         </th>
                         <td>
-                            <input type="checkbox" disabled="disabled" {{ $user->google_sync ? 'checked' : '' }}>
+                            <input type="checkbox" disabled="disabled" {{ $viewModel->user()->google_sync ? 'checked' : '' }}>
                         </td>
                     </tr>
                     <tr>
@@ -134,7 +134,7 @@
                             {{ trans('cruds.user.fields.email_notify') }}
                         </th>
                         <td>
-                            <input type="checkbox" disabled="disabled" {{ $user->email_notify ? 'checked' : '' }}>
+                            <input type="checkbox" disabled="disabled" {{ $viewModel->user()->email_notify ? 'checked' : '' }}>
                         </td>
                     </tr>
                     <tr>
@@ -142,7 +142,7 @@
                             {{ trans('cruds.user.fields.mail_days_before') }}
                         </th>
                         <td>
-                            {{ $user->mail_days_before ? \Domains\Users\Enums\MailDaysBeforeEnum::getValue($user->mail_days_before)?->description : '' }}
+                            {{ $viewModel->user()->mail_days_before ? \Domains\Users\Enums\MailDaysBeforeEnum::getValue($viewModel->user()->mail_days_before)?->description : '' }}
                         </td>
                     </tr>
                     <tr>
@@ -150,7 +150,7 @@
                             {{ trans('cruds.user.fields.mail_time') }}
                         </th>
                         <td>
-                            {{ $user->mail_time }}
+                            {{ $viewModel->user()->mail_time }}
                         </td>
                     </tr>
                     <tr>
@@ -158,7 +158,7 @@
                             {{ trans('cruds.user.fields.sms_notify') }}
                         </th>
                         <td>
-                            <input type="checkbox" disabled="disabled" {{ $user->sms_notify ? 'checked' : '' }}>
+                            <input type="checkbox" disabled="disabled" {{ $viewModel->user()->sms_notify ? 'checked' : '' }}>
                         </td>
                     </tr>
                     <tr>
@@ -166,7 +166,7 @@
                             {{ trans('cruds.user.fields.sms_days_before') }}
                         </th>
                         <td>
-                            {{ $user->sms_days_before ? \Domains\Users\Enums\SmsDayBefore::fromValue($user->sms_days_before)?->description : '' }}
+                            {{ $viewModel->user()->sms_days_before ? \Domains\Users\Enums\SmsDayBefore::fromValue($viewModel->user()->sms_days_before)?->description : '' }}
                         </td>
                     </tr>
                     <tr>
@@ -174,7 +174,7 @@
                             {{ trans('cruds.user.fields.sms_time') }}
                         </th>
                         <td>
-                            {{ $user->sms_time }}
+                            {{ $viewModel->user()->sms_time }}
                         </td>
                     </tr>
                     <tr>
@@ -182,7 +182,7 @@
                             {{ trans('cruds.user.fields.language') }}
                         </th>
                         <td>
-                            {{ $user->language ? \Domains\Users\Enums\LanguageEnum::fromValue($user->language)?->description : '' }}
+                            {{ $viewModel->user()->language ? \Domains\Users\Enums\LanguageEnum::fromValue($viewModel->user()->language)?->description : '' }}
                         </td>
                     </tr>
                 </tbody>
@@ -214,10 +214,10 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane" role="tabpanel" id="user_operations">
-            @includeIf('admin.users.relationships.userOperations', ['operations' => $user->userOperations])
+            @includeIf('admin.users.relationships.userOperations', ['operations' => $viewModel->operations()])
         </div>
         <div class="tab-pane" role="tabpanel" id="users_currencies">
-            @includeIf('admin.users.relationships.usersCurrencies', ['currencies' => $user->usersCurrencies])
+            @includeIf('admin.users.relationships.usersCurrencies', ['currencies' => $viewModel->currencies()])
         </div>
     </div>
 </div>

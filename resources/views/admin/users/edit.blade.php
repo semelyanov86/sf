@@ -7,12 +7,12 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.users.update", [$user->id]) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.users.update", [$viewModel->user()->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.user.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required>
+                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $viewModel->user()->name) }}" required>
                 @if($errors->has('name'))
                     <div class="invalid-feedback">
                         {{ $errors->first('name') }}
@@ -22,7 +22,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="email">{{ trans('cruds.user.fields.email') }}</label>
-                <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required>
+                <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email" id="email" value="{{ old('email', $viewModel->user()->email) }}" required>
                 @if($errors->has('email'))
                     <div class="invalid-feedback">
                         {{ $errors->first('email') }}
@@ -43,7 +43,7 @@
             <div class="form-group">
                 <div class="form-check {{ $errors->has('approved') ? 'is-invalid' : '' }}">
                     <input type="hidden" name="approved" value="0">
-                    <input class="form-check-input" type="checkbox" name="approved" id="approved" value="1" {{ $user->approved || old('approved', 0) === 1 ? 'checked' : '' }}>
+                    <input class="form-check-input" type="checkbox" name="approved" id="approved" value="1" {{ $viewModel->user()->approved || old('approved', 0) === 1 ? 'checked' : '' }}>
                     <label class="form-check-label" for="approved">{{ trans('cruds.user.fields.approved') }}</label>
                 </div>
                 @if($errors->has('approved'))
@@ -60,8 +60,8 @@
                     <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
                 </div>
                 <select class="form-control select2 {{ $errors->has('roles') ? 'is-invalid' : '' }}" name="roles[]" id="roles" multiple required>
-                    @foreach($roles as $id => $roles)
-                        <option value="{{ $id }}" {{ (in_array($id, old('roles', [])) || $user->roles->contains($id)) ? 'selected' : '' }}>{{ $roles }}</option>
+                    @foreach($viewModel->roles() as $role)
+                        <option value="{{ $role->id }}" {{ (in_array($role->id, old('roles', [])) || in_array($role->id, $viewModel->user()->roles->toIds())) ? 'selected' : '' }}>{{ $role->title }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('roles'))
@@ -73,7 +73,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="login">{{ trans('cruds.user.fields.login') }}</label>
-                <input class="form-control {{ $errors->has('login') ? 'is-invalid' : '' }}" type="text" name="login" id="login" value="{{ old('login', $user->login) }}" required>
+                <input class="form-control {{ $errors->has('login') ? 'is-invalid' : '' }}" type="text" name="login" id="login" value="{{ old('login', $viewModel->user()->login) }}" required>
                 @if($errors->has('login'))
                     <div class="invalid-feedback">
                         {{ $errors->first('login') }}
@@ -83,7 +83,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="operations_number">{{ trans('cruds.user.fields.operations_number') }}</label>
-                <input class="form-control {{ $errors->has('operations_number') ? 'is-invalid' : '' }}" type="number" name="operations_number" id="operations_number" value="{{ old('operations_number', $user->operations_number) }}" step="1" required>
+                <input class="form-control {{ $errors->has('operations_number') ? 'is-invalid' : '' }}" type="number" name="operations_number" id="operations_number" value="{{ old('operations_number', $viewModel->user()->operations_number) }}" step="1" required>
                 @if($errors->has('operations_number'))
                     <div class="invalid-feedback">
                         {{ $errors->first('operations_number') }}
@@ -93,7 +93,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="budget_day_start">{{ trans('cruds.user.fields.budget_day_start') }}</label>
-                <input class="form-control {{ $errors->has('budget_day_start') ? 'is-invalid' : '' }}" type="number" name="budget_day_start" id="budget_day_start" value="{{ old('budget_day_start', $user->budget_day_start) }}" step="1" required>
+                <input class="form-control {{ $errors->has('budget_day_start') ? 'is-invalid' : '' }}" type="number" name="budget_day_start" id="budget_day_start" value="{{ old('budget_day_start', $viewModel->user()->budget_day_start) }}" step="1" required>
                 @if($errors->has('budget_day_start'))
                     <div class="invalid-feedback">
                         {{ $errors->first('budget_day_start') }}
@@ -103,7 +103,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="primary_currency">{{ trans('cruds.user.fields.primary_currency') }}</label>
-                <input class="form-control {{ $errors->has('primary_currency') ? 'is-invalid' : '' }}" type="number" name="primary_currency" id="primary_currency" value="{{ old('primary_currency', $user->primary_currency) }}" step="1" required>
+                <input class="form-control {{ $errors->has('primary_currency') ? 'is-invalid' : '' }}" type="number" name="primary_currency" id="primary_currency" value="{{ old('primary_currency', $viewModel->user()->primary_currency)->id }}" step="1" required>
                 @if($errors->has('primary_currency'))
                     <div class="invalid-feedback">
                         {{ $errors->first('primary_currency') }}
@@ -113,7 +113,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="timezone">{{ trans('cruds.user.fields.timezone') }}</label>
-                <input class="form-control {{ $errors->has('timezone') ? 'is-invalid' : '' }}" type="text" name="timezone" id="timezone" value="{{ old('timezone', $user->timezone) }}" required>
+                <input class="form-control {{ $errors->has('timezone') ? 'is-invalid' : '' }}" type="text" name="timezone" id="timezone" value="{{ old('timezone', $viewModel->user()->timezone) }}" required>
                 @if($errors->has('timezone'))
                     <div class="invalid-feedback">
                         {{ $errors->first('timezone') }}
@@ -123,7 +123,7 @@
             </div>
             <div class="form-group">
                 <label for="phone">{{ trans('cruds.user.fields.phone') }}</label>
-                <input class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}" type="text" name="phone" id="phone" value="{{ old('phone', $user->phone) }}">
+                <input class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}" type="text" name="phone" id="phone" value="{{ old('phone', $viewModel->user()->phone) }}">
                 @if($errors->has('phone'))
                     <div class="invalid-feedback">
                         {{ $errors->first('phone') }}
@@ -134,7 +134,7 @@
             <div class="form-group">
                 <div class="form-check {{ $errors->has('google_sync') ? 'is-invalid' : '' }}">
                     <input type="hidden" name="google_sync" value="0">
-                    <input class="form-check-input" type="checkbox" name="google_sync" id="google_sync" value="1" {{ $user->google_sync || old('google_sync', 0) === 1 ? 'checked' : '' }}>
+                    <input class="form-check-input" type="checkbox" name="google_sync" id="google_sync" value="1" {{ $viewModel->user()->google_sync || old('google_sync', 0) === 1 ? 'checked' : '' }}>
                     <label class="form-check-label" for="google_sync">{{ trans('cruds.user.fields.google_sync') }}</label>
                 </div>
                 @if($errors->has('google_sync'))
@@ -147,7 +147,7 @@
             <div class="form-group">
                 <div class="form-check {{ $errors->has('email_notify') ? 'is-invalid' : '' }}">
                     <input type="hidden" name="email_notify" value="0">
-                    <input class="form-check-input" type="checkbox" name="email_notify" id="email_notify" value="1" {{ $user->email_notify || old('email_notify', 0) === 1 ? 'checked' : '' }}>
+                    <input class="form-check-input" type="checkbox" name="email_notify" id="email_notify" value="1" {{ $viewModel->user()->email_notify || old('email_notify', 0) === 1 ? 'checked' : '' }}>
                     <label class="form-check-label" for="email_notify">{{ trans('cruds.user.fields.email_notify') }}</label>
                 </div>
                 @if($errors->has('email_notify'))
@@ -162,7 +162,7 @@
                 <select class="form-control {{ $errors->has('mail_days_before') ? 'is-invalid' : '' }}" name="mail_days_before" id="mail_days_before" required>
                     <option value disabled {{ old('mail_days_before', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
                     @foreach(\Domains\Users\Enums\MailDaysBeforeEnum::getInstances() as $key => $label)
-                        <option value="{{ $label->value }}" {{ (int) old('mail_days_before', $user->mail_days_before) === $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
+                        <option value="{{ $label->value }}" {{ (int) old('mail_days_before', $viewModel->user()->mail_days_before) === $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('mail_days_before'))
@@ -174,7 +174,7 @@
             </div>
             <div class="form-group">
                 <label for="mail_time">{{ trans('cruds.user.fields.mail_time') }}</label>
-                <input class="form-control timepicker {{ $errors->has('mail_time') ? 'is-invalid' : '' }}" type="text" name="mail_time" id="mail_time" value="{{ old('mail_time', $user->mail_time) }}">
+                <input class="form-control timepicker {{ $errors->has('mail_time') ? 'is-invalid' : '' }}" type="text" name="mail_time" id="mail_time" value="{{ old('mail_time', $viewModel->user()->mail_time) }}">
                 @if($errors->has('mail_time'))
                     <div class="invalid-feedback">
                         {{ $errors->first('mail_time') }}
@@ -185,7 +185,7 @@
             <div class="form-group">
                 <div class="form-check {{ $errors->has('sms_notify') ? 'is-invalid' : '' }}">
                     <input type="hidden" name="sms_notify" value="0">
-                    <input class="form-check-input" type="checkbox" name="sms_notify" id="sms_notify" value="1" {{ $user->sms_notify || old('sms_notify', 0) === 1 ? 'checked' : '' }}>
+                    <input class="form-check-input" type="checkbox" name="sms_notify" id="sms_notify" value="1" {{ $viewModel->user()->sms_notify || old('sms_notify', 0) === 1 ? 'checked' : '' }}>
                     <label class="form-check-label" for="sms_notify">{{ trans('cruds.user.fields.sms_notify') }}</label>
                 </div>
                 @if($errors->has('sms_notify'))
@@ -200,7 +200,7 @@
                 <select class="form-control {{ $errors->has('sms_days_before') ? 'is-invalid' : '' }}" name="sms_days_before" id="sms_days_before" required>
                     <option value disabled {{ old('sms_days_before', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
                     @foreach(\Domains\Users\Enums\SmsDayBefore::getInstances() as $key => $label)
-                        <option value="{{ $label->value }}" {{ (int) old('sms_days_before', $user->sms_days_before) === $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
+                        <option value="{{ $label->value }}" {{ (int) old('sms_days_before', $viewModel->user()->sms_days_before) === $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('sms_days_before'))
@@ -212,7 +212,7 @@
             </div>
             <div class="form-group">
                 <label for="sms_time">{{ trans('cruds.user.fields.sms_time') }}</label>
-                <input class="form-control timepicker {{ $errors->has('sms_time') ? 'is-invalid' : '' }}" type="text" name="sms_time" id="sms_time" value="{{ old('sms_time', $user->sms_time) }}">
+                <input class="form-control timepicker {{ $errors->has('sms_time') ? 'is-invalid' : '' }}" type="text" name="sms_time" id="sms_time" value="{{ old('sms_time', $viewModel->user()->sms_time) }}">
                 @if($errors->has('sms_time'))
                     <div class="invalid-feedback">
                         {{ $errors->first('sms_time') }}
@@ -225,7 +225,7 @@
                 <select class="form-control {{ $errors->has('language') ? 'is-invalid' : '' }}" name="language" id="language">
                     <option value disabled {{ old('language', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
                     @foreach(\Domains\Users\Enums\LanguageEnum::getInstances() as $key => $label)
-                        <option value="{{ $label->value }}" {{ old('language', $user->language) === (string) $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
+                        <option value="{{ $label->value }}" {{ old('language', $viewModel->user()->language) === (string) $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('language'))
@@ -238,8 +238,9 @@
             <div class="form-group">
                 <label for="team_id">{{ trans('cruds.user.fields.team') }}</label>
                 <select class="form-control select2 {{ $errors->has('team') ? 'is-invalid' : '' }}" name="team_id" id="team_id">
-                    @foreach($teams as $id => $team)
-                        <option value="{{ $id }}" {{ (old('team_id') ? old('team_id') : $user->team->id ?? '') == $id ? 'selected' : '' }}>{{ $team }}</option>
+                    <option value="">{{trans('global.pleaseSelect')}}</option>
+                    @foreach($viewModel->teams() as $team)
+                        <option value="{{ $team->id }}" {{ (old('team_id') ? old('team_id') : $viewModel->user()->team->id ?? '') == $team->id ? 'selected' : '' }}>{{ $team->name }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('team'))

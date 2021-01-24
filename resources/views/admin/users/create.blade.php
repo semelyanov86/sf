@@ -59,8 +59,8 @@
                     <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
                 </div>
                 <select class="form-control select2 {{ $errors->has('roles') ? 'is-invalid' : '' }}" name="roles[]" id="roles" multiple required>
-                    @foreach($roles as $id => $roles)
-                        <option value="{{ $id }}" {{ in_array($id, old('roles', [])) ? 'selected' : '' }}>{{ $roles }}</option>
+                    @foreach($viewModel->roles() as $role)
+                        <option value="{{ $role->id }}" {{ in_array($role->id, old('roles', [])) ? 'selected' : '' }}>{{ $role->title }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('roles'))
@@ -113,6 +113,16 @@
             <div class="form-group">
                 <label class="required" for="timezone">{{ trans('cruds.user.fields.timezone') }}</label>
                 <input class="form-control {{ $errors->has('timezone') ? 'is-invalid' : '' }}" type="text" name="timezone" id="timezone" value="{{ old('timezone', 'Europe/Moscow') }}" required>
+                @if($errors->has('timezone'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('timezone') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.timezone_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="timezone">{{ trans('cruds.user.fields.timezone') }}</label>
+                <input class="form-control {{ $errors->has('timezone') ? 'is-invalid' : '' }}" type="text" name="timezone" id="timezone" value="{{ old('timezone', '') }}" required>
                 @if($errors->has('timezone'))
                     <div class="invalid-feedback">
                         {{ $errors->first('timezone') }}
@@ -237,8 +247,9 @@
             <div class="form-group">
                 <label for="team_id">{{ trans('cruds.user.fields.team') }}</label>
                 <select class="form-control select2 {{ $errors->has('team') ? 'is-invalid' : '' }}" name="team_id" id="team_id">
-                    @foreach($teams as $id => $team)
-                        <option value="{{ $id }}" {{ old('team_id') == $id ? 'selected' : '' }}>{{ $team }}</option>
+                    <option value="">{{trans('global.pleaseSelect')}}</option>
+                    @foreach($viewModel->teams() as $team)
+                        <option value="{{ $team->id }}" {{ old('team_id') == $team->id ? 'selected' : '' }}>{{ $team->name }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('team'))
