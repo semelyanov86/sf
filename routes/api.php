@@ -9,6 +9,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'middleware' => ['auth:api']], f
 
     // Users
     Route::apiResource('users', \Domains\Users\Http\Controllers\Api\UsersApiController::class);
+    Route::get('users/profile', [\Domains\Users\Http\Controllers\Api\UsersApiController::class, 'profile'])->name('user.profile');
 
     // Teams
     Route::apiResource('teams', \Domains\Teams\Http\Controllers\Api\TeamApiController::class);

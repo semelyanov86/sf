@@ -35,8 +35,8 @@ class UserViewModel extends \Parents\ViewModels\ViewModel
         return $this->team ?? TeamData::fromModel(new Team());
     }
 
-    public function toJson(): Collection
+    public function toJson(): UserData
     {
-        return collect($this->user()->items());
+        return $this->user();
     }
 }

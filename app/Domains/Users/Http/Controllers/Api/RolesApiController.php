@@ -3,12 +3,19 @@
 namespace Domains\Users\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Domains\Users\Actions\DeleteRoleAction;
+use Domains\Users\Actions\EditRoleAction;
+use Domains\Users\Actions\GetAllRolesAction;
+use Domains\Users\Actions\StoreRoleAction;
+use Domains\Users\Actions\UpdateRoleAction;
+use Domains\Users\DataTransferObjects\RoleData;
+use Domains\Users\Http\Requests\DeleteRoleRequest;
+use Domains\Users\Http\Requests\GetAllRolesRequest;
+use Domains\Users\Http\Requests\ShowRoleRequest;
 use Domains\Users\Http\Requests\StoreRoleRequest;
 use Domains\Users\Http\Requests\UpdateRoleRequest;
 use Domains\Users\Http\Resources\RoleResource;
 use Domains\Users\Models\Role;
-use Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class RolesApiController extends Controller
@@ -45,14 +52,15 @@ class RolesApiController extends Controller
      *
      * @OA\XmlContent (
      *             type="array",
-     *
+     *)
+     * @param  GetAllRolesRequest  $request
+     * @param  GetAllRolesAction  $action
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(GetAllRolesRequest $request, GetAllRolesAction $action): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        abort_if(Gate::denies('role_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return RoleResource::collection(Role::with(['permissions'])->get());
+        return RoleResource::collection($action()->toJson());
     }
 
     /**
@@ -89,14 +97,14 @@ class RolesApiController extends Controller
      * )
      *
      * @param  StoreRoleRequest  $request
+     * @param  StoreRoleAction  $action
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreRoleRequest $request): \Illuminate\Http\JsonResponse
+    public function store(StoreRoleRequest $request, StoreRoleAction $action): \Illuminate\Http\JsonResponse
     {
-        $role = Role::create($request->all());
-        $role->permissions()->sync($request->input('permissions', []));
+        $dto = RoleData::fromRequest($request);
 
-        return (new RoleResource($role))
+        return (new RoleResource($action($dto)->role()))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
@@ -140,14 +148,16 @@ class RolesApiController extends Controller
      * @OA\JsonContent (ref="#/components/schemas/Role")
      *       ),
      *
+     * @param  ShowRoleRequest  $request
      * @param  Role  $role
+     * @param  EditRoleAction  $action
      * @return RoleResource
      */
-    public function show(Role $role): RoleResource
+    public function show(ShowRoleRequest $request, Role $role, EditRoleAction $action): RoleResource
     {
-        abort_if(Gate::denies('role_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $role->load(['permissions']);
 
-        return new RoleResource($role->load(['permissions']));
+        return new RoleResource($action(RoleData::fromModel($role))->role());
     }
 
     /**
@@ -200,14 +210,14 @@ class RolesApiController extends Controller
      *
      * @param  UpdateRoleRequest  $request
      * @param  Role  $role
+     * @param  UpdateRoleAction  $action
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateRoleRequest $request, Role $role): \Illuminate\Http\JsonResponse
+    public function update(UpdateRoleRequest $request, Role $role, UpdateRoleAction $action): \Illuminate\Http\JsonResponse
     {
-        $role->update($request->all());
-        $role->permissions()->sync($request->input('permissions', []));
+        $viewModel = $action(RoleData::fromRequest($role), $role);
 
-        return (new RoleResource($role))
+        return (new RoleResource($viewModel->role()))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
@@ -251,15 +261,15 @@ class RolesApiController extends Controller
      * @OA\JsonContent ()
      *       ),
      *
+     * @param  DeleteRoleRequest  $request
      * @param  Role  $role
+     * @param  DeleteRoleAction  $action
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy(Role $role): \Illuminate\Http\Response
+    public function destroy(DeleteRoleRequest $request, Role $role, DeleteRoleAction $action): \Illuminate\Http\Response
     {
-        abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $role->delete();
+        $action(RoleData::fromModel($role));
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

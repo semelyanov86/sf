@@ -2,13 +2,17 @@
 
 namespace Domains\Users\Http\Controllers\Api;
 
+use Domains\Users\Actions\DeleteUserAction;
 use Domains\Users\Actions\GetAllUsersAction;
 use Domains\Users\Actions\ShowUserAction;
 use Domains\Users\Actions\StoreUserAction;
 use Domains\Users\Actions\UpdateUserAction;
 use Domains\Users\DataTransferObjects\UserData;
+use Domains\Users\Http\Requests\DeleteUserRequest;
 use Domains\Users\Http\Requests\GetAllUsersRequest;
+use Domains\Users\Http\Requests\ShowProfileRequest;
 use Domains\Users\Http\Requests\ShowUserRequest;
+use Illuminate\Support\Facades\Auth;
 use Parents\Controllers\ApiController as Controller;
 use Domains\Users\Http\Requests\StoreUserRequest;
 use Domains\Users\Http\Requests\UpdateUserRequest;
@@ -99,7 +103,7 @@ class UsersApiController extends Controller
     {
         $dto = UserData::fromRequest($request);
 
-        return (new UserResource($action($dto)->toJson()))
+        return (new UserResource($action($dto)))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
@@ -145,6 +149,42 @@ class UsersApiController extends Controller
      */
     public function show(ShowUserRequest $request, User $user, ShowUserAction $action): UserResource
     {
+        $user->load(['roles', 'team']);
+
+        return new UserResource($action(UserData::fromModel($user))->toJson());
+    }
+    /**
+     * @OA\Get(
+     *      path="/users/profile",
+     *      operationId="getProfileInformation",
+     *      tags={"Users"},
+     *      summary="Get current user information",
+     *      description="Returns profile user data",     
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/User")
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     * @param  ShowProfileRequest  $request
+     * @param  ShowUserAction  $action
+     * @return UserResource
+     */
+    public function profile(ShowProfileRequest $request, ShowUserAction $action): UserResource
+    {
+        $user = Auth::user();
         $user->load(['roles', 'team']);
 
         return new UserResource($action(UserData::fromModel($user))->toJson());
@@ -240,15 +280,15 @@ class UsersApiController extends Controller
      *          description="Resource Not Found"
      *      )
      * )
+     * @param  DeleteUserRequest  $request
      * @param  User  $user
+     * @param  DeleteUserAction  $action
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy(User $user): \Illuminate\Http\Response
+    public function destroy(DeleteUserRequest $request, User $user, DeleteUserAction $action): \Illuminate\Http\Response
     {
-        abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $user->delete();
+        $action(UserData::fromModel($user));
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

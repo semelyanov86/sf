@@ -11,6 +11,7 @@ use Domains\Users\Actions\UpdateUserAction;
 use Domains\Users\DataTransferObjects\UserData;
 use Domains\Users\Enums\LanguageEnum;
 use Domains\Users\Http\Requests\CreateUserRequest;
+use Domains\Users\Http\Requests\DeleteUserRequest;
 use Domains\Users\Http\Requests\EditUserRequest;
 use Domains\Users\Http\Requests\GetAllUsersRequest;
 use Domains\Users\Http\Requests\ShowUserRequest;
@@ -77,7 +78,7 @@ class UsersController extends Controller
         ]);
     }
 
-    public function destroy(User $user, DeleteUserAction $action): \Illuminate\Http\RedirectResponse
+    public function destroy(DeleteUserRequest $request, User $user, DeleteUserAction $action): \Illuminate\Http\RedirectResponse
     {
         $action(UserData::fromModel($user));
 

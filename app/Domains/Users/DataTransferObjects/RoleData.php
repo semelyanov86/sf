@@ -36,4 +36,9 @@ final class RoleData extends \Parents\DataTransferObjects\ObjectData
         ]);
     }
 
+    public function toModel(): Role
+    {
+        return Role::whereId($this->id)->firstOrFail();
+    }
+
 }
