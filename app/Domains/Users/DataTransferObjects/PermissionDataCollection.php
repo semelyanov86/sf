@@ -42,4 +42,9 @@ class PermissionDataCollection extends \Parents\DataTransferObjects\ObjectDataCo
         $roles = collect($this->toArray())->pluck('id');
         return $roles->toArray();
     }
+
+    public function toCollection(): Collection
+    {
+        return collect($this->items());
+    }
 }

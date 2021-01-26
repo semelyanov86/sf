@@ -2,65 +2,61 @@
 
 namespace Domains\Users\Http\Controllers\Admin;
 
+use Domains\Users\Actions\GetAllPermissionsAction;
+use Domains\Users\Actions\StorePermissionAction;
+use Domains\Users\Actions\UpdatePermissionAction;
+use Domains\Users\DataTransferObjects\PermissionData;
+use Domains\Users\Http\Requests\CreatePermissionRequest;
+use Domains\Users\Http\Requests\DeletePermissionRequest;
+use Domains\Users\Http\Requests\EditPermissionRequest;
+use Domains\Users\Http\Requests\GetAllPermissionsRequest;
 use Parents\Controllers\WebController as Controller;
 use Domains\Users\Http\Requests\MassDestroyPermissionRequest;
 use Domains\Users\Http\Requests\StorePermissionRequest;
 use Domains\Users\Http\Requests\UpdatePermissionRequest;
 use Domains\Users\Models\Permission;
-use Gate;
-use Parents\Requests\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PermissionsController extends Controller
 {
-    public function index(): \Illuminate\View\View
+    public function index(GetAllPermissionsRequest $request, GetAllPermissionsAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('permission_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $permissions = Permission::all();
-
-        return view('admin.permissions.index', compact('permissions'));
+        return view('admin.permissions.index', [
+            'viewModel' => $action()
+        ]);
     }
 
-    public function create(): \Illuminate\View\View
+    public function create(CreatePermissionRequest $request): \Illuminate\View\View
     {
-        abort_if(Gate::denies('permission_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.permissions.create');
     }
 
-    public function store(StorePermissionRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StorePermissionRequest $request, StorePermissionAction $action): \Illuminate\Http\RedirectResponse
     {
-        $permission = Permission::create($request->all());
+        $action(PermissionData::fromRequest($request));
 
         return redirect()->route('admin.permissions.index');
     }
 
-    public function edit(Permission $permission): \Illuminate\View\View
+    public function edit(EditPermissionRequest $request, Permission $permission): \Illuminate\View\View
     {
-        abort_if(Gate::denies('permission_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.permissions.edit', compact('permission'));
     }
 
-    public function update(UpdatePermissionRequest $request, Permission $permission): \Illuminate\Http\RedirectResponse
+    public function update(UpdatePermissionRequest $request, Permission $permission, UpdatePermissionAction $action): \Illuminate\Http\RedirectResponse
     {
-        $permission->update($request->all());
+        $action(PermissionData::fromRequest($request), $permission);
 
         return redirect()->route('admin.permissions.index');
     }
 
     public function show(Permission $permission): \Illuminate\View\View
     {
-        abort_if(Gate::denies('permission_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.permissions.show', compact('permission'));
     }
 
-    public function destroy(Permission $permission): \Illuminate\Http\RedirectResponse
+    public function destroy(DeletePermissionRequest $request, Permission $permission): \Illuminate\Http\RedirectResponse
     {
-        abort_if(Gate::denies('permission_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $permission->delete();
 
         return back();

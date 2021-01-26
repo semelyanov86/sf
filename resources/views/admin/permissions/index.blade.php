@@ -34,7 +34,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($permissions as $key => $permission)
+                    @foreach($viewModel->permissions() as $permission)
                         <tr data-entry-id="{{ $permission->id }}">
                             <td>
 
@@ -124,7 +124,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

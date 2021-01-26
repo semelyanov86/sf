@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Domains\Users\Models\Permission;
 use Domains\Users\Models\User;
 use Domains\Users\Factories\PermissionFactory;
+use Domains\Users\ViewModels\PermissionListViewModel;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -19,10 +20,10 @@ class AdminPermissionsPageTest extends TestCase
         $response = $this->signIn()->get(route('admin.permissions.index'));
 
         $response->assertStatus(200);
+        /** @var PermissionListViewModel $permissions */
+        $permissions = $response->viewData('viewModel');
 
-        $permissions = $response->viewData('permissions');
-
-        $this->assertTrue($permissions->contains(function($value) {
+        $this->assertTrue($permissions->permissions()->toCollection()->contains(function($value) {
             return $value->title == 'operation_access';
         }));
     }

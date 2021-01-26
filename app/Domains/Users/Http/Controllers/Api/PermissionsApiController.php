@@ -3,6 +3,13 @@
 namespace Domains\Users\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Domains\Users\Actions\GetAllPermissionsAction;
+use Domains\Users\Actions\StorePermissionAction;
+use Domains\Users\Actions\UpdatePermissionAction;
+use Domains\Users\DataTransferObjects\PermissionData;
+use Domains\Users\Http\Requests\DeletePermissionRequest;
+use Domains\Users\Http\Requests\GetAllPermissionsRequest;
+use Domains\Users\Http\Requests\ShowPermissionRequest;
 use Domains\Users\Http\Requests\StorePermissionRequest;
 use Domains\Users\Http\Requests\UpdatePermissionRequest;
 use Domains\Users\Http\Resources\PermissionResource;
@@ -45,14 +52,15 @@ class PermissionsApiController extends Controller
      *
      * @OA\XmlContent (
      *             type="array",
+     *)
      *
+     * @param  GetAllPermissionsRequest  $request
+     * @param  GetAllPermissionsAction  $action
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(GetAllPermissionsRequest $request, GetAllPermissionsAction $action): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        abort_if(Gate::denies('permission_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return PermissionResource::collection(Permission::all());
+        return PermissionResource::collection($action()->permissions()->toCollection());
     }
 
     /**
@@ -89,11 +97,12 @@ class PermissionsApiController extends Controller
      * )
      *
      * @param  StorePermissionRequest  $request
+     * @param  StorePermissionAction  $action
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StorePermissionRequest $request): \Illuminate\Http\JsonResponse
+    public function store(StorePermissionRequest $request, StorePermissionAction $action): \Illuminate\Http\JsonResponse
     {
-        $permission = Permission::create($request->all());
+        $permission = $action(PermissionData::fromRequest($request));
 
         return (new PermissionResource($permission))
             ->response()
@@ -139,13 +148,12 @@ class PermissionsApiController extends Controller
      * @OA\JsonContent (ref="#/components/schemas/User")
      *       ),
      *
+     * @param  ShowPermissionRequest  $request
      * @param  Permission  $permission
      * @return PermissionResource
      */
-    public function show(Permission $permission): PermissionResource
+    public function show(ShowPermissionRequest $request, Permission $permission): PermissionResource
     {
-        abort_if(Gate::denies('permission_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return new PermissionResource($permission);
     }
 
@@ -199,13 +207,14 @@ class PermissionsApiController extends Controller
      *
      * @param  UpdatePermissionRequest  $request
      * @param  Permission  $permission
+     * @param  UpdatePermissionAction  $action
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdatePermissionRequest $request, Permission $permission): \Illuminate\Http\JsonResponse
+    public function update(UpdatePermissionRequest $request, Permission $permission, UpdatePermissionAction $action): \Illuminate\Http\JsonResponse
     {
-        $permission->update($request->all());
+        $viewModel = $action(PermissionData::fromRequest($request), $permission);
 
-        return (new PermissionResource($permission))
+        return (new PermissionResource($viewModel->permission()))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
@@ -250,12 +259,12 @@ class PermissionsApiController extends Controller
      *       ),
      *
      * @param  Permission  $permission
+     * @param  DeletePermissionRequest  $request
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy(Permission $permission): \Illuminate\Http\Response
+    public function destroy(DeletePermissionRequest $request, Permission $permission): \Illuminate\Http\Response
     {
-        abort_if(Gate::denies('permission_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $permission->delete();
 
