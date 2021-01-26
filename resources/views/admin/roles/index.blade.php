@@ -37,7 +37,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($roles as $key => $role)
+                    @foreach($viewModel->roles() as $role)
                         <tr data-entry-id="{{ $role->id }}">
                             <td>
 

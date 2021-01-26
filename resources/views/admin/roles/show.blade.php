@@ -20,7 +20,7 @@
                             {{ trans('cruds.role.fields.id') }}
                         </th>
                         <td>
-                            {{ $role->id }}
+                            {{ $viewModel->role()->id }}
                         </td>
                     </tr>
                     <tr>
@@ -28,7 +28,7 @@
                             {{ trans('cruds.role.fields.title') }}
                         </th>
                         <td>
-                            {{ $role->title }}
+                            {{ $viewModel->role()->title }}
                         </td>
                     </tr>
                     <tr>
@@ -36,7 +36,7 @@
                             {{ trans('cruds.role.fields.permissions') }}
                         </th>
                         <td>
-                            @foreach($role->permissions as $key => $permissions)
+                            @foreach($viewModel->role()->permissions as $permissions)
                                 <span class="label label-info">{{ $permissions->title }}</span>
                             @endforeach
                         </td>

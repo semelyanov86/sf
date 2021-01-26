@@ -12,10 +12,10 @@ use Domains\Users\Models\Permission;
 final class PermissionData extends \Parents\DataTransferObjects\ObjectData
 {
     public int $id;
-    
+
     public string $title;
 
-    public Carbon $created_at;
+    public ?Carbon $created_at;
 
     public static function fromRequest(StorePermissionRequest|UpdatePermissionRequest $request): self
     {
