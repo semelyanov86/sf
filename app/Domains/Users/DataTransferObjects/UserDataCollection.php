@@ -24,4 +24,16 @@ class UserDataCollection extends \Parents\DataTransferObjects\ObjectDataCollecti
             array_map(fn(User $item) => UserData::fromModel($item), $data)
         );
     }
+
+    /**
+     * @param  User[]  $data
+     * @return UserDataCollection
+     */
+    public static function fromCollection(Collection $data): UserDataCollection
+    {
+        $newData = $data->map(fn(User $item) => UserData::fromModel($item));
+        return new self(
+            $newData->toArray()
+        );
+    }
 }

@@ -37,7 +37,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($teams as $key => $team)
+                    @foreach($viewModel->teams() as $team)
                         <tr data-entry-id="{{ $team->id }}">
                             <td>
 
@@ -130,7 +130,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

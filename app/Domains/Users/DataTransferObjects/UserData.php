@@ -46,7 +46,7 @@ final class UserData extends \Parents\DataTransferObjects\ObjectData
 
     public ?TeamData $team;
 
-    public int $team_id;
+    public ?int $team_id;
 
     public string $language;
 
@@ -93,9 +93,9 @@ final class UserData extends \Parents\DataTransferObjects\ObjectData
         ]);
     }
 
-    public static function fromModel(User $user): self
+    public static function fromModel(User $user, $withTeams = true): self
     {
-        return new self([
+        $data = [
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
@@ -109,8 +109,6 @@ final class UserData extends \Parents\DataTransferObjects\ObjectData
             'primary_currency' => $user->currency,
             'timezone' => $user->timezone,
             'phone' => $user->phone,
-            'team' => TeamData::fromModel($user->team),
-            'team_id' => $user->team?->id,
             'language' => $user->language,
             'google_sync' => (bool) $user->google_sync,
             'roles' => RoleDataCollection::fromArray($user->roles->all()),
@@ -120,7 +118,12 @@ final class UserData extends \Parents\DataTransferObjects\ObjectData
             'sms_notify' => (bool) $user->sms_notify,
             'sms_days_before' => (int) $user->sms_days_before,
             'sms_time' => $user->sms_time
-        ]);
+        ];
+        if ($withTeams) {
+            $data['team'] = TeamData::fromModel($user->team);
+            $data['team_id'] = $user->team?->id;
+        }
+        return new self($data);
     }
 
     public function toArray(): array

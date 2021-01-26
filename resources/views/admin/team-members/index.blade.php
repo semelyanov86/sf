@@ -57,7 +57,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($users as $key => $user)
+                    @foreach($viewModel->users() as $user)
                         <tr data-entry-id="{{ $user->id }}">
                             <td>
 

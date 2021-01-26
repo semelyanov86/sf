@@ -12,11 +12,11 @@ use Domains\Users\Http\Requests\DeleteUserRequest;
 use Domains\Users\Http\Requests\GetAllUsersRequest;
 use Domains\Users\Http\Requests\ShowProfileRequest;
 use Domains\Users\Http\Requests\ShowUserRequest;
+use Domains\Users\Transformers\UserTransformer;
 use Illuminate\Support\Facades\Auth;
 use Parents\Controllers\ApiController as Controller;
 use Domains\Users\Http\Requests\StoreUserRequest;
 use Domains\Users\Http\Requests\UpdateUserRequest;
-use Domains\Users\Http\Resources\UserResource;
 use Domains\Users\Models\User;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -57,11 +57,11 @@ class UsersApiController extends Controller
      *     )
      * @param GetAllUsersRequest $request
      * @param GetAllUsersAction $action
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index(GetAllUsersRequest $request, GetAllUsersAction $action): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(GetAllUsersRequest $request, GetAllUsersAction $action): \Illuminate\Http\JsonResponse
     {
-        return UserResource::collection($action()->toJson());
+        return fractal($action()->users(), new UserTransformer())->respond();
     }
 
     /**
@@ -100,10 +100,7 @@ class UsersApiController extends Controller
     public function store(StoreUserRequest $request, StoreUserAction $action): \Illuminate\Http\JsonResponse
     {
         $dto = UserData::fromRequest($request);
-
-        return (new UserResource($action($dto)))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        return fractal($action($dto)->user(), new UserTransformer())->parseIncludes(['roles', 'team'])->respond(Response::HTTP_CREATED);
     }
 
     /**
@@ -143,13 +140,12 @@ class UsersApiController extends Controller
      * @param  ShowUserRequest  $request
      * @param  User  $user
      * @param  ShowUserAction  $action
-     * @return UserResource
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(ShowUserRequest $request, User $user, ShowUserAction $action): UserResource
+    public function show(ShowUserRequest $request, User $user, ShowUserAction $action): \Illuminate\Http\JsonResponse
     {
         $user->load(['roles', 'team']);
-
-        return new UserResource($action(UserData::fromModel($user))->toJson());
+        return fractal($action(UserData::fromModel($user))->user(), new UserTransformer())->parseIncludes(['roles', 'team'])->respond();
     }
     /**
      * @OA\Get(
@@ -157,7 +153,7 @@ class UsersApiController extends Controller
      *      operationId="getProfileInformation",
      *      tags={"Users"},
      *      summary="Get current user information",
-     *      description="Returns profile user data",     
+     *      description="Returns profile user data",
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
@@ -178,14 +174,13 @@ class UsersApiController extends Controller
      * )
      * @param  ShowProfileRequest  $request
      * @param  ShowUserAction  $action
-     * @return UserResource
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function profile(ShowProfileRequest $request, ShowUserAction $action): UserResource
+    public function profile(ShowProfileRequest $request, ShowUserAction $action): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user();
         $user->load(['roles', 'team']);
-
-        return new UserResource($action(UserData::fromModel($user))->toJson());
+        return fractal($action(UserData::fromModel($user))->user(), new UserTransformer())->parseIncludes(['roles', 'team'])->respond();
     }
 
     /**
@@ -238,10 +233,7 @@ class UsersApiController extends Controller
     public function update(UpdateUserRequest $request, User $user, UpdateUserAction $action): \Illuminate\Http\JsonResponse
     {
         $viewModel = $action(UserData::fromRequest($request), $user);
-
-        return (new UserResource($viewModel->toJson()))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        return fractal($viewModel->user(), new UserTransformer())->parseIncludes(['roles', 'team'])->respond(Response::HTTP_ACCEPTED);
     }
 
     /**

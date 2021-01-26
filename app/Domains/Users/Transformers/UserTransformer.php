@@ -4,11 +4,12 @@
 namespace Domains\Users\Transformers;
 
 
+use Domains\Teams\Transformers\TeamTransformer;
 use Domains\Users\DataTransferObjects\UserData;
 
 class UserTransformer extends \Parents\Transformers\Transformer
 {
-    protected $availableIncludes = ['roles'];
+    protected $availableIncludes = ['roles', 'team'];
 
     public function transform(UserData $userData): array
     {
@@ -18,8 +19,9 @@ class UserTransformer extends \Parents\Transformers\Transformer
             'email' => $userData->email,
             'operations_number' => $userData->operations_number,
             'budget_day_start' => $userData->budget_day_start,
-            'primary_currency' => $userData->primary_currency,
+//            'primary_currency' => $userData->primary_currency,
             'timezone' => $userData->timezone,
+            'phone' => $userData->phone,
             'language' => $userData->language,
         );
     }
@@ -28,4 +30,10 @@ class UserTransformer extends \Parents\Transformers\Transformer
     {
         return $this->collection($userData->roles, new RoleTransformer());
     }
+
+    public function includeTeam(UserData $userData): \League\Fractal\Resource\Item
+    {
+        return $this->item($userData->team, new TeamTransformer());
+    }
+
 }

@@ -2,6 +2,14 @@
 
 namespace Domains\Teams\Http\Controllers\Api;
 
+use Domains\Teams\Actions\GetAllTeamsAction;
+use Domains\Teams\Actions\StoreTeamAction;
+use Domains\Teams\Actions\UpdateTeamAction;
+use Domains\Teams\DataTransferObjects\TeamData;
+use Domains\Teams\Http\Requests\DeleteTeamRequest;
+use Domains\Teams\Http\Requests\GetAllTeamsRequest;
+use Domains\Teams\Http\Requests\ShowTeamRequest;
+use Domains\Teams\Transformers\TeamTransformer;
 use Parents\Controllers\Controller;
 use Domains\Teams\Http\Requests\StoreTeamRequest;
 use Domains\Teams\Http\Requests\UpdateTeamRequest;
@@ -45,14 +53,15 @@ class TeamApiController extends Controller
      *
      * @OA\XmlContent (
      *             type="array",
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     *)
+     * @param  GetAllTeamsRequest  $request
+     * @param  GetAllTeamsAction  $action
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(GetAllTeamsRequest $request, GetAllTeamsAction $action): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('team_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return TeamResource::collection(Team::with(['owner'])->get());
+        $viewModel = $action();
+        return fractal($viewModel->teams(), new TeamTransformer())->respond();
     }
 
     /**
@@ -89,15 +98,13 @@ class TeamApiController extends Controller
      * )
      *
      * @param  StoreTeamRequest  $request
+     * @param  StoreTeamAction  $action
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreTeamRequest $request): \Illuminate\Http\JsonResponse
+    public function store(StoreTeamRequest $request, StoreTeamAction $action): \Illuminate\Http\JsonResponse
     {
-        $team = Team::create($request->all());
-
-        return (new TeamResource($team))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        $viewModel = $action(TeamData::fromRequest($request));
+        return fractal($viewModel->team(), new TeamTransformer())->parseIncludes(['owner'])->respond(Response::HTTP_CREATED);
     }
 
     /**
@@ -139,14 +146,13 @@ class TeamApiController extends Controller
      * @OA\JsonContent (ref="#/components/schemas/Team")
      *       ),
      *
+     * @param  ShowTeamRequest  $request
      * @param  Team  $team
-     * @return TeamResource
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Team $team): TeamResource
+    public function show(ShowTeamRequest $request, Team $team): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('team_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new TeamResource($team->load(['owner']));
+        return fractal(TeamData::fromModel($team), new TeamTransformer())->parseIncludes(['owner'])->respond();
     }
 
     /**
@@ -199,15 +205,13 @@ class TeamApiController extends Controller
      *
      * @param  UpdateTeamRequest  $request
      * @param  Team  $team
+     * @param  UpdateTeamAction  $action
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateTeamRequest $request, Team $team): \Illuminate\Http\JsonResponse
+    public function update(UpdateTeamRequest $request, Team $team, UpdateTeamAction $action): \Illuminate\Http\JsonResponse
     {
-        $team->update($request->all());
-
-        return (new TeamResource($team))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        $teamViewModel = $action(TeamData::fromRequest($request), $team);
+        return fractal($teamViewModel->team(), new TeamTransformer())->parseIncludes(['owner'])->respond(Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -249,14 +253,13 @@ class TeamApiController extends Controller
      * @OA\JsonContent ()
      *       ),
      *
+     * @param  DeleteTeamRequest  $request
      * @param  Team  $team
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy(Team $team): \Illuminate\Http\Response
+    public function destroy(DeleteTeamRequest $request, Team $team): \Illuminate\Http\Response
     {
-        abort_if(Gate::denies('team_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $team->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);

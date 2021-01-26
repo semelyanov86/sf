@@ -2,6 +2,15 @@
 
 namespace Domains\Teams\Http\Controllers\Admin;
 
+use Domains\Teams\Actions\GetAllTeamsAction;
+use Domains\Teams\Actions\StoreTeamAction;
+use Domains\Teams\Actions\UpdateTeamAction;
+use Domains\Teams\DataTransferObjects\TeamData;
+use Domains\Teams\Http\Requests\CreateTeamRequest;
+use Domains\Teams\Http\Requests\DeleteTeamRequest;
+use Domains\Teams\Http\Requests\EditTeamRequest;
+use Domains\Teams\Http\Requests\GetAllTeamsRequest;
+use Domains\Teams\Http\Requests\ShowTeamRequest;
 use Parents\Controllers\WebController as Controller;
 use Domains\Teams\Http\Requests\MassDestroyTeamRequest;
 use Domains\Teams\Http\Requests\StoreTeamRequest;
@@ -13,60 +22,48 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TeamController extends Controller
 {
-    public function index(): \Illuminate\View\View
+    public function index(GetAllTeamsRequest $request, GetAllTeamsAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('team_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $teams = Team::with(['owner'])->get();
-
-        return view('admin.teams.index', compact('teams'));
+        return view('admin.teams.index', [
+            'viewModel' => $action()
+        ]);
     }
 
-    public function create(): \Illuminate\View\View
+    public function create(CreateTeamRequest $request): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('team_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.teams.create');
     }
 
-    public function store(StoreTeamRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreTeamRequest $request, StoreTeamAction $action): \Illuminate\Http\RedirectResponse
     {
-        $data             = $request->all();
-        $data["owner_id"] = auth()->user()->id;
-        $team             = Team::create($data);
+        $action(TeamData::fromRequest($request));
 
         return redirect()->route('admin.teams.index');
     }
 
-    public function edit(Team $team): \Illuminate\View\View
+    public function edit(EditTeamRequest $request, Team $team): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('team_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $team->load('owner');
 
         return view('admin.teams.edit', compact('team'));
     }
 
-    public function update(UpdateTeamRequest $request, Team $team): \Illuminate\Http\RedirectResponse
+    public function update(UpdateTeamRequest $request, Team $team, UpdateTeamAction $action): \Illuminate\Http\RedirectResponse
     {
-        $team->update($request->all());
+        $teamViewModel = $action(TeamData::fromRequest($request));
 
         return redirect()->route('admin.teams.index');
     }
 
-    public function show(Team $team): \Illuminate\View\View
+    public function show(ShowTeamRequest $request, Team $team): \Illuminate\View\View
     {
-        abort_if(Gate::denies('team_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $team->load('owner');
 
         return view('admin.teams.show', compact('team'));
     }
 
-    public function destroy(Team $team): \Illuminate\Http\RedirectResponse
+    public function destroy(DeleteTeamRequest $request, Team $team): \Illuminate\Http\RedirectResponse
     {
-        abort_if(Gate::denies('team_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $team->delete();
 
         return back();
