@@ -194,6 +194,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/ray" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/stopwatch" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/laravel-view-models" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/league/fractal" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/laravel-fractal" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/fractalistic" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

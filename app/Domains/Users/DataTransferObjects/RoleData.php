@@ -15,7 +15,7 @@ final class RoleData extends \Parents\DataTransferObjects\ObjectData
 
     public string $title;
 
-    public iterable $permissions;
+    public PermissionDataCollection $permissions;
 
     public ?Carbon $created_at;
 
@@ -32,7 +32,7 @@ final class RoleData extends \Parents\DataTransferObjects\ObjectData
             'id' => $role->id,
             'title' => $role->title,
             'created_at' => $role->created_at,
-            'permissions' => $role->permissions,
+            'permissions' => PermissionDataCollection::fromCollection($role->permissions),
         ]);
     }
 

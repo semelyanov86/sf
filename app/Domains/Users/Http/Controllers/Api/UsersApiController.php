@@ -18,8 +18,6 @@ use Domains\Users\Http\Requests\StoreUserRequest;
 use Domains\Users\Http\Requests\UpdateUserRequest;
 use Domains\Users\Http\Resources\UserResource;
 use Domains\Users\Models\User;
-use Gate;
-use Parents\Requests\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class UsersApiController extends Controller

@@ -4,6 +4,7 @@ namespace Domains\Users\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Domains\Users\Actions\GetAllPermissionsAction;
+use Domains\Users\Actions\ShowPermissionAction;
 use Domains\Users\Actions\StorePermissionAction;
 use Domains\Users\Actions\UpdatePermissionAction;
 use Domains\Users\DataTransferObjects\PermissionData;
@@ -12,10 +13,9 @@ use Domains\Users\Http\Requests\GetAllPermissionsRequest;
 use Domains\Users\Http\Requests\ShowPermissionRequest;
 use Domains\Users\Http\Requests\StorePermissionRequest;
 use Domains\Users\Http\Requests\UpdatePermissionRequest;
-use Domains\Users\Http\Resources\PermissionResource;
 use Domains\Users\Models\Permission;
-use Gate;
-use Parents\Requests\Request;
+use Domains\Users\Transformers\PermissionTransformer;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use Symfony\Component\HttpFoundation\Response;
 
 class PermissionsApiController extends Controller
@@ -56,11 +56,13 @@ class PermissionsApiController extends Controller
      *
      * @param  GetAllPermissionsRequest  $request
      * @param  GetAllPermissionsAction  $action
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index(GetAllPermissionsRequest $request, GetAllPermissionsAction $action): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(GetAllPermissionsRequest $request, GetAllPermissionsAction $action): \Illuminate\Http\JsonResponse
     {
-        return PermissionResource::collection($action()->permissions()->toCollection());
+        $actionResult = $action();
+        $permissions = $actionResult->permissions();
+        return fractal($permissions, new PermissionTransformer())->paginateWith(new IlluminatePaginatorAdapter($actionResult->paginator()))->respond();
     }
 
     /**
@@ -103,10 +105,7 @@ class PermissionsApiController extends Controller
     public function store(StorePermissionRequest $request, StorePermissionAction $action): \Illuminate\Http\JsonResponse
     {
         $permission = $action(PermissionData::fromRequest($request));
-
-        return (new PermissionResource($permission))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        return fractal($permission->permission(), new PermissionTransformer())->respond(Response::HTTP_CREATED);
     }
 
     /**
@@ -150,11 +149,13 @@ class PermissionsApiController extends Controller
      *
      * @param  ShowPermissionRequest  $request
      * @param  Permission  $permission
-     * @return PermissionResource
+     * @param  ShowPermissionAction  $action
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(ShowPermissionRequest $request, Permission $permission): PermissionResource
+    public function show(ShowPermissionRequest $request, Permission $permission, ShowPermissionAction $action): \Illuminate\Http\JsonResponse
     {
-        return new PermissionResource($permission);
+        $permissionData = PermissionData::fromModel($permission);
+        return fractal($permissionData, new PermissionTransformer())->respond();
     }
 
     /**
@@ -213,10 +214,7 @@ class PermissionsApiController extends Controller
     public function update(UpdatePermissionRequest $request, Permission $permission, UpdatePermissionAction $action): \Illuminate\Http\JsonResponse
     {
         $viewModel = $action(PermissionData::fromRequest($request), $permission);
-
-        return (new PermissionResource($viewModel->permission()))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        return fractal($viewModel->permission(), new PermissionTransformer())->respond(Response::HTTP_ACCEPTED);
     }
 
     /**

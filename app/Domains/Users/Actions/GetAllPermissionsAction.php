@@ -12,6 +12,8 @@ class GetAllPermissionsAction extends \Parents\Actions\Action
 {
     public function __invoke(): PermissionListViewModel
     {
-        return new PermissionListViewModel(PermissionDataCollection::fromCollection(Permission::all()));
+        $paginator = Permission::paginate(100);
+        $permissions = $paginator->getCollection();
+        return new PermissionListViewModel(PermissionDataCollection::fromCollection($permissions), $paginator);
     }
 }

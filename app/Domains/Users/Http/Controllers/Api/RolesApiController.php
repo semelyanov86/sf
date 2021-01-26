@@ -14,8 +14,8 @@ use Domains\Users\Http\Requests\GetAllRolesRequest;
 use Domains\Users\Http\Requests\ShowRoleRequest;
 use Domains\Users\Http\Requests\StoreRoleRequest;
 use Domains\Users\Http\Requests\UpdateRoleRequest;
-use Domains\Users\Http\Resources\RoleResource;
 use Domains\Users\Models\Role;
+use Domains\Users\Transformers\RoleTransformer;
 use Symfony\Component\HttpFoundation\Response;
 
 class RolesApiController extends Controller
@@ -55,12 +55,11 @@ class RolesApiController extends Controller
      *)
      * @param  GetAllRolesRequest  $request
      * @param  GetAllRolesAction  $action
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index(GetAllRolesRequest $request, GetAllRolesAction $action): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(GetAllRolesRequest $request, GetAllRolesAction $action): \Illuminate\Http\JsonResponse
     {
-
-        return RoleResource::collection($action()->toJson());
+        return fractal($action()->roles(), new RoleTransformer())->respond();
     }
 
     /**
@@ -103,10 +102,7 @@ class RolesApiController extends Controller
     public function store(StoreRoleRequest $request, StoreRoleAction $action): \Illuminate\Http\JsonResponse
     {
         $dto = RoleData::fromRequest($request);
-
-        return (new RoleResource($action($dto)->role()))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        return fractal($action($dto)->role(), new RoleTransformer())->parseIncludes(['permissions'])->respond(Response::HTTP_CREATED);
     }
 
     /**
@@ -151,13 +147,12 @@ class RolesApiController extends Controller
      * @param  ShowRoleRequest  $request
      * @param  Role  $role
      * @param  EditRoleAction  $action
-     * @return RoleResource
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(ShowRoleRequest $request, Role $role, EditRoleAction $action): RoleResource
+    public function show(ShowRoleRequest $request, Role $role, EditRoleAction $action): \Illuminate\Http\JsonResponse
     {
         $role->load(['permissions']);
-
-        return new RoleResource($action(RoleData::fromModel($role))->role());
+        return fractal($action(RoleData::fromModel($role))->role(), new RoleTransformer())->parseIncludes(['permissions'])->respond();
     }
 
     /**
@@ -216,10 +211,7 @@ class RolesApiController extends Controller
     public function update(UpdateRoleRequest $request, Role $role, UpdateRoleAction $action): \Illuminate\Http\JsonResponse
     {
         $viewModel = $action(RoleData::fromRequest($role), $role);
-
-        return (new RoleResource($viewModel->role()))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        return fractal($viewModel->role(), new RoleTransformer())->parseIncludes(['permissions'])->respond(Response::HTTP_ACCEPTED);
     }
 
     /**
