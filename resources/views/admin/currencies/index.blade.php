@@ -50,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($currencies as $key => $currency)
+                    @foreach($viewModel->currencies() as $currency)
                         <tr data-entry-id="{{ $currency->id }}">
                             <td>
 

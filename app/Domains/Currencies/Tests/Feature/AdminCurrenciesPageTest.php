@@ -2,6 +2,7 @@
 
 namespace Domains\Currencies\Tests\Feature;
 
+use Domains\Currencies\DataTransferObjects\CurrencyData;
 use Domains\Currencies\Models\Currency;
 use Parents\Tests\PhpUnit\TestCase;
 
@@ -14,9 +15,9 @@ class AdminCurrenciesPageTest extends TestCase
 
         $response->assertStatus(200);
 
-        $currencies = $response->viewData('currencies');
+        $viewModel = $response->viewData('viewModel');
 
-        $this->assertTrue($currencies->contains(function($value) {
+        $this->assertTrue($viewModel->currencies()->toCollection()->contains(function(CurrencyData $value): bool {
             return $value->id == 1;
         }));
     }

@@ -2,55 +2,48 @@
 
 namespace Domains\Currencies\Http\Controllers\Api;
 
+use Domains\Currencies\Actions\GetAllCurrenciesAction;
+use Domains\Currencies\Actions\ShowCurrencyAction;
+use Domains\Currencies\Actions\StoreCurrencyAction;
+use Domains\Currencies\Actions\UpdateCurrencyAction;
+use Domains\Currencies\DataTransferObjects\CurrencyData;
+use Domains\Currencies\Http\Requests\DeleteCurrencyRequest;
+use Domains\Currencies\Http\Requests\IndexCurrenciesRequest;
+use Domains\Currencies\Http\Requests\ShowCurrencyRequest;
+use Domains\Currencies\Transformers\CurrencyTransformer;
 use Parents\Controllers\Controller;
 use Domains\Currencies\Http\Requests\StoreCurrencyRequest;
 use Domains\Currencies\Http\Requests\UpdateCurrencyRequest;
 use Domains\Currencies\Http\Resources\CurrencyResource;
 use Domains\Currencies\Models\Currency;
-use Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CurrenciesApiController extends Controller
 {
-    public function index(): CurrencyResource
+    public function index(IndexCurrenciesRequest $request, GetAllCurrenciesAction $action): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('currency_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new CurrencyResource(Currency::with(['users'])->get());
+        return fractal($action()->currencies(), new CurrencyTransformer())->respond();
     }
 
-    public function store(StoreCurrencyRequest $request): \Illuminate\Http\JsonResponse
+    public function store(StoreCurrencyRequest $request, StoreCurrencyAction $action): \Illuminate\Http\JsonResponse
     {
-        $currency = Currency::create($request->all());
-        $currency->users()->sync($request->input('users', []));
-
-        return (new CurrencyResource($currency))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        $viewModel = $action(CurrencyData::fromRequest($request), $request->input('users', []));
+        return fractal($viewModel->currency(), new CurrencyTransformer())->parseIncludes(['users'])->respond(Response::HTTP_CREATED);
     }
 
-    public function show(Currency $currency): CurrencyResource
+    public function show(ShowCurrencyRequest $request, Currency $currency, ShowCurrencyAction $action): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('currency_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new CurrencyResource($currency->load(['users']));
+        return fractal($action($currency)->currency(), new CurrencyTransformer())->respond();
     }
 
-    public function update(UpdateCurrencyRequest $request, Currency $currency): \Illuminate\Http\JsonResponse
+    public function update(UpdateCurrencyRequest $request, Currency $currency, UpdateCurrencyAction $action): \Illuminate\Http\JsonResponse
     {
-        $currency->update($request->all());
-        $currency->users()->sync($request->input('users', []));
-
-        return (new CurrencyResource($currency))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        $viewModel = $action($currency, CurrencyData::fromRequest($request), $request->input('users', []));
+        return fractal($viewModel->currency(), new CurrencyTransformer())->parseIncludes(['users'])->respond(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Currency $currency): \Illuminate\Http\Response
+    public function destroy(DeleteCurrencyRequest $request, Currency $currency): \Illuminate\Http\Response
     {
-        abort_if(Gate::denies('currency_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $currency->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);

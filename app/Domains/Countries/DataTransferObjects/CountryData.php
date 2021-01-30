@@ -14,17 +14,14 @@ final class CountryData extends \Parents\DataTransferObjects\ObjectData
     public int $id;
 
     public string $name;
-    
+
     public string $short_code;
-    
+
     public ?Carbon $created_at;
 
     public static function fromRequest(StoreCountryRequest|UpdateCountryRequest $request): self
     {
-        return new self([
-            'name' => $request->name,
-            'short_code' => $request->short_code
-        ]);
+        return new self($request->validated());
     }
 
     public static function fromModel(Country $country): self

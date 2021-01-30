@@ -69,6 +69,14 @@ abstract class ApiController extends Controller
      *         url="http://swagger.io"
      *     )
      * )
+     * @OA\Tag(
+     *     name="Currencies",
+     *     description="All currencies added to system",
+     *     @OA\ExternalDocumentation(
+     *         description="Центральный банк России",
+     *         url="https://cbr.ru"
+     *     )
+     * )
      */
     /**
      * @var  array

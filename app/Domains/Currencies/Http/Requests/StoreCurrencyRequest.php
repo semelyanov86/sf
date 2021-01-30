@@ -36,8 +36,12 @@ class StoreCurrencyRequest extends FormRequest
             ],
             'name'        => [
                 'string',
-                'nullable',
+                'required',
             ],
+            'course' => [
+                'nullable',
+                'numeric'
+            ]
         ];
     }
 }

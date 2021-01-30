@@ -20,7 +20,7 @@
                             {{ trans('cruds.currency.fields.id') }}
                         </th>
                         <td>
-                            {{ $currency->id }}
+                            {{ $viewModel->currency()->id }}
                         </td>
                     </tr>
                     <tr>
@@ -28,7 +28,7 @@
                             {{ trans('cruds.currency.fields.code') }}
                         </th>
                         <td>
-                            {{ $currency->code }}
+                            {{ $viewModel->currency()->code }}
                         </td>
                     </tr>
                     <tr>
@@ -36,7 +36,7 @@
                             {{ trans('cruds.currency.fields.course') }}
                         </th>
                         <td>
-                            {{ $currency->course }}
+                            {{ $viewModel->currency()->course }}
                         </td>
                     </tr>
                     <tr>
@@ -44,7 +44,7 @@
                             {{ trans('cruds.currency.fields.update_date') }}
                         </th>
                         <td>
-                            {{ $currency->update_date }}
+                            {{ $viewModel->currency()->update_date }}
                         </td>
                     </tr>
                     <tr>
@@ -52,7 +52,7 @@
                             {{ trans('cruds.currency.fields.users') }}
                         </th>
                         <td>
-                            @foreach($currency->users as $key => $users)
+                            @foreach($viewModel->currency()->users as $key => $users)
                                 <span class="label label-info">{{ $users->name }}</span>
                             @endforeach
                         </td>
@@ -62,7 +62,7 @@
                             {{ trans('cruds.currency.fields.name') }}
                         </th>
                         <td>
-                            {{ $currency->name }}
+                            {{ $viewModel->currency()->name }}
                         </td>
                     </tr>
                 </tbody>

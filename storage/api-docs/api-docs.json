@@ -219,6 +219,206 @@
                 }
             }
         },
+        "/currencies": {
+            "get": {
+                "tags": [
+                    "Currencies"
+                ],
+                "summary": "Get list of currencies registered in system",
+                "description": "Returns list of currencies",
+                "operationId": "getCurrenciesList",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CurrencyResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Currencies"
+                ],
+                "summary": "Store new currency",
+                "description": "Returns currency data",
+                "operationId": "storeCurrency",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCurrencyRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CurrencyVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/currencies/{id}": {
+            "get": {
+                "tags": [
+                    "Currencies"
+                ],
+                "summary": "Get currency information",
+                "description": "Returns currency data",
+                "operationId": "getCurrencyById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Currency id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CurrencyVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Currencies"
+                ],
+                "summary": "Update existing currency",
+                "description": "Returns updated currency data",
+                "operationId": "updateCurrency",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Currency id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCurrencyRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CurrencyVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Currencies"
+                ],
+                "summary": "Delete existing currency",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteCurrency",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Currency id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/teams": {
             "get": {
                 "tags": [
@@ -1160,6 +1360,167 @@
                 },
                 "type": "object"
             },
+            "CurrencyVirtual": {
+                "title": "Currency",
+                "description": "Currency Model",
+                "required": [
+                    "name",
+                    "code"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of currency",
+                        "type": "string",
+                        "example": "Российский рубль"
+                    },
+                    "code": {
+                        "title": "Short Code",
+                        "description": "Code of currency",
+                        "type": "string",
+                        "example": "RUB"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "course": {
+                        "title": "Course of currency",
+                        "description": "Current currency course",
+                        "type": "float",
+                        "example": "70.86"
+                    },
+                    "update_date": {
+                        "title": "Update Date",
+                        "description": "Date of updating course currency",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2021-01-28 17:50:45"
+                    },
+                    "users": {
+                        "title": "Attached users to currency",
+                        "description": "Users",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        },
+                        "xml": {
+                            "name": "user",
+                            "wrapped": true
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "CurrencyResource": {
+                "title": "CurrencyResource",
+                "description": "Currency resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CurrencyVirtual"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "CurrencyResource"
+                }
+            },
+            "StoreCurrencyRequestVirtual": {
+                "title": "Store Currency request",
+                "description": "Store Currency request body data",
+                "required": [
+                    "name",
+                    "code"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new currency",
+                        "type": "string",
+                        "example": "Российский рубль"
+                    },
+                    "code": {
+                        "title": "code",
+                        "description": "Code of new currency",
+                        "type": "string",
+                        "example": "RUB"
+                    },
+                    "course": {
+                        "title": "Course of currency",
+                        "description": "Current currency course",
+                        "type": "float",
+                        "example": "70.86"
+                    },
+                    "users": {
+                        "description": "List of users",
+                        "type": "array",
+                        "items": {}
+                    },
+                    "update_date": {
+                        "title": "Update Date",
+                        "description": "Date of updating course currency",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2021-01-28 17:50:45"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCurrencyRequestVirtual": {
+                "title": "Store Currency request",
+                "description": "Store Currency request body data",
+                "required": [
+                    "course"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new currency",
+                        "type": "string",
+                        "example": "Российский рубль"
+                    },
+                    "code": {
+                        "title": "code",
+                        "description": "Code of new currency",
+                        "type": "string",
+                        "example": "RUB"
+                    },
+                    "course": {
+                        "title": "Course of currency",
+                        "description": "Current currency course",
+                        "type": "float",
+                        "example": "70.86"
+                    },
+                    "users": {
+                        "description": "List of users",
+                        "type": "array",
+                        "items": {}
+                    },
+                    "update_date": {
+                        "title": "Update Date",
+                        "description": "Date of updating course currency",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2021-01-28 17:50:45"
+                    }
+                },
+                "type": "object"
+            },
             "Team": {
                 "title": "Team",
                 "description": "Team model",
@@ -1771,6 +2132,14 @@
             "externalDocs": {
                 "description": "Find out more",
                 "url": "http://swagger.io"
+            }
+        },
+        {
+            "name": "Currencies",
+            "description": "All currencies added to system",
+            "externalDocs": {
+                "description": "Центральный банк России",
+                "url": "https://cbr.ru"
             }
         }
     ],

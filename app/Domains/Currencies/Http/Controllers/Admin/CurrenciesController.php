@@ -2,6 +2,15 @@
 
 namespace Domains\Currencies\Http\Controllers\Admin;
 
+use Domains\Currencies\Actions\GetAllCurrenciesAction;
+use Domains\Currencies\Actions\ShowCurrencyAction;
+use Domains\Currencies\Actions\StoreCurrencyAction;
+use Domains\Currencies\Actions\UpdateCurrencyAction;
+use Domains\Currencies\DataTransferObjects\CurrencyData;
+use Domains\Currencies\Http\Requests\CreateCurrencyRequest;
+use Domains\Currencies\Http\Requests\DeleteCurrencyRequest;
+use Domains\Currencies\Http\Requests\IndexCurrenciesRequest;
+use Domains\Currencies\Http\Requests\ShowCurrencyRequest;
 use Parents\Controllers\Controller;
 use Support\CsvImport\Traits\CsvImportTrait;
 use Domains\Currencies\Http\Requests\MassDestroyCurrencyRequest;
@@ -17,36 +26,29 @@ class CurrenciesController extends Controller
 {
     use CsvImportTrait;
 
-    public function index(): \Illuminate\View\View
+    public function index(IndexCurrenciesRequest $request, GetAllCurrenciesAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('currency_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $currencies = Currency::with(['users'])->get();
-
-        return view('admin.currencies.index', compact('currencies'));
+        return view('admin.currencies.index', [
+            'viewModel' => $action()
+        ]);
     }
 
-    public function create(): \Illuminate\View\View
+    public function create(CreateCurrencyRequest $request): \Illuminate\View\View
     {
-        abort_if(Gate::denies('currency_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $users = User::all()->pluck('name', 'id');
 
         return view('admin.currencies.create', compact('users'));
     }
 
-    public function store(StoreCurrencyRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreCurrencyRequest $request, StoreCurrencyAction $action): \Illuminate\Http\RedirectResponse
     {
-        $currency = Currency::create($request->all());
-        $currency->users()->sync($request->input('users', []));
+        $action(CurrencyData::fromRequest($request), $request->input('users', []));
 
         return redirect()->route('admin.currencies.index');
     }
 
     public function edit(Currency $currency): \Illuminate\View\View
     {
-        abort_if(Gate::denies('currency_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $users = User::all()->pluck('name', 'id');
 
         $currency->load('users');
@@ -54,27 +56,22 @@ class CurrenciesController extends Controller
         return view('admin.currencies.edit', compact('users', 'currency'));
     }
 
-    public function update(UpdateCurrencyRequest $request, Currency $currency): \Illuminate\Http\RedirectResponse
+    public function update(UpdateCurrencyRequest $request, Currency $currency, UpdateCurrencyAction $action): \Illuminate\Http\RedirectResponse
     {
-        $currency->update($request->all());
-        $currency->users()->sync($request->input('users', []));
-
+        $action($currency, CurrencyData::fromRequest($request), $request->input('users', []));
+        
         return redirect()->route('admin.currencies.index');
     }
 
-    public function show(Currency $currency): \Illuminate\View\View
+    public function show(ShowCurrencyRequest $request, Currency $currency, ShowCurrencyAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('currency_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $currency->load('users');
-
-        return view('admin.currencies.show', compact('currency'));
+        return view('admin.currencies.show', [
+            'viewModel' => $action($currency)
+        ]);
     }
 
-    public function destroy(Currency $currency): \Illuminate\Http\RedirectResponse
+    public function destroy(DeleteCurrencyRequest $request, Currency $currency): \Illuminate\Http\RedirectResponse
     {
-        abort_if(Gate::denies('currency_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $currency->delete();
 
         return back();

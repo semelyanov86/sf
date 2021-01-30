@@ -39,6 +39,10 @@ class UpdateCurrencyRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'course' => [
+                'nullable',
+                'numeric'
+            ]
         ];
     }
 }

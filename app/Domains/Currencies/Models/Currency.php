@@ -34,12 +34,12 @@ class Currency extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function getUpdateDateAttribute($value): ?string
+    public function getUpdateDateAttribute(?string $value): ?string
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function setUpdateDateAttribute($value): void
+    public function setUpdateDateAttribute(?string $value): void
     {
         /** @psalm-suppress PossiblyFalseReference */
         $this->attributes['update_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
