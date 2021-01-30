@@ -31,6 +31,8 @@ class PermissionsApiController extends Controller
      * @OA\Response (
      *         response=200,
      *         description="successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/PermissionResource")
+     * ),
      * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
@@ -39,20 +41,8 @@ class PermissionsApiController extends Controller
      *          response=403,
      *          description="Forbidden"
      *      )
-     *     )
-     *
-     * @OA\JsonContent (
-     *             type="array",
-     *
-     * @OA\Items (ref="#/components/schemas/Permission")
-     *         ),
-     * @OA\Items (ref="#/components/schemas/Permission")
-     *         )
      *     ),
      *
-     * @OA\XmlContent (
-     *             type="array",
-     *)
      *
      * @param  GetAllPermissionsRequest  $request
      * @param  GetAllPermissionsAction  $action
@@ -75,15 +65,14 @@ class PermissionsApiController extends Controller
      *
      * @OA\RequestBody (
      *          required=true,
-     *
-     * @OA\JsonContent (ref="#/components/schemas/StorePermissionRequest")
+     *          @OA\JsonContent (ref="#/components/schemas/StorePermissionRequest")
      *      ),
-     * @OA\JsonContent (ref="#/components/schemas/Permission")
-     *       ),
      *
      * @OA\Response (
      *          response=201,
      *          description="Successful operation",
+     *          @OA\JsonContent (ref="#/components/schemas/Permission")
+     *  ),
      * @OA\Response (
      *          response=400,
      *          description="Bad Request"
@@ -130,6 +119,8 @@ class PermissionsApiController extends Controller
      * @OA\Response (
      *          response=200,
      *          description="Successful operation",
+     *          @OA\JsonContent (ref="#/components/schemas/Permission")
+     *       ),
      * @OA\Response (
      *          response=400,
      *          description="Bad Request"
@@ -142,10 +133,8 @@ class PermissionsApiController extends Controller
      *          response=403,
      *          description="Forbidden"
      *      )
-     * )
+     * ),
      *
-     * @OA\JsonContent (ref="#/components/schemas/User")
-     *       ),
      *
      * @param  ShowPermissionRequest  $request
      * @param  Permission  $permission
@@ -179,15 +168,14 @@ class PermissionsApiController extends Controller
      *
      * @OA\RequestBody (
      *          required=true,
-     *
-     * @OA\JsonContent (ref="#/components/schemas/UpdatePermissionRequest")
+     *          @OA\JsonContent (ref="#/components/schemas/UpdatePermissionRequest")
      *      ),
-     * @OA\JsonContent (ref="#/components/schemas/Permission")
-     *       ),
      *
      * @OA\Response (
      *          response=202,
      *          description="Successful operation",
+     *          @OA\JsonContent (ref="#/components/schemas/Permission")
+     *  ),
      * @OA\Response (
      *          response=400,
      *          description="Bad Request"
@@ -239,6 +227,8 @@ class PermissionsApiController extends Controller
      * @OA\Response (
      *          response=204,
      *          description="Successful operation",
+     *          @OA\JsonContent ()
+     *       ),
      * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
@@ -249,12 +239,10 @@ class PermissionsApiController extends Controller
      *      ),
      * @OA\Response (
      *          response=404,
-     *          description="Resource Not Found"
+     *          description="Resource Not Found",
      *      )
-     * )
+     * ),
      *
-     * @OA\JsonContent ()
-     *       ),
      *
      * @param  Permission  $permission
      * @param  DeletePermissionRequest  $request

@@ -32,6 +32,8 @@ class TeamApiController extends Controller
      * @OA\Response (
      *         response=200,
      *         description="successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/TeamResource")
+     * ),
      * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
@@ -40,20 +42,9 @@ class TeamApiController extends Controller
      *          response=403,
      *          description="Forbidden"
      *      )
-     *     )
-     *
-     * @OA\JsonContent (
-     *             type="array",
-     *
-     * @OA\Items (ref="#/components/schemas/Team")
-     *         ),
-     * @OA\Items (ref="#/components/schemas/Team")
-     *         )
      *     ),
      *
-     * @OA\XmlContent (
-     *             type="array",
-     *)
+     *
      * @param  GetAllTeamsRequest  $request
      * @param  GetAllTeamsAction  $action
      * @return \Illuminate\Http\JsonResponse
@@ -74,15 +65,14 @@ class TeamApiController extends Controller
      *
      * @OA\RequestBody (
      *          required=true,
-     *
-     * @OA\JsonContent (ref="#/components/schemas/StoreTeamRequest")
+     *          @OA\JsonContent (ref="#/components/schemas/StoreTeamRequest")
      *      ),
-     * @OA\JsonContent (ref="#/components/schemas/Team")
-     *       ),
      *
      * @OA\Response (
      *          response=201,
      *          description="Successful operation",
+     *          @OA\JsonContent (ref="#/components/schemas/Team")
+     *   ),
      * @OA\Response (
      *          response=400,
      *          description="Bad Request"
@@ -120,8 +110,7 @@ class TeamApiController extends Controller
      *          description="Team id",
      *          required=true,
      *          in="path",
-     *
-     * @OA\Schema (
+     *          @OA\Schema (
      *              type="integer"
      *          )
      *      ),
@@ -129,6 +118,8 @@ class TeamApiController extends Controller
      * @OA\Response (
      *          response=200,
      *          description="Successful operation",
+     *          @OA\JsonContent (ref="#/components/schemas/Team")
+     * ),
      * @OA\Response (
      *          response=400,
      *          description="Bad Request"
@@ -141,10 +132,7 @@ class TeamApiController extends Controller
      *          response=403,
      *          description="Forbidden"
      *      )
-     * )
-     *
-     * @OA\JsonContent (ref="#/components/schemas/Team")
-     *       ),
+     * ),
      *
      * @param  ShowTeamRequest  $request
      * @param  Team  $team
@@ -176,15 +164,14 @@ class TeamApiController extends Controller
      *
      * @OA\RequestBody (
      *          required=true,
-     *
-     * @OA\JsonContent (ref="#/components/schemas/UpdateTeamRequest")
+     *          @OA\JsonContent (ref="#/components/schemas/UpdateTeamRequest")
      *      ),
-     * @OA\JsonContent (ref="#/components/schemas/Team")
-     *       ),
      *
      * @OA\Response (
      *          response=202,
      *          description="Successful operation",
+     *          @OA\JsonContent (ref="#/components/schemas/Team")
+     *       ),
      * @OA\Response (
      *          response=400,
      *          description="Bad Request"
@@ -236,6 +223,8 @@ class TeamApiController extends Controller
      * @OA\Response (
      *          response=204,
      *          description="Successful operation",
+     *          @OA\JsonContent ()
+     *  ),
      * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
@@ -248,10 +237,8 @@ class TeamApiController extends Controller
      *          response=404,
      *          description="Resource Not Found"
      *      )
-     * )
+     * ),
      *
-     * @OA\JsonContent ()
-     *       ),
      *
      * @param  DeleteTeamRequest  $request
      * @param  Team  $team

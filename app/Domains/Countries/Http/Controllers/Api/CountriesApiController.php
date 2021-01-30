@@ -3,51 +3,49 @@
 namespace Domains\Countries\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Domains\Countries\Actions\GetAllCountriesAction;
+use Domains\Countries\Actions\StoreCountryAction;
+use Domains\Countries\Actions\UpdateCountryAction;
+use Domains\Countries\DataTransferObjects\CountryData;
+use Domains\Countries\Http\Requests\DestroyCountryRequest;
+use Domains\Countries\Http\Requests\IndexCountriesRequest;
+use Domains\Countries\Http\Requests\ShowCountryRequest;
 use Domains\Countries\Http\Requests\StoreCountryRequest;
 use Domains\Countries\Http\Requests\UpdateCountryRequest;
 use Domains\Countries\Http\Resources\CountryResource;
 use Domains\Countries\Models\Country;
+use Domains\Countries\Transformers\CountryTransformer;
 use Gate;
+use Parents\Controllers\ApiController;
 use Symfony\Component\HttpFoundation\Response;
 
-class CountriesApiController extends Controller
+class CountriesApiController extends ApiController
 {
-    public function index(): CountryResource
+    public function index(IndexCountriesRequest $request, GetAllCountriesAction $action): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('country_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new CountryResource(Country::all());
+        $viewModel = $action();
+        return fractal($viewModel->countries(), new CountryTransformer())->respond();
     }
 
-    public function store(StoreCountryRequest $request): \Illuminate\Http\JsonResponse
+    public function store(StoreCountryRequest $request, StoreCountryAction $action): \Illuminate\Http\JsonResponse
     {
-        $country = Country::create($request->all());
-
-        return (new CountryResource($country))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        $viewModel = $action(CountryData::fromRequest($request));
+        return fractal($viewModel->country(), new CountryTransformer())->respond(Response::HTTP_CREATED);
     }
 
-    public function show(Country $country): CountryResource
+    public function show(ShowCountryRequest $request, Country $country): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('country_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new CountryResource($country);
+        return fractal(CountryData::fromModel($country), new CountryTransformer())->respond();
     }
 
-    public function update(UpdateCountryRequest $request, Country $country): \Illuminate\Http\JsonResponse
+    public function update(UpdateCountryRequest $request, Country $country, UpdateCountryAction $action): \Illuminate\Http\JsonResponse
     {
-        $country->update($request->all());
-
-        return (new CountryResource($country))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        $viewModel = $action($country, CountryData::fromRequest($request));
+        return fractal($viewModel->country(), new CountryTransformer())->respond(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Country $country): \Illuminate\Http\Response
+    public function destroy(DestroyCountryRequest $request, Country $country): \Illuminate\Http\Response
     {
-        abort_if(Gate::denies('country_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $country->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);

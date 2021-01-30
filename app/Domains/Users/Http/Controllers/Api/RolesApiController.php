@@ -31,6 +31,8 @@ class RolesApiController extends Controller
      * @OA\Response (
      *         response=200,
      *         description="successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/RoleResource")
+     * ),
      * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
@@ -39,20 +41,8 @@ class RolesApiController extends Controller
      *          response=403,
      *          description="Forbidden"
      *      )
-     *     )
-     *
-     * @OA\JsonContent (
-     *             type="array",
-     *
-     * @OA\Items (ref="#/components/schemas/Role")
-     *         ),
-     * @OA\Items (ref="#/components/schemas/Role")
-     *         )
      *     ),
      *
-     * @OA\XmlContent (
-     *             type="array",
-     *)
      * @param  GetAllRolesRequest  $request
      * @param  GetAllRolesAction  $action
      * @return \Illuminate\Http\JsonResponse
@@ -72,15 +62,14 @@ class RolesApiController extends Controller
      *
      * @OA\RequestBody (
      *          required=true,
-     *
-     * @OA\JsonContent (ref="#/components/schemas/StoreRoleRequest")
+     *          @OA\JsonContent (ref="#/components/schemas/StoreRoleRequest")
      *      ),
-     * @OA\JsonContent (ref="#/components/schemas/Role")
-     *       ),
      *
      * @OA\Response (
      *          response=201,
      *          description="Successful operation",
+     *          @OA\JsonContent (ref="#/components/schemas/Role")
+     *  ),
      * @OA\Response (
      *          response=400,
      *          description="Bad Request"
@@ -127,6 +116,8 @@ class RolesApiController extends Controller
      * @OA\Response (
      *          response=200,
      *          description="Successful operation",
+     *          @OA\JsonContent (ref="#/components/schemas/Role")
+     *       ),
      * @OA\Response (
      *          response=400,
      *          description="Bad Request"
@@ -139,10 +130,8 @@ class RolesApiController extends Controller
      *          response=403,
      *          description="Forbidden"
      *      )
-     * )
+     * ),
      *
-     * @OA\JsonContent (ref="#/components/schemas/Role")
-     *       ),
      *
      * @param  ShowRoleRequest  $request
      * @param  Role  $role
@@ -176,15 +165,14 @@ class RolesApiController extends Controller
      *
      * @OA\RequestBody (
      *          required=true,
-     *
-     * @OA\JsonContent (ref="#/components/schemas/UpdateRoleRequest")
+     *          @OA\JsonContent (ref="#/components/schemas/UpdateRoleRequest")
      *      ),
-     * @OA\JsonContent (ref="#/components/schemas/Role")
-     *       ),
      *
      * @OA\Response (
      *          response=202,
      *          description="Successful operation",
+     *          @OA\JsonContent (ref="#/components/schemas/Role")
+     *  ),
      * @OA\Response (
      *          response=400,
      *          description="Bad Request"
@@ -236,6 +224,8 @@ class RolesApiController extends Controller
      * @OA\Response (
      *          response=204,
      *          description="Successful operation",
+     *          @OA\JsonContent ()
+     *   ),
      * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
@@ -248,10 +238,8 @@ class RolesApiController extends Controller
      *          response=404,
      *          description="Resource Not Found"
      *      )
-     * )
+     * ),
      *
-     * @OA\JsonContent ()
-     *       ),
      *
      * @param  DeleteRoleRequest  $request
      * @param  Role  $role

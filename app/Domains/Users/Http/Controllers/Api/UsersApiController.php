@@ -33,6 +33,8 @@ class UsersApiController extends Controller
      * @OA\Response (
      *         response=200,
      *         description="successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/UserResource")
+     *     ),
      * @OA\Response (
      *          response=401,
      *          description="Unauthenticated",
@@ -41,20 +43,8 @@ class UsersApiController extends Controller
      *          response=403,
      *          description="Forbidden"
      *      )
-     *     )
-     *
-     * @OA\JsonContent (
-     *             type="array",
-     *
-     * @OA\Items (ref="#/components/schemas/User")
-     *         ),
-     * @OA\Items (ref="#/components/schemas/User")
-     *         )
      *     ),
      *
-     * @OA\XmlContent (
-     *             type="array",
-     *     )
      * @param GetAllUsersRequest $request
      * @param GetAllUsersAction $action
      * @return \Illuminate\Http\JsonResponse

@@ -61,6 +61,14 @@ abstract class ApiController extends Controller
      *         url="http://swagger.io"
      *     )
      * )
+     * @OA\Tag(
+     *     name="Countries",
+     *     description="All countries added to system",
+     *     @OA\ExternalDocumentation(
+     *         description="Find out more",
+     *         url="http://swagger.io"
+     *     )
+     * )
      */
     /**
      * @var  array

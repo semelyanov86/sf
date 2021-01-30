@@ -2,6 +2,12 @@
 
 namespace Domains\Countries\Http\Controllers\Admin;
 
+use Domains\Countries\Actions\GetAllCountriesAction;
+use Domains\Countries\Actions\StoreCountryAction;
+use Domains\Countries\Actions\UpdateCountryAction;
+use Domains\Countries\DataTransferObjects\CountryData;
+use Domains\Countries\Http\Requests\CreateCountryRequest;
+use Domains\Countries\Http\Requests\IndexCountriesRequest;
 use Parents\Controllers\WebController as Controller;
 use Domains\Countries\Http\Requests\MassDestroyCountryRequest;
 use Domains\Countries\Http\Requests\StoreCountryRequest;
@@ -12,47 +18,39 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CountriesController extends Controller
 {
-    public function index(): \Illuminate\View\View
+    public function index(IndexCountriesRequest $request, GetAllCountriesAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('country_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $countries = Country::all();
-
-        return view('admin.countries.index', compact('countries'));
+        return view('admin.countries.index', [
+            'viewModel' => $action()
+        ]);
     }
 
-    public function create(): \Illuminate\View\View
+    public function create(CreateCountryRequest $request): \Illuminate\View\View
     {
-        abort_if(Gate::denies('country_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.countries.create');
     }
 
-    public function store(StoreCountryRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreCountryRequest $request, StoreCountryAction $action): \Illuminate\Http\RedirectResponse
     {
-        $country = Country::create($request->all());
+        $action(CountryData::fromRequest($request));
 
         return redirect()->route('admin.countries.index');
     }
 
-    public function edit(Country $country): \Illuminate\View\View
+    public function edit(Country $country): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('country_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.countries.edit', compact('country'));
     }
 
-    public function update(UpdateCountryRequest $request, Country $country): \Illuminate\Http\RedirectResponse
+    public function update(UpdateCountryRequest $request, Country $country, UpdateCountryAction $action): \Illuminate\Http\RedirectResponse
     {
-        $country->update($request->all());
+        $action($country, CountryData::fromRequest($request));
 
         return redirect()->route('admin.countries.index');
     }
 
     public function show(Country $country): \Illuminate\View\View
     {
-        abort_if(Gate::denies('country_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $country->load('countryBanks');
 
         return view('admin.countries.show', compact('country'));
@@ -60,8 +58,6 @@ class CountriesController extends Controller
 
     public function destroy(Country $country): \Illuminate\Http\RedirectResponse
     {
-        abort_if(Gate::denies('country_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $country->delete();
 
         return back();
