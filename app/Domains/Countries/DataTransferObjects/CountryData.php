@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
 
 final class CountryData extends \Parents\DataTransferObjects\ObjectData
 {
-    public int $id;
+    public ?int $id;
 
     public string $name;
 

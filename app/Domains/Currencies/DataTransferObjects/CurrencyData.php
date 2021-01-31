@@ -12,7 +12,7 @@ use Illuminate\Support\Carbon;
 
 final class CurrencyData extends \Parents\DataTransferObjects\ObjectData
 {
-    public int $id;
+    public ?int $id;
 
     public string $code;
 

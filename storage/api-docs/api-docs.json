@@ -19,6 +19,206 @@
         }
     ],
     "paths": {
+        "/card-types": {
+            "get": {
+                "tags": [
+                    "CardTypes"
+                ],
+                "summary": "Get list of card types registered in system",
+                "description": "Returns list of card types",
+                "operationId": "getCardTypesList",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CardTypeResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CardTypes"
+                ],
+                "summary": "Store new card type",
+                "description": "Returns card types data",
+                "operationId": "storeCardType",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCardTypeRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CardTypeVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/card-types/{id}": {
+            "get": {
+                "tags": [
+                    "CardTypes"
+                ],
+                "summary": "Get card type information",
+                "description": "Returns card type data",
+                "operationId": "getCardTypeById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Card Type id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CardTypeVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CardTypes"
+                ],
+                "summary": "Update existing card type",
+                "description": "Returns updated card type data",
+                "operationId": "updateCardType",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Card Type id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCardTypeRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CardTypeVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CardTypes"
+                ],
+                "summary": "Delete existing card type",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteCardType",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Card type id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/countries": {
             "get": {
                 "tags": [
@@ -1259,6 +1459,104 @@
     },
     "components": {
         "schemas": {
+            "CardTypeVirtual": {
+                "title": "CardType",
+                "description": "Card type Model",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of card type",
+                        "type": "string",
+                        "example": "Visa"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "description": "Description of card type",
+                        "type": "string",
+                        "example": "Visa credit card"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object"
+            },
+            "CardTypeResource": {
+                "title": "CardTypeResource",
+                "description": "Card Type resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CardTypeVirtual"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "CardTypeResource"
+                }
+            },
+            "StoreCardTypeRequestVirtual": {
+                "title": "Store Card Type request",
+                "description": "Store Card Type request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new card type",
+                        "type": "string",
+                        "example": "Visa"
+                    },
+                    "description": {
+                        "title": "description",
+                        "description": "Description of new card type",
+                        "type": "string",
+                        "example": "Visa card credit"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCardTypeRequestVirtual": {
+                "title": "Update card type request",
+                "description": "Update card type request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new card type",
+                        "type": "string",
+                        "example": "Visa"
+                    },
+                    "description": {
+                        "title": "description",
+                        "description": "Description of card type",
+                        "type": "string",
+                        "example": "Visa debit card"
+                    }
+                },
+                "type": "object"
+            },
             "CountryVirtual": {
                 "title": "Country",
                 "description": "Country Model",
@@ -2141,6 +2439,10 @@
                 "description": "Центральный банк России",
                 "url": "https://cbr.ru"
             }
+        },
+        {
+            "name": "CardTypes",
+            "description": "All card types added to system"
         }
     ],
     "security": [

@@ -77,6 +77,10 @@ abstract class ApiController extends Controller
      *         url="https://cbr.ru"
      *     )
      * )
+     * @OA\Tag(
+     *     name="CardTypes",
+     *     description="All card types added to system",
+     * )
      */
     /**
      * @var  array

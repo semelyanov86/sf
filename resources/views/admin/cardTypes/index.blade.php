@@ -38,7 +38,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($cardTypes as $key => $cardType)
+                    @foreach($viewModel->cardTypes() as $key => $cardType)
                         <tr data-entry-id="{{ $cardType->id }}">
                             <td>
 
@@ -128,7 +128,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

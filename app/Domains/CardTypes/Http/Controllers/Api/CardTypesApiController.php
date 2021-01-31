@@ -2,6 +2,14 @@
 
 namespace Domains\CardTypes\Http\Controllers\Api;
 
+use Domains\CardTypes\Actions\GetAllCardTypesAction;
+use Domains\CardTypes\Actions\StoreCardTypeAction;
+use Domains\CardTypes\Actions\UpdateCardTypeAction;
+use Domains\CardTypes\DataTransferObjects\CardTypeData;
+use Domains\CardTypes\Http\Requests\DeleteCardTypesRequest;
+use Domains\CardTypes\Http\Requests\IndexCardTypesRequest;
+use Domains\CardTypes\Http\Requests\ShowCardTypesRequest;
+use Domains\CardTypes\Transformers\CardTypeTransformer;
 use Parents\Controllers\ApiController as Controller;
 use Domains\CardTypes\Http\Requests\StoreCardTypeRequest;
 use Domains\CardTypes\Http\Requests\UpdateCardTypeRequest;
@@ -13,42 +21,30 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CardTypesApiController extends Controller
 {
-    public function index(): CardTypeResource
+    public function index(IndexCardTypesRequest $request, GetAllCardTypesAction $action): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('card_type_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new CardTypeResource(CardType::all());
+        return fractal($action()->cardTypes(), new CardTypeTransformer())->respond();
     }
 
-    public function store(StoreCardTypeRequest $request): \Illuminate\Http\JsonResponse
+    public function store(StoreCardTypeRequest $request, StoreCardTypeAction $action): \Illuminate\Http\JsonResponse
     {
-        $cardType = CardType::create($request->all());
-
-        return (new CardTypeResource($cardType))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        $viewModel = $action(CardTypeData::fromRequest($request));
+        return fractal($viewModel->cardType(), new CardTypeTransformer())->respond(Response::HTTP_CREATED);
     }
 
-    public function show(CardType $cardType): CardTypeResource
+    public function show(ShowCardTypesRequest $request, CardType $cardType): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('card_type_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new CardTypeResource($cardType);
+        return fractal(CardTypeData::fromModel($cardType), new CardTypeTransformer())->respond();
     }
 
-    public function update(UpdateCardTypeRequest $request, CardType $cardType): \Illuminate\Http\JsonResponse
+    public function update(UpdateCardTypeRequest $request, CardType $cardType, UpdateCardTypeAction $action): \Illuminate\Http\JsonResponse
     {
-        $cardType->update($request->all());
-
-        return (new CardTypeResource($cardType))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        $viewModel = $action($cardType, CardTypeData::fromRequest($request));
+        return fractal($viewModel->cardType(), new CardTypeTransformer())->respond(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(CardType $cardType): \Illuminate\Http\Response
+    public function destroy(DeleteCardTypesRequest $request, CardType $cardType): \Illuminate\Http\Response
     {
-        abort_if(Gate::denies('card_type_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $cardType->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
