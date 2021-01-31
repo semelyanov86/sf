@@ -50,7 +50,8 @@ class StoreCurrencyRequestVirtual
     /**
      *   @OA\Property(
      *     property="users", description="List of users", type="array",
-     *     @OA\Items()
+     *      @OA\Items( type="int", example=1
+     *      ),
      *  )
      * @var array
      */

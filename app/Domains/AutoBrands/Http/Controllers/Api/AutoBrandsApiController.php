@@ -2,53 +2,46 @@
 
 namespace Domains\AutoBrands\Http\Controllers\Api;
 
+use Domains\AutoBrands\Actions\GetAllAutoBrandsAction;
+use Domains\AutoBrands\Actions\StoreAutoBrandAction;
+use Domains\AutoBrands\Actions\UpdateAutoBrandAction;
+use Domains\AutoBrands\DataTransferObjects\AutoBrandData;
+use Domains\AutoBrands\Http\Requests\DeleteAutoBrandRequest;
+use Domains\AutoBrands\Http\Requests\IndexAutoBrandRequest;
+use Domains\AutoBrands\Http\Requests\ShowAutoBrandRequest;
+use Domains\AutoBrands\Transformers\AutoBrandTransformer;
 use Parents\Controllers\ApiController as Controller;
 use Domains\AutoBrands\Http\Requests\StoreAutoBrandRequest;
 use Domains\AutoBrands\Http\Requests\UpdateAutoBrandRequest;
-use Domains\AutoBrands\Http\Resources\AutoBrandResource;
 use Domains\AutoBrands\Models\AutoBrand;
-use Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AutoBrandsApiController extends Controller
 {
-    public function index(): AutoBrandResource
+    public function index(IndexAutoBrandRequest $request, GetAllAutoBrandsAction $action): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('auto_brand_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new AutoBrandResource(AutoBrand::all());
+        return fractal($action()->autoBrands(), new AutoBrandTransformer())->respond();
     }
 
-    public function store(StoreAutoBrandRequest $request): \Illuminate\Http\JsonResponse
+    public function store(StoreAutoBrandRequest $request, StoreAutoBrandAction $action): \Illuminate\Http\JsonResponse
     {
-        $autoBrand = AutoBrand::create($request->all());
-
-        return (new AutoBrandResource($autoBrand))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        $viewModel = $action(AutoBrandData::fromRequest($request));
+        return fractal($viewModel->autoBrand(), new AutoBrandTransformer())->respond(Response::HTTP_CREATED);
     }
 
-    public function show(AutoBrand $autoBrand): AutoBrandResource
+    public function show(ShowAutoBrandRequest $request, AutoBrand $autoBrand): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('auto_brand_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new AutoBrandResource($autoBrand);
+        return fractal(AutoBrandData::fromModel($autoBrand), new AutoBrandTransformer())->respond();
     }
 
-    public function update(UpdateAutoBrandRequest $request, AutoBrand $autoBrand): \Illuminate\Http\JsonResponse
+    public function update(UpdateAutoBrandRequest $request, AutoBrand $autoBrand, UpdateAutoBrandAction $action): \Illuminate\Http\JsonResponse
     {
-        $autoBrand->update($request->all());
-
-        return (new AutoBrandResource($autoBrand))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        $viewModel = $action($autoBrand, AutoBrandData::fromRequest($request));
+        return fractal($viewModel->autoBrand(), new AutoBrandTransformer())->respond(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(AutoBrand $autoBrand): \Illuminate\Http\Response
+    public function destroy(DeleteAutoBrandRequest $request, AutoBrand $autoBrand): \Illuminate\Http\Response
     {
-        abort_if(Gate::denies('auto_brand_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $autoBrand->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);

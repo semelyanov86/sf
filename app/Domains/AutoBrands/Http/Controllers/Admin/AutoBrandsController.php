@@ -2,6 +2,13 @@
 
 namespace Domains\AutoBrands\Http\Controllers\Admin;
 
+use Domains\AutoBrands\Actions\GetAllAutoBrandsAction;
+use Domains\AutoBrands\Actions\StoreAutoBrandAction;
+use Domains\AutoBrands\DataTransferObjects\AutoBrandData;
+use Domains\AutoBrands\Http\Requests\CreateAutoBrandRequest;
+use Domains\AutoBrands\Http\Requests\DeleteAutoBrandRequest;
+use Domains\AutoBrands\Http\Requests\IndexAutoBrandRequest;
+use Domains\AutoBrands\Http\Requests\ShowAutoBrandRequest;
 use Parents\Controllers\WebController as Controller;
 use Support\CsvImport\Traits\CsvImportTrait;
 use Domains\AutoBrands\Http\Requests\MassDestroyAutoBrandRequest;
@@ -16,33 +23,27 @@ class AutoBrandsController extends Controller
 {
     use CsvImportTrait;
 
-    public function index(): \Illuminate\View\View
+    public function index(IndexAutoBrandRequest $request, GetAllAutoBrandsAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('auto_brand_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $autoBrands = AutoBrand::all();
-
-        return view('admin.autoBrands.index', compact('autoBrands'));
+        return view('admin.autoBrands.index', [
+            'viewModel' => $action()
+        ]);
     }
 
-    public function create(): \Illuminate\View\View
+    public function create(CreateAutoBrandRequest $request): \Illuminate\View\View
     {
-        abort_if(Gate::denies('auto_brand_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.autoBrands.create');
     }
 
-    public function store(StoreAutoBrandRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreAutoBrandRequest $request, StoreAutoBrandAction $action): \Illuminate\Http\RedirectResponse
     {
-        $autoBrand = AutoBrand::create($request->all());
+        $action(AutoBrandData::fromRequest($request));
 
         return redirect()->route('admin.auto-brands.index');
     }
 
     public function edit(AutoBrand $autoBrand): \Illuminate\View\View
     {
-        abort_if(Gate::denies('auto_brand_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.autoBrands.edit', compact('autoBrand'));
     }
 
@@ -53,17 +54,13 @@ class AutoBrandsController extends Controller
         return redirect()->route('admin.auto-brands.index');
     }
 
-    public function show(AutoBrand $autoBrand): \Illuminate\View\View
+    public function show(ShowAutoBrandRequest $request, AutoBrand $autoBrand): \Illuminate\View\View
     {
-        abort_if(Gate::denies('auto_brand_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.autoBrands.show', compact('autoBrand'));
     }
 
-    public function destroy(AutoBrand $autoBrand): \Illuminate\Http\RedirectResponse
+    public function destroy(DeleteAutoBrandRequest $request, AutoBrand $autoBrand): \Illuminate\Http\RedirectResponse
     {
-        abort_if(Gate::denies('auto_brand_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $autoBrand->delete();
 
         return back();

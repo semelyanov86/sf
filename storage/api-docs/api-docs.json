@@ -19,6 +19,206 @@
         }
     ],
     "paths": {
+        "/auto-brands": {
+            "get": {
+                "tags": [
+                    "AutoBrands"
+                ],
+                "summary": "Get list of auto brands registered in system",
+                "description": "Returns list of auto brands",
+                "operationId": "getAutoBrandsList",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CardTypeResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "AutoBrands"
+                ],
+                "summary": "Store new auto brand",
+                "description": "Returns auto brands data",
+                "operationId": "storeAutoBrand",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreAutoBrandRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AutoBrandVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/auto-brands/{id}": {
+            "get": {
+                "tags": [
+                    "AutoBrands"
+                ],
+                "summary": "Get auto brand information",
+                "description": "Returns auto brand data",
+                "operationId": "getAutoBrandById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Auto Brand id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AutoBrandVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "AutoBrands"
+                ],
+                "summary": "Update existing auto brand",
+                "description": "Returns updated auto brand data",
+                "operationId": "updateAutoBrand",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Auto Brand id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateAutoBrandRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AutoBrandVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "AutoBrands"
+                ],
+                "summary": "Delete existing auto brand",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteAutoBrand",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Auto Brand type id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/card-types": {
             "get": {
                 "tags": [
@@ -1459,6 +1659,104 @@
     },
     "components": {
         "schemas": {
+            "AutoBrandVirtual": {
+                "title": "AutoBrand",
+                "description": "Auto brand Model",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of auto brand",
+                        "type": "string",
+                        "example": "Lada Vesta"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "description": "Description of auto brand",
+                        "type": "string",
+                        "example": "Super car!"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object"
+            },
+            "AutoBrandResource": {
+                "title": "AutoBrandResource",
+                "description": "Auto Brand resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AutoBrandVirtual"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "AutoBrandResource"
+                }
+            },
+            "StoreAutoBrandRequestVirtual": {
+                "title": "Store Card Type request",
+                "description": "Store Card Type request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new auto brand",
+                        "type": "string",
+                        "example": "Lada vesta"
+                    },
+                    "description": {
+                        "title": "description",
+                        "description": "Description of new auto brand",
+                        "type": "string",
+                        "example": "Super mega car!"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateAutoBrandRequestVirtual": {
+                "title": "Update auto brand request",
+                "description": "Update auto brand request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new auto brand",
+                        "type": "string",
+                        "example": "Lada Vesta"
+                    },
+                    "description": {
+                        "title": "description",
+                        "description": "Description of auto brand",
+                        "type": "string",
+                        "example": "Super car!"
+                    }
+                },
+                "type": "object"
+            },
             "CardTypeVirtual": {
                 "title": "CardType",
                 "description": "Card type Model",
@@ -1767,7 +2065,10 @@
                     "users": {
                         "description": "List of users",
                         "type": "array",
-                        "items": {}
+                        "items": {
+                            "type": "int",
+                            "example": 1
+                        }
                     },
                     "update_date": {
                         "title": "Update Date",
@@ -1807,7 +2108,10 @@
                     "users": {
                         "description": "List of users",
                         "type": "array",
-                        "items": {}
+                        "items": {
+                            "type": "int",
+                            "example": 1
+                        }
                     },
                     "update_date": {
                         "title": "Update Date",
@@ -2443,6 +2747,10 @@
         {
             "name": "CardTypes",
             "description": "All card types added to system"
+        },
+        {
+            "name": "AutoBrands",
+            "description": "All auto brands added to system"
         }
     ],
     "security": [

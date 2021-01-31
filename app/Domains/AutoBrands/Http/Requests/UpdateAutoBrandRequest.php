@@ -26,6 +26,11 @@ class UpdateAutoBrandRequest extends FormRequest
                 'required',
                 'unique:auto_brands,name,' . $id,
             ],
+            'description' => [
+                'nullable',
+                'min:2',
+                'max:500'
+            ]
         ];
     }
 }

@@ -38,7 +38,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($autoBrands as $key => $autoBrand)
+                    @foreach($viewModel->autoBrands() as $key => $autoBrand)
                         <tr data-entry-id="{{ $autoBrand->id }}">
                             <td>
 
@@ -128,7 +128,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

@@ -47,7 +47,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'middleware' => ['auth:api']], f
     Route::apiResource('card-types', \Domains\CardTypes\Http\Controllers\Api\CardTypesApiController::class);
 
     // Auto Brands
-    Route::apiResource('auto-brands', \Domains\AutoBrands\Http\Controllers\Admin\AutoBrandsController::class);
+    Route::apiResource('auto-brands', \Domains\AutoBrands\Http\Controllers\Api\AutoBrandsApiController::class);
 
     // Accounts Extras
     Route::apiResource('accounts-extras', \Domains\Accounts\Http\Controllers\Api\V1\Admin\AccountsExtraApiController::class);

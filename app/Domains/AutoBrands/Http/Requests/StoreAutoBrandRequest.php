@@ -24,6 +24,11 @@ class StoreAutoBrandRequest extends FormRequest
                 'required',
                 'unique:auto_brands',
             ],
+            'description' => [
+                'nullable',
+                'min:2',
+                'max:500'
+            ]
         ];
     }
 }

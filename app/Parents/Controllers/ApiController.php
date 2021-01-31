@@ -81,6 +81,10 @@ abstract class ApiController extends Controller
      *     name="CardTypes",
      *     description="All card types added to system",
      * )
+     * @OA\Tag(
+     *     name="AutoBrands",
+     *     description="All auto brands added to system",
+     * )
      */
     /**
      * @var  array
