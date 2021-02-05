@@ -52,7 +52,9 @@ class PermissionsApiController extends Controller
     {
         $actionResult = $action();
         $permissions = $actionResult->permissions();
-        return fractal($permissions, new PermissionTransformer())->paginateWith(new IlluminatePaginatorAdapter($actionResult->paginator()))->respond();
+        return fractal($permissions, new PermissionTransformer())
+            ->paginateWith(new IlluminatePaginatorAdapter($actionResult->paginator()))
+            ->respond();
     }
 
     /**

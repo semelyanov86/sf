@@ -2,6 +2,7 @@
 
 namespace Domains\Banks\Tests\Feature;
 
+use Domains\Banks\DataTransferObjects\BankData;
 use Domains\Banks\Models\Bank;
 use Parents\Tests\PhpUnit\TestCase;
 
@@ -14,9 +15,9 @@ class AdminBanksPageTest extends TestCase
 
         $response->assertStatus(200);
 
-        $banks = $response->viewData('banks');
+        $viewModel = $response->viewData('viewModel');
 
-        $this->assertTrue($banks->contains(function(Bank $value): bool {
+        $this->assertTrue($viewModel->banks()->toCollection()->contains(function(BankData $value): bool {
             return $value->id == 1;
         }));
     }

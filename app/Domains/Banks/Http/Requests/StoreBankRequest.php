@@ -23,6 +23,15 @@ class StoreBankRequest extends FormRequest
                 'max:190',
                 'required',
             ],
+            'description' => [
+                'nullable',
+                'min:3',
+                'max:250',
+            ],
+            'country_id' => [
+                'nullable',
+                'exists:Domains\Countries\Models\Country,id'
+            ]
         ];
     }
 }

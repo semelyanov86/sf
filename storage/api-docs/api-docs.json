@@ -219,6 +219,206 @@
                 }
             }
         },
+        "/banks": {
+            "get": {
+                "tags": [
+                    "Banks"
+                ],
+                "summary": "Get list of banks registered in system",
+                "description": "Returns list of banks",
+                "operationId": "getBanksList",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BankResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Banks"
+                ],
+                "summary": "Store new bank",
+                "description": "Returns bank data",
+                "operationId": "storeBank",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreBankRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BankVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/banks/{id}": {
+            "get": {
+                "tags": [
+                    "Banks"
+                ],
+                "summary": "Get bank information",
+                "description": "Returns bank data",
+                "operationId": "getBankById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Bank id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BankVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Banks"
+                ],
+                "summary": "Update existing bank",
+                "description": "Returns updated bank data",
+                "operationId": "updateBank",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Bank id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBankRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BankVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Banks"
+                ],
+                "summary": "Delete existing bank",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteBank",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Bank type id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/card-types": {
             "get": {
                 "tags": [
@@ -1757,6 +1957,128 @@
                 },
                 "type": "object"
             },
+            "BankVirtual": {
+                "title": "Bank",
+                "description": "Bank Model",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of bank",
+                        "type": "string",
+                        "example": "Sberbank"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "description": "Description of bank",
+                        "type": "string",
+                        "example": "Super bank!"
+                    },
+                    "country_id": {
+                        "title": "Country ID",
+                        "description": "ID of attached country",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "country": {
+                        "$ref": "#/components/schemas/CountryVirtual"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object"
+            },
+            "BankResource": {
+                "title": "BankResource",
+                "description": "Bank resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BankVirtual"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "BankResource"
+                }
+            },
+            "StoreBankRequestVirtual": {
+                "title": "Store Bank request",
+                "description": "Store Bank request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new bank",
+                        "type": "string",
+                        "example": "VTB24"
+                    },
+                    "description": {
+                        "title": "description",
+                        "description": "Description of bank",
+                        "type": "string",
+                        "example": "Super bank!"
+                    },
+                    "country_id": {
+                        "title": "country_id",
+                        "description": "Country ID of new bank",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateBankRequestVirtual": {
+                "title": "Update Bank request",
+                "description": "Update Bank request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new bank",
+                        "type": "string",
+                        "example": "VTB24"
+                    },
+                    "description": {
+                        "title": "description",
+                        "description": "Description of bank",
+                        "type": "string",
+                        "example": "Super bank!"
+                    },
+                    "country_id": {
+                        "title": "country_id",
+                        "description": "Country ID of new bank",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
             "CardTypeVirtual": {
                 "title": "CardType",
                 "description": "Card type Model",
@@ -2751,6 +3073,10 @@
         {
             "name": "AutoBrands",
             "description": "All auto brands added to system"
+        },
+        {
+            "name": "Banks",
+            "description": "All banks added to system"
         }
     ],
     "security": [

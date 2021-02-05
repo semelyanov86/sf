@@ -40,7 +40,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($banks as $key => $bank)
+                    @foreach($viewModel->banks() as $key => $bank)
                         <tr data-entry-id="{{ $bank->id }}">
                             <td>
 
@@ -136,7 +136,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>
