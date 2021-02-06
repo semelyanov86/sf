@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "38bd59bed60d95c0a32fc70150ac62ce",
+    "content-hash": "c32f5555c1d3ced0bb6f56a6d91cf954",
     "packages": [
         {
             "name": "akaunting/money",
@@ -126,6 +126,65 @@
                 "source": "https://github.com/asm89/stack-cors/tree/v2.0.2"
             },
             "time": "2020-10-29T16:03:21+00:00"
+        },
+        {
+            "name": "beberlei/assert",
+            "version": "v2.9.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/beberlei/assert.git",
+                "reference": "124317de301b7c91d5fce34c98bba2c6925bec95"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/beberlei/assert/zipball/124317de301b7c91d5fce34c98bba2c6925bec95",
+                "reference": "124317de301b7c91d5fce34c98bba2c6925bec95",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.1.1",
+                "phpunit/phpunit": "^4.8.35|^5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Assert\\": "lib/Assert"
+                },
+                "files": [
+                    "lib/Assert/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Richard Quadling",
+                    "email": "rquadling@gmail.com",
+                    "role": "Collaborator"
+                }
+            ],
+            "description": "Thin assertion library for input validation in business models.",
+            "keywords": [
+                "assert",
+                "assertion",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/beberlei/assert/issues",
+                "source": "https://github.com/beberlei/assert/tree/v2.9.9"
+            },
+            "time": "2019-05-28T15:27:37+00:00"
         },
         {
             "name": "bensampo/laravel-enum",
@@ -454,6 +513,50 @@
                 "source": "https://github.com/bugsnag/bugsnag-psr-logger/tree/master"
             },
             "time": "2020-02-26T22:02:20+00:00"
+        },
+        {
+            "name": "chrisharrison/php-array-of",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chrisharrison/php-array-of.git",
+                "reference": "61220e3b65cc0e0874784c96206c2b5241782418"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chrisharrison/php-array-of/zipball/61220e3b65cc0e0874784c96206c2b5241782418",
+                "reference": "61220e3b65cc0e0874784c96206c2b5241782418",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.3 || ^9.3",
+                "squizlabs/php_codesniffer": "^3.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ChrisHarrison\\ArrayOf\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Harrison",
+                    "email": "c.harrison1988@gmail.com"
+                }
+            ],
+            "description": "Implement an array of a defined type. Generics replacement for PHP.",
+            "support": {
+                "issues": "https://github.com/chrisharrison/php-array-of/issues",
+                "source": "https://github.com/chrisharrison/php-array-of/tree/1.1"
+            },
+            "time": "2020-12-18T15:43:46+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -1585,6 +1688,53 @@
                 }
             ],
             "time": "2020-10-22T13:57:20+00:00"
+        },
+        {
+            "name": "funeralzone/valueobjects",
+            "version": "0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/funeralzone/valueobjects.git",
+                "reference": "8b00d83ca7438ca97757b761285ee99a52745d97"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/funeralzone/valueobjects/zipball/8b00d83ca7438ca97757b761285ee99a52745d97",
+                "reference": "8b00d83ca7438ca97757b761285ee99a52745d97",
+                "shasum": ""
+            },
+            "require": {
+                "beberlei/assert": "^2.7 || ^3.1",
+                "chrisharrison/php-array-of": "^1.0",
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^6.2 || ^9.3",
+                "squizlabs/php_codesniffer": "^3.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Funeralzone\\ValueObjects\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Harrison",
+                    "email": "c.harrison1988@gmail.com"
+                }
+            ],
+            "description": "A PHP 7.1 value objects helper library.",
+            "support": {
+                "issues": "https://github.com/funeralzone/valueobjects/issues",
+                "source": "https://github.com/funeralzone/valueobjects/tree/0.5"
+            },
+            "time": "2020-12-18T17:34:13+00:00"
         },
         {
             "name": "garygreen/pretty-routes",

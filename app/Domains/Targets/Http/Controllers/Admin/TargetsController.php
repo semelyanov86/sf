@@ -2,6 +2,11 @@
 
 namespace Domains\Targets\Http\Controllers\Admin;
 
+use Domains\Targets\Enums\TargetStatusEnum;
+use Domains\Targets\Http\Requests\CreateTargetsRequest;
+use Domains\Targets\Http\Requests\DeleteTargetRequest;
+use Domains\Targets\Http\Requests\IndexTargetsRequest;
+use Domains\Targets\Http\Requests\ShowTargetRequest;
 use Parents\Controllers\WebController as Controller;
 use Support\MediaUpload\Traits\MediaUploadingTrait;
 use Domains\Targets\Http\Requests\MassDestroyTargetRequest;
@@ -22,10 +27,8 @@ class TargetsController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index(Request $request)
+    public function index(IndexTargetsRequest $request)
     {
-        abort_if(Gate::denies('target_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         if ($request->ajax()) {
             $query = Target::with(['target_category', 'currency', 'account_from', 'user', 'team'])->select(sprintf('%s.*', (new Target)->table));
             $table = Datatables::of($query);
@@ -68,13 +71,13 @@ class TargetsController extends Controller
             });
 
             $table->editColumn('target_type', function ($row) {
-                return $row->target_type ? Target::TARGET_TYPE_SELECT[$row->target_type] : '';
+                return $row->target_type ? \Domains\Targets\Enums\TypeSelectEnum::fromValue((int) $row->target_type)->description : '';
             });
             $table->editColumn('target_name', function ($row) {
                 return $row->target_name ? $row->target_name : "";
             });
             $table->editColumn('target_status', function ($row) {
-                return $row->target_status ? Target::TARGET_STATUS_RADIO[$row->target_status] : '';
+                return $row->target_status ? TargetStatusEnum::fromValue((int) $row->target_status) : '';
             });
             $table->editColumn('amount', function ($row) {
                 return $row->amount ? $row->amount : "";
@@ -88,10 +91,8 @@ class TargetsController extends Controller
         return view('admin.targets.index');
     }
 
-    public function create(): \Illuminate\View\View
+    public function create(CreateTargetsRequest $request): \Illuminate\View\View
     {
-        abort_if(Gate::denies('target_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $target_categories = TargetCategory::all()->pluck('target_category_name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $currencies = Currency::all()->pluck('code', 'id')->prepend(trans('global.pleaseSelect'), '');
@@ -120,8 +121,6 @@ class TargetsController extends Controller
 
     public function edit(Target $target): \Illuminate\View\View
     {
-        abort_if(Gate::denies('target_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $target_categories = TargetCategory::all()->pluck('target_category_name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $currencies = Currency::all()->pluck('code', 'id')->prepend(trans('global.pleaseSelect'), '');
@@ -154,19 +153,15 @@ class TargetsController extends Controller
         return redirect()->route('admin.targets.index');
     }
 
-    public function show(Target $target): \Illuminate\View\View
+    public function show(ShowTargetRequest $request, Target $target): \Illuminate\View\View
     {
-        abort_if(Gate::denies('target_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $target->load('target_category', 'currency', 'account_from', 'user', 'team');
 
         return view('admin.targets.show', compact('target'));
     }
 
-    public function destroy(Target $target): \Illuminate\Http\RedirectResponse
+    public function destroy(DeleteTargetRequest $request, Target $target): \Illuminate\Http\RedirectResponse
     {
-        abort_if(Gate::denies('target_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $target->delete();
 
         return back();

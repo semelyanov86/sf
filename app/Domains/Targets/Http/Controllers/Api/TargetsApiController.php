@@ -2,6 +2,9 @@
 
 namespace Domains\Targets\Http\Controllers\Api;
 
+use Domains\Targets\Http\Requests\DeleteTargetRequest;
+use Domains\Targets\Http\Requests\IndexTargetsRequest;
+use Domains\Targets\Http\Requests\ShowTargetRequest;
 use Parents\Controllers\ApiController as Controller;
 use Support\MediaUpload\Traits\MediaUploadingTrait;
 use Domains\Targets\Http\Requests\StoreTargetRequest;
@@ -16,10 +19,8 @@ class TargetsApiController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index(): TargetResource
+    public function index(IndexTargetsRequest $request): TargetResource
     {
-        abort_if(Gate::denies('target_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return new TargetResource(Target::with(['target_category', 'currency', 'account_from', 'user', 'team'])->get());
     }
 
@@ -36,10 +37,8 @@ class TargetsApiController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(Target $target): TargetResource
+    public function show(ShowTargetRequest $request, Target $target): TargetResource
     {
-        abort_if(Gate::denies('target_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return new TargetResource($target->load(['target_category', 'currency', 'account_from', 'user', 'team']));
     }
 
@@ -64,10 +63,8 @@ class TargetsApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Target $target): \Illuminate\Http\Response
+    public function destroy(DeleteTargetRequest $request, Target $target): \Illuminate\Http\Response
     {
-        abort_if(Gate::denies('target_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $target->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);

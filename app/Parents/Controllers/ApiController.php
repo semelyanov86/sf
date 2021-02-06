@@ -89,6 +89,10 @@ abstract class ApiController extends Controller
      *     name="Banks",
      *     description="All banks added to system",
      * )
+     * @OA\Tag(
+     *     name="TargetCategories",
+     *     description="All Target Categories added to system",
+     * )
      */
     /**
      * @var  array

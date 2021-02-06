@@ -46,7 +46,7 @@
                                             {{ $targetCategory->target_category_name ?? '' }}
                                         </td>
                                         <td>
-                                            {{ Domains\Targets\Models\TargetCategory::TARGET_CATEGORY_TYPE_SELECT[$targetCategory->target_category_type] ?? '' }}
+                                            {{ $targetCategory->target_category_type ? \Domains\Targets\Enums\TypeSelectEnum::getValue($targetCategory->target_category_type)?->description : '' }}
                                         </td>
                                         <td>
                                             @can('target_category_show')

@@ -2,10 +2,10 @@
 
 namespace Domains\Targets\Http\Requests;
 
-use Domains\Targets\Models\TargetCategory;
+use BenSampo\Enum\Rules\EnumValue;
+use Domains\Targets\Enums\TypeSelectEnum;
 use Gate;
 use Parents\Requests\Request as FormRequest;
-use Illuminate\Http\Response;
 
 class UpdateTargetCategoryRequest extends FormRequest
 {
@@ -24,7 +24,7 @@ class UpdateTargetCategoryRequest extends FormRequest
                 'required',
             ],
             'target_category_type' => [
-                'required',
+                'required'
             ],
         ];
     }

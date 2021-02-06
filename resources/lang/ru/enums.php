@@ -24,4 +24,12 @@ return [
         MailDaysBeforeEnum::BEFORE_WEEK  => 'За неделю',
         MailDaysBeforeEnum::BEFORE_MONTH => 'За месяц',
     ],
+    \Domains\Targets\Enums\TypeSelectEnum::class => [
+        \Domains\Targets\Enums\TypeSelectEnum::PAY => 'Расход',
+        \Domains\Targets\Enums\TypeSelectEnum::SAVE => 'Доход'
+    ],
+    \Domains\Targets\Enums\TargetStatusEnum::class => [
+        \Domains\Targets\Enums\TargetStatusEnum::DEFAULT => 'По-умолчанию',
+        \Domains\Targets\Enums\TargetStatusEnum::STARRED => 'Избранное'
+    ]
 ];

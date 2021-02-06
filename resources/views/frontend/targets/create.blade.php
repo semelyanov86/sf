@@ -73,8 +73,8 @@
                             <label>{{ trans('cruds.target.fields.target_type') }}</label>
                             <select class="form-control" name="target_type" id="target_type">
                                 <option value disabled {{ old('target_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                                @foreach(Domains\Targets\Models\Target::TARGET_TYPE_SELECT as $key => $label)
-                                    <option value="{{ $key }}" {{ old('target_type', '1') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                                @foreach(\Domains\Targets\Enums\TypeSelectEnum::getInstances() as $key => $label)
+                                    <option value="{{ $label->value }}" {{ old('target_type', '2') === (string) $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('target_type'))

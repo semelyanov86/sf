@@ -60,7 +60,7 @@
                             {{ trans('cruds.target.fields.target_type') }}
                         </th>
                         <td>
-                            {{ Domains\Targets\Models\Target::TARGET_TYPE_SELECT[$target->target_type] ?? '' }}
+                            {{ $target->target_type ? \Domains\Targets\Enums\TypeSelectEnum::fromValue((int) $target->target_type)?->description : '' }}
                         </td>
                     </tr>
                     <tr>
@@ -76,7 +76,7 @@
                             {{ trans('cruds.target.fields.target_status') }}
                         </th>
                         <td>
-                            {{ Domains\Targets\Models\Target::TARGET_STATUS_RADIO[$target->target_status] ?? '' }}
+                            {{ $target->target_status ? \Domains\Targets\Enums\TargetStatusEnum::fromValue((int) $target->target_status)->description : '' }}
                         </td>
                     </tr>
                     <tr>

@@ -73,7 +73,7 @@
                                             {{ $target->user->name ?? '' }}
                                         </td>
                                         <td>
-                                            {{ Domains\Targets\Models\Target::TARGET_TYPE_SELECT[$target->target_type] ?? '' }}
+                                            {{ $target->target_type ? \Domains\Targets\Enums\TypeSelectEnum::fromValue((int) $target->target_type)?->description : '' }}
                                         </td>
                                         <td>
                                             {{ $target->target_name ?? '' }}

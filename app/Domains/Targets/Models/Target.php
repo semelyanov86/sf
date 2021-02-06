@@ -23,16 +23,7 @@ class Target extends Model implements HasMedia
     protected $appends = [
         'image',
     ];
-
-    const TARGET_TYPE_SELECT = [
-        '1' => 'Save',
-        '2' => 'Pay',
-    ];
-
-    const TARGET_STATUS_RADIO = [
-        '0' => 'Default',
-        '1' => 'Starred',
-    ];
+    
 
     protected $dates = [
         'created_at',

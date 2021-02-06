@@ -2,6 +2,15 @@
 
 namespace Domains\Targets\Http\Controllers\Admin;
 
+use Domains\Targets\Actions\GetAllTargetCategoriesAction;
+use Domains\Targets\Actions\StoreTargetCategoryAction;
+use Domains\Targets\Actions\UpdateTargetCategoryAction;
+use Domains\Targets\DataTransferObjects\TargetCategoryData;
+use Domains\Targets\Http\Requests\CreateTargetCategoryRequest;
+use Domains\Targets\Http\Requests\DeleteTargetCategoryRequest;
+use Domains\Targets\Http\Requests\EditTargetCategoryRequest;
+use Domains\Targets\Http\Requests\IndexTargetCategoriesRequest;
+use Domains\Targets\Http\Requests\ShowTargetCategoryRequest;
 use Parents\Controllers\WebController as Controller;
 use Support\MediaUpload\Traits\MediaUploadingTrait;
 use Domains\Targets\Http\Requests\MassDestroyTargetCategoryRequest;
@@ -17,76 +26,46 @@ class TargetCategoriesController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index(): \Illuminate\View\View
+    public function index(IndexTargetCategoriesRequest $request, GetAllTargetCategoriesAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('target_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $targetCategories = TargetCategory::with(['media'])->get();
-
-        return view('admin.targetCategories.index', compact('targetCategories'));
+        return view('admin.targetCategories.index', [
+            'viewModel' => $action()
+        ]);
     }
 
-    public function create(): \Illuminate\View\View
+    public function create(CreateTargetCategoryRequest $request): \Illuminate\View\View
     {
-        abort_if(Gate::denies('target_category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.targetCategories.create');
     }
 
-    public function store(StoreTargetCategoryRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreTargetCategoryRequest $request, StoreTargetCategoryAction $action): \Illuminate\Http\RedirectResponse
     {
-        $targetCategory = TargetCategory::create($request->all());
-
-        if ($request->input('target_category_image', false)) {
-            $targetCategory->addMedia(storage_path('tmp/uploads/' . $request->input('target_category_image')))->toMediaCollection('target_category_image');
-        }
-
-        if ($media = $request->input('ck-media', false)) {
-            Media::whereIn('id', $media)->update(['model_id' => $targetCategory->id]);
-        }
+        $action(TargetCategoryData::fromRequest($request));
 
         return redirect()->route('admin.target-categories.index');
     }
 
-    public function edit(TargetCategory $targetCategory): \Illuminate\View\View
+    public function edit(EditTargetCategoryRequest $request, TargetCategory $targetCategory): \Illuminate\View\View
     {
-        abort_if(Gate::denies('target_category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.targetCategories.edit', compact('targetCategory'));
     }
 
-    public function update(UpdateTargetCategoryRequest $request, TargetCategory $targetCategory): \Illuminate\Http\RedirectResponse
+    public function update(UpdateTargetCategoryRequest $request, TargetCategory $targetCategory, UpdateTargetCategoryAction $action): \Illuminate\Http\RedirectResponse
     {
-        $targetCategory->update($request->all());
-
-        if ($request->input('target_category_image', false)) {
-            if (!$targetCategory->target_category_image || $request->input('target_category_image') !== $targetCategory->target_category_image->file_name) {
-                if ($targetCategory->target_category_image) {
-                    $targetCategory->target_category_image->delete();
-                }
-
-                $targetCategory->addMedia(storage_path('tmp/uploads/' . $request->input('target_category_image')))->toMediaCollection('target_category_image');
-            }
-        } elseif ($targetCategory->target_category_image) {
-            $targetCategory->target_category_image->delete();
-        }
+        $action($targetCategory, TargetCategoryData::fromRequest($request));
 
         return redirect()->route('admin.target-categories.index');
     }
 
-    public function show(TargetCategory $targetCategory): \Illuminate\View\View
+    public function show(ShowTargetCategoryRequest $request, TargetCategory $targetCategory): \Illuminate\View\View
     {
-        abort_if(Gate::denies('target_category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $targetCategory->load('targetCategoryTargets');
 
         return view('admin.targetCategories.show', compact('targetCategory'));
     }
 
-    public function destroy(TargetCategory $targetCategory): \Illuminate\Http\RedirectResponse
+    public function destroy(DeleteTargetCategoryRequest $request, TargetCategory $targetCategory): \Illuminate\Http\RedirectResponse
     {
-        abort_if(Gate::denies('target_category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $targetCategory->delete();
 
         return back();

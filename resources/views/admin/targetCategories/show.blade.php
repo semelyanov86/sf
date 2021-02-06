@@ -36,7 +36,7 @@
                             {{ trans('cruds.targetCategory.fields.target_category_type') }}
                         </th>
                         <td>
-                            {{ Domains\Targets\Models\TargetCategory::TARGET_CATEGORY_TYPE_SELECT[$targetCategory->target_category_type] ?? '' }}
+                            {{ $targetCategory->target_category_type ? \Domains\Targets\Enums\TypeSelectEnum::getValue($targetCategory->target_category_type)?->description : '' }}
                         </td>
                     </tr>
                     <tr>

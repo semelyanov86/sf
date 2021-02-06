@@ -70,8 +70,8 @@
                 <label>{{ trans('cruds.target.fields.target_type') }}</label>
                 <select class="form-control {{ $errors->has('target_type') ? 'is-invalid' : '' }}" name="target_type" id="target_type">
                     <option value disabled {{ old('target_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(Domains\Targets\Models\Target::TARGET_TYPE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('target_type', $target->target_type) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @foreach(\Domains\Targets\Enums\TypeSelectEnum::getInstances() as $key => $label)
+                        <option value="{{ $label->value }}" {{ old('target_category_type', $target->target_type) === (string) $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('target_type'))
@@ -93,10 +93,10 @@
             </div>
             <div class="form-group">
                 <label class="required">{{ trans('cruds.target.fields.target_status') }}</label>
-                @foreach(Domains\Targets\Models\Target::TARGET_STATUS_RADIO as $key => $label)
+                @foreach(\Domains\Targets\Enums\TargetStatusEnum::getInstances() as $key => $label)
                     <div class="form-check {{ $errors->has('target_status') ? 'is-invalid' : '' }}">
-                        <input class="form-check-input" type="radio" id="target_status_{{ $key }}" name="target_status" value="{{ $key }}" {{ old('target_status', $target->target_status) === (string) $key ? 'checked' : '' }} required>
-                        <label class="form-check-label" for="target_status_{{ $key }}">{{ $label }}</label>
+                        <input class="form-check-input" type="radio" id="target_status_{{ $label->value }}" name="target_status" value="{{ $label->value }}" {{ old('target_status', $target->target_status) === (string) $label->value ? 'checked' : '' }} required>
+                        <label class="form-check-label" for="target_status_{{ $label->value }}">{{ $label->description }}</label>
                     </div>
                 @endforeach
                 @if($errors->has('target_status'))

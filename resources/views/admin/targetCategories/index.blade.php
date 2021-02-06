@@ -37,7 +37,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($targetCategories as $key => $targetCategory)
+                    @foreach($viewModel->targetCategories() as $key => $targetCategory)
                         <tr data-entry-id="{{ $targetCategory->id }}">
                             <td>
 
@@ -49,7 +49,7 @@
                                 {{ $targetCategory->target_category_name ?? '' }}
                             </td>
                             <td>
-                                {{ trans('global.' . Domains\Targets\Models\TargetCategory::TARGET_CATEGORY_TYPE_SELECT[$targetCategory->target_category_type] ?? '') }}
+                                {{ $targetCategory->target_category_type ? \Domains\Targets\Enums\TypeSelectEnum::fromValue((int) $targetCategory->target_category_type)?->description : '' }}
                             </td>
                             <td>
                                 @can('target_category_show')

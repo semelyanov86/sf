@@ -14,7 +14,7 @@ class AdminTargetCategoriesPageTest extends TestCase
 
         $response->assertStatus(200);
 
-        $response->assertSee('Накопить');
+        $response->assertSee('Доход');
     }
     /** @test */
     public function it_can_create_new_target_category(): void

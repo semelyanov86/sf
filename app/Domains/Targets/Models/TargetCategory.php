@@ -5,6 +5,7 @@ namespace Domains\Targets\Models;
 use Domains\Targets\Factories\TargetCategoryFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Parents\Models\Model;
+use Parents\ValueObjects\ImageValueObject;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -24,11 +25,6 @@ class TargetCategory extends Model implements HasMedia
         'created_at',
         'updated_at',
         'deleted_at',
-    ];
-
-    const TARGET_CATEGORY_TYPE_SELECT = [
-        '2' => 'Pay',
-        '1' => 'Save',
     ];
 
     protected $fillable = [
@@ -60,17 +56,11 @@ class TargetCategory extends Model implements HasMedia
         return $this->hasMany(Target::class, 'target_category_id', 'id');
     }
 
-    public function getTargetCategoryImageAttribute(): ?\Illuminate\Database\Eloquent\Model
+    public function getTargetCategoryImageAttribute(): ImageValueObject
     {
         $file = $this->getMedia('target_category_image')->last();
 
-        if ($file) {
-            $file->url       = $file->getUrl();
-            $file->thumbnail = $file->getUrl('thumb');
-            $file->preview   = $file->getUrl('preview');
-        }
-
-        return $file;
+        return ImageValueObject::fromNative($file);
     }
 
     /**

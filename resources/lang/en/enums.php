@@ -24,4 +24,12 @@ return [
         MailDaysBeforeEnum::BEFORE_WEEK  => 'Before week',
         MailDaysBeforeEnum::BEFORE_MONTH => 'Before month',
     ],
+    \Domains\Targets\Enums\TypeSelectEnum::class => [
+        \Domains\Targets\Enums\TypeSelectEnum::PAY => 'Pay',
+        \Domains\Targets\Enums\TypeSelectEnum::SAVE => 'Save'
+    ],
+    \Domains\Targets\Enums\TargetStatusEnum::class => [
+        \Domains\Targets\Enums\TargetStatusEnum::DEFAULT => 'Default',
+        \Domains\Targets\Enums\TargetStatusEnum::STARRED => 'Starred'
+    ]
 ];

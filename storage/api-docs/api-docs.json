@@ -1019,6 +1019,206 @@
                 }
             }
         },
+        "/target-categories": {
+            "get": {
+                "tags": [
+                    "TargetCategories"
+                ],
+                "summary": "Get list of target categories registered in system",
+                "description": "Returns list of Target Categories",
+                "operationId": "getTargetCategoriesList",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TargetCategoryResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "TargetCategories"
+                ],
+                "summary": "Store new Target Category",
+                "description": "Returns Target Categories data",
+                "operationId": "storeTargetCategory",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreTargetCategoryRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TargetCategoryVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/target-categories/{id}": {
+            "get": {
+                "tags": [
+                    "TargetCategories"
+                ],
+                "summary": "Get Target Category information",
+                "description": "Returns Target Category data",
+                "operationId": "getTargetCategoryById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Target Category id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TargetCategoryVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "TargetCategories"
+                ],
+                "summary": "Update existing Target Category",
+                "description": "Returns updated Target Category data",
+                "operationId": "updateTargetCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Target Category id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateTargetCategoryRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TargetCategoryVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "TargetCategories"
+                ],
+                "summary": "Delete existing Target Category",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteTargetCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Target Category type id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/teams": {
             "get": {
                 "tags": [
@@ -2445,6 +2645,113 @@
                 },
                 "type": "object"
             },
+            "TargetCategoryVirtual": {
+                "title": "TargetCategory",
+                "description": "Target Category",
+                "required": [
+                    "target_category_name",
+                    "target_category_type"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "target_category_name": {
+                        "title": "Target category name",
+                        "description": "Name of target category",
+                        "type": "string",
+                        "example": "Test category"
+                    },
+                    "target_category_type": {
+                        "title": "Type of category",
+                        "description": "2 for pay, 1 for save",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "target_category_image": {
+                        "title": "Target category image",
+                        "description": "Path to image",
+                        "type": "string",
+                        "example": ""
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object"
+            },
+            "TargetCategoryResource": {
+                "title": "TargetCategoryResource",
+                "description": "Target Category Resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TargetCategoryVirtual"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "TargetCategoryResource"
+                }
+            },
+            "StoreTargetCategoryRequestVirtual": {
+                "title": "Store Target Category request",
+                "description": "Store Target Category request body data",
+                "required": [
+                    "target_category_name",
+                    "target_category_type"
+                ],
+                "properties": {
+                    "target_category_name": {
+                        "title": "target_category_name",
+                        "description": "Name of the new target category",
+                        "type": "string",
+                        "example": "Test category"
+                    },
+                    "target_category_type": {
+                        "title": "target_category_type",
+                        "description": "Type of target category. 1 or 2",
+                        "type": "string",
+                        "example": "1"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateTargetCategoryRequestVirtual": {
+                "title": "Update Target Category request",
+                "description": "Update Target Category request body data",
+                "required": [
+                    "target_category_name",
+                    "target_category_type"
+                ],
+                "properties": {
+                    "target_category_name": {
+                        "title": "target_category_name",
+                        "description": "Name of the new target category",
+                        "type": "string",
+                        "example": "Test category"
+                    },
+                    "target_category_type": {
+                        "title": "target_category_type",
+                        "description": "Type of target category. 1 or 2",
+                        "type": "string",
+                        "example": "1"
+                    }
+                },
+                "type": "object"
+            },
             "Team": {
                 "title": "Team",
                 "description": "Team model",
@@ -3077,6 +3384,10 @@
         {
             "name": "Banks",
             "description": "All banks added to system"
+        },
+        {
+            "name": "TargetCategories",
+            "description": "All Target Categories added to system"
         }
     ],
     "security": [

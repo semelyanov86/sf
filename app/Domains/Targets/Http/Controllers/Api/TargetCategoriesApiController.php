@@ -2,72 +2,50 @@
 
 namespace Domains\Targets\Http\Controllers\Api;
 
+use Domains\Targets\Actions\GetAllTargetCategoriesAction;
+use Domains\Targets\Actions\StoreTargetCategoryAction;
+use Domains\Targets\Actions\UpdateTargetCategoryAction;
+use Domains\Targets\DataTransferObjects\TargetCategoryData;
+use Domains\Targets\Http\Requests\DeleteTargetCategoryRequest;
+use Domains\Targets\Http\Requests\IndexTargetCategoriesRequest;
+use Domains\Targets\Http\Requests\ShowTargetCategoryRequest;
+use Domains\Targets\Transformers\TargetCategoryTransformer;
 use Parents\Controllers\ApiController as Controller;
 use Support\MediaUpload\Traits\MediaUploadingTrait;
 use Domains\Targets\Http\Requests\StoreTargetCategoryRequest;
 use Domains\Targets\Http\Requests\UpdateTargetCategoryRequest;
-use Domains\Targets\Http\Resources\TargetCategoryResource;
 use Domains\Targets\Models\TargetCategory;
-use Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class TargetCategoriesApiController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index(): TargetCategoryResource
+    public function index(IndexTargetCategoriesRequest $request, GetAllTargetCategoriesAction $action): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('target_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new TargetCategoryResource(TargetCategory::all());
+        $viewModel = $action();
+        return fractal($viewModel->targetCategories(), new TargetCategoryTransformer())->respond();
     }
 
-    public function store(StoreTargetCategoryRequest $request): \Illuminate\Http\JsonResponse
+    public function store(StoreTargetCategoryRequest $request, StoreTargetCategoryAction $action): \Illuminate\Http\JsonResponse
     {
-        $targetCategory = TargetCategory::create($request->all());
-
-        if ($request->input('target_category_image', false)) {
-            $targetCategory->addMedia(storage_path('tmp/uploads/' . $request->input('target_category_image')))->toMediaCollection('target_category_image');
-        }
-
-        return (new TargetCategoryResource($targetCategory))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        $viewModel = $action(TargetCategoryData::fromRequest($request));
+        return fractal($viewModel->targetCategory(), new TargetCategoryTransformer())->respond(Response::HTTP_CREATED);
     }
 
-    public function show(TargetCategory $targetCategory): TargetCategoryResource
+    public function show(ShowTargetCategoryRequest $request, TargetCategory $targetCategory): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('target_category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new TargetCategoryResource($targetCategory);
+        return fractal(TargetCategoryData::fromModel($targetCategory), new TargetCategoryTransformer())->respond();
     }
 
-    public function update(UpdateTargetCategoryRequest $request, TargetCategory $targetCategory): \Illuminate\Http\JsonResponse
+    public function update(UpdateTargetCategoryRequest $request, TargetCategory $targetCategory, UpdateTargetCategoryAction $action): \Illuminate\Http\JsonResponse
     {
-        $targetCategory->update($request->all());
-
-        if ($request->input('target_category_image', false)) {
-            if (!$targetCategory->target_category_image || $request->input('target_category_image') !== $targetCategory->target_category_image->file_name) {
-                if ($targetCategory->target_category_image) {
-                    $targetCategory->target_category_image->delete();
-                }
-
-                $targetCategory->addMedia(storage_path('tmp/uploads/' . $request->input('target_category_image')))->toMediaCollection('target_category_image');
-            }
-        } elseif ($targetCategory->target_category_image) {
-            $targetCategory->target_category_image->delete();
-        }
-
-        return (new TargetCategoryResource($targetCategory))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        $viewModel = $action($targetCategory, TargetCategoryData::fromRequest($request));
+        return fractal($viewModel->targetCategory(), new TargetCategoryTransformer())->respond(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(TargetCategory $targetCategory): \Illuminate\Http\Response
+    public function destroy(DeleteTargetCategoryRequest $request, TargetCategory $targetCategory): \Illuminate\Http\Response
     {
-        abort_if(Gate::denies('target_category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $targetCategory->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);

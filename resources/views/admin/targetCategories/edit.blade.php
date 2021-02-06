@@ -24,8 +24,8 @@
                 <label class="required">{{ trans('cruds.targetCategory.fields.target_category_type') }}</label>
                 <select class="form-control {{ $errors->has('target_category_type') ? 'is-invalid' : '' }}" name="target_category_type" id="target_category_type" required>
                     <option value disabled {{ old('target_category_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(Domains\Targets\Models\TargetCategory::TARGET_CATEGORY_TYPE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('target_category_type', $targetCategory->target_category_type) === (string) $key ? 'selected' : '' }}>{{ trans('global.' . $label) }}</option>
+                    @foreach(\Domains\Targets\Enums\TypeSelectEnum::getInstances() as $key => $label)
+                        <option value="{{ $label->value }}" {{ old('target_category_type', $targetCategory->target_category_type) === (string) $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('target_category_type'))

@@ -2,6 +2,8 @@
 
 namespace Domains\Targets\Http\Requests;
 
+use BenSampo\Enum\Rules\EnumValue;
+use Domains\Targets\Enums\TargetStatusEnum;
 use Domains\Targets\Models\Target;
 use Gate;
 use Parents\Requests\Request as FormRequest;
@@ -29,6 +31,7 @@ class StoreTargetRequest extends FormRequest
             ],
             'target_status'      => [
                 'required',
+                new EnumValue(TargetStatusEnum::class)
             ],
             'amount'             => [
                 'required',
