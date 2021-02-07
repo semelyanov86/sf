@@ -31,5 +31,9 @@ return [
     \Domains\Targets\Enums\TargetStatusEnum::class => [
         \Domains\Targets\Enums\TargetStatusEnum::DEFAULT => 'По-умолчанию',
         \Domains\Targets\Enums\TargetStatusEnum::STARRED => 'Избранное'
+    ],
+    \Domains\Categories\Enums\CategoryTypeEnum::class => [
+        \Domains\Categories\Enums\CategoryTypeEnum::INCOME => 'Доход',
+        \Domains\Categories\Enums\CategoryTypeEnum::OUTCOME => 'Расход'
     ]
 ];

@@ -36,7 +36,7 @@
                             {{ trans('cruds.category.fields.type') }}
                         </th>
                         <td>
-                            {{ Domains\Categories\Models\Category::TYPE_SELECT[$category->type] ?? '' }}
+                            {{ $category->type ? \Domains\Categories\Enums\CategoryTypeEnum::fromValue((int) $category->type)->description : '' }}
                         </td>
                     </tr>
                     <tr>

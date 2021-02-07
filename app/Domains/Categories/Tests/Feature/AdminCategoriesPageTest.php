@@ -2,6 +2,7 @@
 
 namespace Domains\Categories\Tests\Feature;
 
+use Domains\Categories\DataTransferObjects\CategoryData;
 use Domains\Categories\Models\Category;
 use Parents\Tests\PhpUnit\TestCase;
 
@@ -14,9 +15,9 @@ class AdminCategoriesPageTest extends TestCase
 
         $response->assertStatus(200);
 
-        $categories = $response->viewData('categories');
+        $viewModel = $response->viewData('viewModel');
 
-        $this->assertTrue($categories->contains(function(Category $value): bool {
+        $this->assertTrue($viewModel->categories()->toCollection()->contains(function(CategoryData $value): bool {
             return $value->id == 1;
         }));
     }

@@ -24,8 +24,8 @@
                 <label>{{ trans('cruds.category.fields.type') }}</label>
                 <select class="form-control {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type" id="type">
                     <option value disabled {{ old('type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(Domains\Categories\Models\Category::TYPE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('type', $category->type) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @foreach(\Domains\Categories\Enums\CategoryTypeEnum::getInstances() as $key => $label)
+                        <option value="{{ $label->value }}" {{ old('type', $category->type) === (string) $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('type'))

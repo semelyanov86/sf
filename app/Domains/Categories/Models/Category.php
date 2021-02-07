@@ -10,13 +10,7 @@ use \DateTimeInterface;
 
 class Category extends Model
 {
-
     public $table = 'categories';
-
-    const TYPE_SELECT = [
-        '1'  => 'Income',
-        '-1' => 'Outcome',
-    ];
 
     protected $dates = [
         'last_used_at',

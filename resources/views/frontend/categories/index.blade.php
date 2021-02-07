@@ -52,7 +52,7 @@
                                             {{ $category->name ?? '' }}
                                         </td>
                                         <td>
-                                            {{ Domains\Categories\Models\Category::TYPE_SELECT[$category->type] ?? '' }}
+                                            {{ $category->type ? \Domains\Categories\Enums\CategoryTypeEnum::fromValue((int) $category->type)->description : '' }}
                                         </td>
                                         <td>
                                             <span style="display:none">{{ $category->is_hidden ?? '' }}</span>

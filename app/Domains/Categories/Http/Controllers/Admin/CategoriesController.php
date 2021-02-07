@@ -2,67 +2,64 @@
 
 namespace Domains\Categories\Http\Controllers\Admin;
 
+use Domains\Categories\Actions\GetAllCategoriesAction;
+use Domains\Categories\Actions\StoreCategoryAction;
+use Domains\Categories\Actions\UpdateCategoryAction;
+use Domains\Categories\DataTransferObjects\CategoryData;
+use Domains\Categories\Http\Requests\CreateCategoryRequest;
+use Domains\Categories\Http\Requests\DeleteCategoryRequest;
+use Domains\Categories\Http\Requests\EditCategoryRequest;
+use Domains\Categories\Http\Requests\IndexCategoriesRequest;
+use Domains\Categories\Http\Requests\ShowCategoryRequest;
 use Parents\Controllers\WebController as Controller;
 use Domains\Categories\Http\Requests\MassDestroyCategoryRequest;
 use Domains\Categories\Http\Requests\StoreCategoryRequest;
 use Domains\Categories\Http\Requests\UpdateCategoryRequest;
 use Domains\Categories\Models\Category;
-use Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CategoriesController extends Controller
 {
-    public function index(): \Illuminate\View\View
+    public function index(IndexCategoriesRequest $request, GetAllCategoriesAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $categories = Category::all();
-
-        return view('admin.categories.index', compact('categories'));
+        return view('admin.categories.index', [
+            'viewModel' => $action()
+        ]);
     }
 
-    public function create(): \Illuminate\View\View
+    public function create(CreateCategoryRequest $request): \Illuminate\View\View
     {
-        abort_if(Gate::denies('category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.categories.create');
     }
 
-    public function store(StoreCategoryRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreCategoryRequest $request, StoreCategoryAction $action): \Illuminate\Http\RedirectResponse
     {
-        $category = Category::create($request->all());
+        $action(CategoryData::fromRequest($request));
 
         return redirect()->route('admin.categories.index');
     }
 
-    public function edit(Category $category): \Illuminate\View\View
+    public function edit(EditCategoryRequest $request, Category $category): \Illuminate\View\View
     {
-        abort_if(Gate::denies('category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.categories.edit', compact('category'));
     }
 
-    public function update(UpdateCategoryRequest $request, Category $category): \Illuminate\Http\RedirectResponse
+    public function update(UpdateCategoryRequest $request, Category $category, UpdateCategoryAction $action): \Illuminate\Http\RedirectResponse
     {
-        $category->update($request->all());
+        $action($category, CategoryData::fromRequest($request));
 
         return redirect()->route('admin.categories.index');
     }
 
-    public function show(Category $category): \Illuminate\View\View
+    public function show(ShowCategoryRequest $request, Category $category): \Illuminate\View\View
     {
-        abort_if(Gate::denies('category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $category->load('categoryBudgets', 'categoryOperations');
 
         return view('admin.categories.show', compact('category'));
     }
 
-    public function destroy(Category $category): \Illuminate\Http\RedirectResponse
+    public function destroy(DeleteCategoryRequest $request, Category $category): \Illuminate\Http\RedirectResponse
     {
-        abort_if(Gate::denies('category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $category->delete();
 
         return back();

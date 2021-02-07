@@ -43,7 +43,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($categories as $key => $category)
+                    @foreach($viewModel->categories() as $key => $category)
                         <tr data-entry-id="{{ $category->id }}">
                             <td>
 
@@ -55,7 +55,7 @@
                                 {{ $category->name ?? '' }}
                             </td>
                             <td>
-                                {{ trans('global.' . Domains\Categories\Models\Category::TYPE_SELECT[$category->type] ?? '') }}
+                                {{ $category->type ? $category->type->description : '' }}
                             </td>
                             <td>
                                 <span style="display:none">{{ $category->is_hidden ?? '' }}</span>

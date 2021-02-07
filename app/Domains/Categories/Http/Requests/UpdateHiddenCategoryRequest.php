@@ -20,10 +20,12 @@ class UpdateHiddenCategoryRequest extends FormRequest
             'category_id' => [
                 'required',
                 'integer',
+                'exists:Domains\Categories\Models\Category,id'
             ],
             'user_id'     => [
                 'required',
                 'integer',
+                'exists:Domains\Users\Models\User,id'
             ],
         ];
     }

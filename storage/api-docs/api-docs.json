@@ -619,6 +619,206 @@
                 }
             }
         },
+        "/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get list of categories registered in system",
+                "description": "Returns list of Categories",
+                "operationId": "getCategoriesList",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CategoryResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Store new Category",
+                "description": "Returns Categories data",
+                "operationId": "storeCategory",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCategoryRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CategoryVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/categories/{id}": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get Category information",
+                "description": "Returns Category data",
+                "operationId": "getCategoryById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CategoryVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Update existing Category",
+                "description": "Returns updated Category data",
+                "operationId": "updateCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCategoryRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CategoryVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Delete existing Category",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category type id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/countries": {
             "get": {
                 "tags": [
@@ -2377,6 +2577,186 @@
                 },
                 "type": "object"
             },
+            "CategoryVirtual": {
+                "title": "Category",
+                "description": "Category",
+                "required": [
+                    "name",
+                    "type",
+                    "is_hidden"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Category name",
+                        "description": "Name of category",
+                        "type": "string",
+                        "example": "Test category"
+                    },
+                    "type": {
+                        "title": "Type of category",
+                        "description": "1 for income, -1 for outcome",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": "1"
+                            },
+                            "value": {
+                                "type": "string",
+                                "example": "Income"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "is_hidden": {
+                        "title": "Is hidden",
+                        "description": "Is category hidden",
+                        "type": "boolean",
+                        "example": "false"
+                    },
+                    "parent": {
+                        "title": "Parent ID",
+                        "description": "Parent ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "sys_category": {
+                        "title": "Sys category ID",
+                        "description": "Sys category ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "last_used_at": {
+                        "title": "Last used at",
+                        "description": "Last used at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoryResource": {
+                "title": "CategoryResource",
+                "description": "Category Resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CategoryVirtual"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "CategoryResource"
+                }
+            },
+            "StoreCategoryRequestVirtual": {
+                "title": "Store Category request",
+                "description": "Store Category request body data",
+                "required": [
+                    "name",
+                    "type",
+                    "is_hidden"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new category",
+                        "type": "string",
+                        "example": "Test category"
+                    },
+                    "type": {
+                        "title": "type",
+                        "description": "Type of category. 1 for income or -1 for Outcome",
+                        "type": "string",
+                        "example": "1"
+                    },
+                    "is_hidden": {
+                        "title": "is_hidden",
+                        "description": "Is category hidden. 1 for true or 0 for false",
+                        "type": "boolean",
+                        "example": "0"
+                    },
+                    "parent": {
+                        "title": "Parent ID",
+                        "description": "Parent ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "sys_category": {
+                        "title": "Sys category ID",
+                        "description": "Sys category ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCategoryRequestVirtual": {
+                "title": "Update Category request",
+                "description": "Update Category request body data",
+                "required": [
+                    "name",
+                    "type",
+                    "is_hidden"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new category",
+                        "type": "string",
+                        "example": "Test category"
+                    },
+                    "type": {
+                        "title": "type",
+                        "description": "Type of category. 1 for income or -1 for Outcome",
+                        "type": "string",
+                        "example": "1"
+                    },
+                    "is_hidden": {
+                        "title": "is_hidden",
+                        "description": "Is category hidden. 1 for true or 0 for false",
+                        "type": "boolean",
+                        "example": "0"
+                    },
+                    "parent": {
+                        "title": "Parent ID",
+                        "description": "Parent ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "sys_category": {
+                        "title": "Sys category ID",
+                        "description": "Sys category ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
             "CountryVirtual": {
                 "title": "Country",
                 "description": "Country Model",
@@ -3388,6 +3768,10 @@
         {
             "name": "TargetCategories",
             "description": "All Target Categories added to system"
+        },
+        {
+            "name": "Categories",
+            "description": "All Categories added to system"
         }
     ],
     "security": [

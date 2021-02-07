@@ -25,15 +25,14 @@ class UpdateCategoryRequest extends FormRequest
             ],
             'parent'       => [
                 'nullable',
-                'integer',
-                'min:-2147483648',
-                'max:2147483647',
+                'exists:Domains\Categories\Models\Category,id'
             ],
             'sys_category' => [
                 'nullable',
-                'integer',
-                'min:-2147483648',
-                'max:2147483647',
+                'exists:Domains\Categories\Models\Category,id'
+            ],
+            'is_hidden' => [
+                'required', 'boolean'
             ],
             'last_used_at' => [
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),

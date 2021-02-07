@@ -2,6 +2,14 @@
 
 namespace Domains\Categories\Http\Controllers\Api;
 
+use Domains\Categories\Actions\GetAllCategoriesAction;
+use Domains\Categories\Actions\StoreCategoryAction;
+use Domains\Categories\Actions\UpdateCategoryAction;
+use Domains\Categories\DataTransferObjects\CategoryData;
+use Domains\Categories\Http\Requests\DeleteCategoryRequest;
+use Domains\Categories\Http\Requests\IndexCategoriesRequest;
+use Domains\Categories\Http\Requests\ShowCategoryRequest;
+use Domains\Categories\Transformers\CategoryTransformer;
 use Parents\Controllers\ApiController as Controller;
 use Domains\Categories\Http\Requests\StoreCategoryRequest;
 use Domains\Categories\Http\Requests\UpdateCategoryRequest;
@@ -13,42 +21,30 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CategoriesApiController extends Controller
 {
-    public function index(): CategoryResource
+    public function index(IndexCategoriesRequest $request, GetAllCategoriesAction $action): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new CategoryResource(Category::all());
+        return fractal($action()->categories(), new CategoryTransformer())->respond();
     }
 
-    public function store(StoreCategoryRequest $request): \Illuminate\Http\JsonResponse
+    public function store(StoreCategoryRequest $request, StoreCategoryAction $action): \Illuminate\Http\JsonResponse
     {
-        $category = Category::create($request->all());
-
-        return (new CategoryResource($category))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        $viewModel = $action(CategoryData::fromRequest($request));
+        return fractal($viewModel->category(), new CategoryTransformer())->respond(Response::HTTP_CREATED);
     }
 
-    public function show(Category $category): CategoryResource
+    public function show(ShowCategoryRequest $request, Category $category): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new CategoryResource($category);
+        return fractal(CategoryData::fromModel($category), new CategoryTransformer())->respond();
     }
 
-    public function update(UpdateCategoryRequest $request, Category $category): \Illuminate\Http\JsonResponse
+    public function update(UpdateCategoryRequest $request, Category $category, UpdateCategoryAction $action): \Illuminate\Http\JsonResponse
     {
-        $category->update($request->all());
-
-        return (new CategoryResource($category))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        $viewModel = $action($category, CategoryData::fromRequest($request));
+        return fractal($viewModel->category(), new CategoryTransformer())->respond(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Category $category): \Illuminate\Http\Response
+    public function destroy(DeleteCategoryRequest $request, Category $category): \Illuminate\Http\Response
     {
-        abort_if(Gate::denies('category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $category->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
