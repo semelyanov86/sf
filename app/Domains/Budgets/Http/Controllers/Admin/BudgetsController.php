@@ -2,6 +2,14 @@
 
 namespace Domains\Budgets\Http\Controllers\Admin;
 
+use Domains\Budgets\Actions\ShowBudgetAction;
+use Domains\Budgets\Actions\StoreBudgetAction;
+use Domains\Budgets\Actions\UpdateBudgetAction;
+use Domains\Budgets\DataTransferObjects\BudgetData;
+use Domains\Budgets\Http\Requests\CreateBudgetRequest;
+use Domains\Budgets\Http\Requests\DeleteBudgetRequest;
+use Domains\Budgets\Http\Requests\IndexBudgetsRequest;
+use Domains\Budgets\Http\Requests\ShowBudgetRequest;
 use Parents\Controllers\WebController as Controller;
 use Domains\Budgets\Http\Requests\MassDestroyBudgetRequest;
 use Domains\Budgets\Http\Requests\StoreBudgetRequest;
@@ -10,16 +18,13 @@ use Domains\Budgets\Models\Budget;
 use Domains\Categories\Models\Category;
 use Domains\Users\Models\User;
 use Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
 class BudgetsController extends Controller
 {
-    public function index(Request $request)
+    public function index(IndexBudgetsRequest $request)
     {
-        abort_if(Gate::denies('budget_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         if ($request->ajax()) {
             $query = Budget::with(['category', 'user', 'team'])->select(sprintf('%s.*', (new Budget)->table));
             $table = Datatables::of($query);
@@ -64,10 +69,8 @@ class BudgetsController extends Controller
         return view('admin.budgets.index');
     }
 
-    public function create(): \Illuminate\View\View
+    public function create(CreateBudgetRequest $request): \Illuminate\View\View
     {
-        abort_if(Gate::denies('budget_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $categories = Category::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
@@ -75,9 +78,9 @@ class BudgetsController extends Controller
         return view('admin.budgets.create', compact('categories', 'users'));
     }
 
-    public function store(StoreBudgetRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreBudgetRequest $request, StoreBudgetAction $action): \Illuminate\Http\RedirectResponse
     {
-        $budget = Budget::create($request->all());
+        $action(BudgetData::fromRequest($request));
 
         return redirect()->route('admin.budgets.index');
     }
@@ -95,26 +98,24 @@ class BudgetsController extends Controller
         return view('admin.budgets.edit', compact('categories', 'users', 'budget'));
     }
 
-    public function update(UpdateBudgetRequest $request, Budget $budget): \Illuminate\Http\RedirectResponse
+    public function update(UpdateBudgetRequest $request, Budget $budget, UpdateBudgetAction $action): \Illuminate\Http\RedirectResponse
     {
-        $budget->update($request->all());
+        $action($budget, BudgetData::fromRequest($request));
 
         return redirect()->route('admin.budgets.index');
     }
 
-    public function show(Budget $budget): \Illuminate\View\View
+    public function show(ShowBudgetRequest $request, Budget $budget, ShowBudgetAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('budget_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $viewModel = $action($budget);
 
-        $budget->load('category', 'user', 'team');
-
-        return view('admin.budgets.show', compact('budget'));
+        return view('admin.budgets.show', [
+            'budget' => $viewModel->budget()
+        ]);
     }
 
-    public function destroy(Budget $budget): \Illuminate\Http\RedirectResponse
+    public function destroy(DeleteBudgetRequest $request, Budget $budget): \Illuminate\Http\RedirectResponse
     {
-        abort_if(Gate::denies('budget_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $budget->delete();
 
         return back();

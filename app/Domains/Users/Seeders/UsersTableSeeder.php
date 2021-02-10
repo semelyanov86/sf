@@ -20,7 +20,8 @@ class UsersTableSeeder extends Seeder
                 'login'              => 'admin',
                 'timezone'           => 'UTC+3',
                 'phone'              => '',
-                'language'          => 'ru_ru'
+                'language'          => 'ru_ru',
+                'primary_currency' => 1
             ],
             [
                 'id'                 => 2,
@@ -32,7 +33,8 @@ class UsersTableSeeder extends Seeder
                 'login'              => 'user',
                 'timezone'           => 'UTC+3',
                 'phone'              => '',
-                'language'          => 'ru_ru'
+                'language'          => 'ru_ru',
+                'primary_currency' => 1
             ],
             [
                 'id'                 => 3,
@@ -44,7 +46,8 @@ class UsersTableSeeder extends Seeder
                 'login'              => 'user1',
                 'timezone'           => 'UTC+3',
                 'phone'              => '',
-                'language'          => 'ru_ru'
+                'language'          => 'ru_ru',
+                'primary_currency' => 1
             ],
         ];
 

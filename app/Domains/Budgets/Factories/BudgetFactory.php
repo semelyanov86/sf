@@ -8,6 +8,7 @@ use Domains\Teams\Models\Team;
 use Domains\Users\Models\User;
 use Parents\Factories\Factory;
 use Illuminate\Support\Carbon;
+use Parents\ValueObjects\MoneyValueObject;
 
 class BudgetFactory extends Factory
 {
@@ -21,7 +22,7 @@ class BudgetFactory extends Factory
     public function definition(): array
     {
         return [
-            'plan' => $this->faker->randomNumber(5),
+            'plan' => MoneyValueObject::fromNative($this->faker->randomNumber(5)),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 

@@ -4,6 +4,7 @@ namespace Domains\Budgets\Tests\Feature;
 
 use Domains\Budgets\Models\Budget;
 use Parents\Tests\PhpUnit\TestCase;
+use Parents\ValueObjects\MoneyValueObject;
 
 class AdminBudgetsPageTest extends TestCase
 {
@@ -28,7 +29,7 @@ class AdminBudgetsPageTest extends TestCase
     public function it_can_edit_budgets(): void
     {
         $budget = Budget::factory()->createOne();
-        $budget->plan = 77.88;
+        $budget->plan = MoneyValueObject::fromFloat(77.88);
         $budget->save();
         $response = $this->signIn()->get(route('admin.budgets.show', ['budget' => $budget->id]));
         $response->assertSee(money(7788, 'RUB'));

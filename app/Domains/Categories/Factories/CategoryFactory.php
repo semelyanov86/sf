@@ -2,6 +2,7 @@
 
 namespace Domains\Categories\Factories;
 
+use Domains\Categories\Enums\CategoryTypeEnum;
 use Domains\Categories\Models\Category;
 use Parents\Factories\Factory;
 use Illuminate\Support\Carbon;
@@ -20,7 +21,7 @@ class CategoryFactory extends Factory
         $categories = Category::whereNull('sys_category')->whereNull('parent')->get()->pluck('id')->toArray();
         return [
             'name' => $this->faker->name,
-            'type' => $this->faker->word,
+            'type' => CategoryTypeEnum::getRandomValue(),
             'is_hidden' => $this->faker->boolean,
             'parent' => null,
             'sys_category' => $this->faker->randomElement($categories),

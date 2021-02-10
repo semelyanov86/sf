@@ -97,6 +97,10 @@ abstract class ApiController extends Controller
      *     name="Categories",
      *     description="All Categories added to system",
      * )
+     * @OA\Tag(
+     *     name="Budgets",
+     *     description="All Budgets added to system",
+     * )
      */
     /**
      * @var  array

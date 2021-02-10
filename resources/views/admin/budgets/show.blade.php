@@ -36,7 +36,7 @@
                             {{ trans('cruds.budget.fields.plan') }}
                         </th>
                         <td>
-                            {{ $budget->plan }}
+                            {{ $budget->plan->toNative() }}
                         </td>
                     </tr>
                     <tr>

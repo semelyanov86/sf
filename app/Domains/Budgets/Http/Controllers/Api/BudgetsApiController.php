@@ -2,53 +2,47 @@
 
 namespace Domains\Budgets\Http\Controllers\Api;
 
+use Domains\Budgets\Actions\GetAllBudgetsAction;
+use Domains\Budgets\Actions\ShowBudgetAction;
+use Domains\Budgets\Actions\StoreBudgetAction;
+use Domains\Budgets\Actions\UpdateBudgetAction;
+use Domains\Budgets\DataTransferObjects\BudgetData;
+use Domains\Budgets\Http\Requests\DeleteBudgetRequest;
+use Domains\Budgets\Http\Requests\IndexBudgetsRequest;
+use Domains\Budgets\Http\Requests\ShowBudgetRequest;
+use Domains\Budgets\Transformers\BudgetTransformer;
 use Parents\Controllers\Controller;
 use Domains\Budgets\Http\Requests\StoreBudgetRequest;
 use Domains\Budgets\Http\Requests\UpdateBudgetRequest;
-use Domains\Budgets\Http\Resources\BudgetResource;
 use Domains\Budgets\Models\Budget;
-use Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class BudgetsApiController extends Controller
 {
-    public function index(): BudgetResource
+    public function index(IndexBudgetsRequest $request, GetAllBudgetsAction $action): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('budget_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new BudgetResource(Budget::with(['category', 'user', 'team'])->get());
+        return fractal($action()->budgets(), new BudgetTransformer())->respond();
     }
 
-    public function store(StoreBudgetRequest $request): \Illuminate\Http\JsonResponse
+    public function store(StoreBudgetRequest $request, StoreBudgetAction $action): \Illuminate\Http\JsonResponse
     {
-        $budget = Budget::create($request->all());
-
-        return (new BudgetResource($budget))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        return fractal($action(BudgetData::fromRequest($request))->budget(), new BudgetTransformer())
+            ->respond(Response::HTTP_CREATED);
     }
 
-    public function show(Budget $budget): BudgetResource
+    public function show(ShowBudgetRequest $request, Budget $budget, ShowBudgetAction $action): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('budget_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new BudgetResource($budget->load(['category', 'user', 'team']));
+        return fractal($action($budget)->budget(), new BudgetTransformer())->parseIncludes(['user', 'team', 'category'])->respond();
     }
 
-    public function update(UpdateBudgetRequest $request, Budget $budget): \Illuminate\Http\JsonResponse
+    public function update(UpdateBudgetRequest $request, Budget $budget, UpdateBudgetAction $action): \Illuminate\Http\JsonResponse
     {
-        $budget->update($request->all());
-
-        return (new BudgetResource($budget))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        $viewModel = $action($budget, BudgetData::fromRequest($request));
+        return fractal($viewModel->budget(), new BudgetTransformer())->respond(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Budget $budget): \Illuminate\Http\Response
+    public function destroy(DeleteBudgetRequest $request, Budget $budget): \Illuminate\Http\Response
     {
-        abort_if(Gate::denies('budget_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $budget->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);

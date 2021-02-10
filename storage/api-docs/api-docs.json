@@ -419,6 +419,206 @@
                 }
             }
         },
+        "/budgets": {
+            "get": {
+                "tags": [
+                    "Budgets"
+                ],
+                "summary": "Get list of budgets registered in system",
+                "description": "Returns list of budgets",
+                "operationId": "getBudgetsList",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BudgetResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Budgets"
+                ],
+                "summary": "Store new Budget",
+                "description": "Returns Budgets data",
+                "operationId": "storeBudget",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreBudgetRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BudgetVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/budgets/{id}": {
+            "get": {
+                "tags": [
+                    "Budgets"
+                ],
+                "summary": "Get Budget information",
+                "description": "Returns Budget data",
+                "operationId": "getBudgetById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Budget id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BudgetVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Budgets"
+                ],
+                "summary": "Update existing Budget",
+                "description": "Returns updated Budget data",
+                "operationId": "updateBudget",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Budget id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBudgetRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BudgetVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Budgets"
+                ],
+                "summary": "Delete existing Budget",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteBudget",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Budget type id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/card-types": {
             "get": {
                 "tags": [
@@ -2479,6 +2679,212 @@
                 },
                 "type": "object"
             },
+            "BudgetVirtual": {
+                "title": "Budget",
+                "description": "Budget model",
+                "required": [
+                    "category_id",
+                    "plan",
+                    "user_id",
+                    "team_id"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "category_id": {
+                        "title": "Category ID",
+                        "description": "ID of current category",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "plan": {
+                        "$ref": "#/components/schemas/CurrencyVirtualModel"
+                    },
+                    "user_id": {
+                        "title": "User ID",
+                        "description": "ID of current user",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "team_id": {
+                        "title": "Team ID",
+                        "description": "ID of current team",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "team": {
+                        "$ref": "#/components/schemas/Team"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/CategoryVirtual"
+                    }
+                },
+                "type": "object"
+            },
+            "CurrencyVirtualModel": {
+                "title": "Currency",
+                "description": "Currency model",
+                "properties": {
+                    "amount": {
+                        "title": "Amount",
+                        "description": "Amount",
+                        "type": "integer",
+                        "example": 1043
+                    },
+                    "value": {
+                        "title": "Value",
+                        "description": "Value",
+                        "type": "number",
+                        "format": "float",
+                        "example": 10.43
+                    },
+                    "currency": {
+                        "title": "Currency name",
+                        "description": "RUB",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "example": "Russian Ruble"
+                            },
+                            "code": {
+                                "type": "integer",
+                                "example": 643
+                            },
+                            "rate": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "precision": {
+                                "type": "integer",
+                                "example": 2
+                            },
+                            "subunit": {
+                                "type": "integer",
+                                "example": 100
+                            },
+                            "symbol": {
+                                "type": "string",
+                                "example": "₽"
+                            },
+                            "symbol_first": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "decimal_mark": {
+                                "type": "string",
+                                "example": ","
+                            },
+                            "thousands_separator": {
+                                "type": "string",
+                                "example": "."
+                            },
+                            "prefix": {
+                                "type": "string",
+                                "example": ""
+                            },
+                            "suffix": {
+                                "type": "string",
+                                "example": " ₽"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "BudgetResource": {
+                "title": "BudgetResource",
+                "description": "Budget Resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BudgetVirtual"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "BudgetResource"
+                }
+            },
+            "StoreBudgetRequestVirtual": {
+                "title": "Store Budget request",
+                "description": "Store Budget request body data",
+                "required": [
+                    "category_id",
+                    "plan"
+                ],
+                "properties": {
+                    "category_id": {
+                        "title": "category_id",
+                        "description": "ID of category",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "plan": {
+                        "title": "plan",
+                        "description": "Value of current plan",
+                        "type": "number",
+                        "format": "float",
+                        "example": 70.5
+                    },
+                    "user_id": {
+                        "title": "user_id",
+                        "description": "ID of user",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateBudgetRequestVirtual": {
+                "title": "Update Budget request",
+                "description": "Update Budget request body data",
+                "required": [
+                    "category_id",
+                    "plan"
+                ],
+                "properties": {
+                    "category_id": {
+                        "title": "category_id",
+                        "description": "ID of category",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "plan": {
+                        "title": "plan",
+                        "description": "Value of current plan",
+                        "type": "number",
+                        "format": "float",
+                        "example": 70.5
+                    },
+                    "user_id": {
+                        "title": "user_id",
+                        "description": "ID of user",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
             "CardTypeVirtual": {
                 "title": "CardType",
                 "description": "Card type Model",
@@ -3772,6 +4178,10 @@
         {
             "name": "Categories",
             "description": "All Categories added to system"
+        },
+        {
+            "name": "Budgets",
+            "description": "All Budgets added to system"
         }
     ],
     "security": [

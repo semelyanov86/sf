@@ -23,9 +23,10 @@ class StoreBudgetRequest extends FormRequest
             ],
             'plan'        => [
                 'required',
+                'numeric'
             ],
             'user_id'     => [
-                'required',
+                'nullable',
                 'integer',
             ],
         ];

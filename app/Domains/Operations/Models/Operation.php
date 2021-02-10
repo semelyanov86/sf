@@ -77,7 +77,7 @@ class Operation extends Model implements HasMedia
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function getAmountAttribute($value): ?Money
+    public function getAmountAttribute(int $value): ?Money
     {
         $code = \Auth::user()?->currency?->code;
         if (!$code) {
@@ -86,8 +86,11 @@ class Operation extends Model implements HasMedia
         return $value ? money($value, $code) : null;
     }
 
-    public function getAmountValueAttribute($value)
+    public function getAmountValueAttribute(?int $value): ?float
     {
+        if (!$value) {
+            return null;
+        }
         return $value / 100;
     }
 
@@ -95,11 +98,6 @@ class Operation extends Model implements HasMedia
     {
         /** @psalm-suppress PossiblyFalseReference */
         $this->attributes['done_at'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
-    }
-
-    public function setAmountAttribute($value): void
-    {
-        $this->attributes['amount'] = $value ? $value * 100 : null;
     }
 
     /**

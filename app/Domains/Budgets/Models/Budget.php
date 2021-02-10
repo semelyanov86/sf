@@ -5,6 +5,7 @@ namespace Domains\Budgets\Models;
 use Domains\Categories\Models\Category;
 use Domains\Teams\Models\Team;
 use Domains\Users\Models\User;
+use Parents\ValueObjects\MoneyValueObject;
 use Units\Auth\Traits\MultiTenantModelTrait;
 use Parents\Models\Model;
 use \DateTimeInterface;
@@ -66,7 +67,7 @@ class Budget extends Model
         return $this->belongsTo(Team::class, 'team_id');
     }
 
-    public function getPlanAttribute($value): ?\Akaunting\Money\Money
+    public function getPlanAttribute(int $value): ?\Akaunting\Money\Money
     {
         $code = \Auth::user()?->currency?->code;
         if (!$code) {
@@ -75,8 +76,13 @@ class Budget extends Model
         return $value ? money($value, $code) : null;
     }
 
-    public function setPlanAttribute($value): void
+    public function getPlanValueAttribute(int $value): float
     {
-        $this->attributes['plan'] = $value ? $value * 100 : null;
+        return $value / 100;
+    }
+
+    public function setPlanAttribute(MoneyValueObject $value): void
+    {
+        $this->attributes['plan'] = $value->toInt();
     }
 }

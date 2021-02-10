@@ -9,4 +9,5 @@ return [
         'en' => 'English',
     ],
     'registration_default_role' => '2',
+    'default_currency_code' => 'RUB'
 ];

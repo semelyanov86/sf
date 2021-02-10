@@ -23,6 +23,7 @@ class UpdateBudgetRequest extends FormRequest
             ],
             'plan'        => [
                 'required',
+                'numeric'
             ],
             'user_id'     => [
                 'required',
