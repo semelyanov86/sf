@@ -2,6 +2,8 @@
 
 namespace Domains\Accounts\Http\Requests;
 
+use BenSampo\Enum\Rules\EnumValue;
+use Domains\Accounts\Enums\AccountStateEnum;
 use Domains\Accounts\Models\Account;
 use Gate;
 use Parents\Requests\Request as FormRequest;
@@ -23,14 +25,23 @@ class UpdateAccountRequest extends FormRequest
                 'max:190',
                 'required',
             ],
+            'description' => [
+                'string',
+                'min:5',
+                'max:190',
+                'nullable'
+            ],
             'state'         => [
                 'required',
+                new EnumValue(AccountStateEnum::class)
             ],
             'start_balance' => [
                 'required',
+                'numeric'
             ],
             'market_value'  => [
                 'required',
+                'numeric'
             ],
             'extra_prefix'  => [
                 'string',
@@ -38,6 +49,16 @@ class UpdateAccountRequest extends FormRequest
                 'max:10',
                 'nullable',
             ],
+            'account_type_id' => [
+                'required',
+                'integer',
+                'exists:Domains\Accounts\Models\AccountType,id'
+            ],
+            'currency_id' => [
+                'required',
+                'integer',
+                'exists:Domains\Currencies\Models\Currency,id'
+            ]
         ];
     }
 }

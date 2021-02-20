@@ -156,7 +156,7 @@
                             {{ trans('cruds.accountsExtra.fields.account_interest_period') }}
                         </th>
                         <td>
-                            {{ Domains\Accounts\Models\AccountsExtra::ACCOUNT_INTEREST_PERIOD_SELECT[$accountsExtra->account_interest_period] ?? '' }}
+                            {{ $accountsExtra->account_interest_period ? \Domains\Accounts\Enums\AccountInterestPeriodSelect::fromValue((int) $accountsExtra->account_interest_period) : '' }}
                         </td>
                     </tr>
                     <tr>
@@ -164,7 +164,7 @@
                             {{ trans('cruds.accountsExtra.fields.account_deposit_type') }}
                         </th>
                         <td>
-                            {{ Domains\Accounts\Models\AccountsExtra::ACCOUNT_DEPOSIT_TYPE_SELECT[$accountsExtra->account_deposit_type] ?? '' }}
+                            {{ $accountsExtra->account_deposit_type ? \Domains\Accounts\Enums\AccountDepositTypeSelectEnum::fromValue((int) $accountsExtra->account_deposit_type) : '' }}
                         </td>
                     </tr>
                     <tr>
@@ -172,7 +172,7 @@
                             {{ trans('cruds.accountsExtra.fields.account_credit_payment_type') }}
                         </th>
                         <td>
-                            {{ Domains\Accounts\Models\AccountsExtra::ACCOUNT_CREDIT_PAYMENT_TYPE_SELECT[$accountsExtra->account_credit_payment_type] ?? '' }}
+                            {{ $accountsExtra->account_credit_payment_type ? \Domains\Accounts\Enums\AccountCreditPaymentTypeSelect::fromValue((int) $accountsExtra->account_credit_payment_type) : '' }}
                         </td>
                     </tr>
                     <tr>
@@ -244,7 +244,7 @@
                             {{ trans('cruds.accountsExtra.fields.immovables_estate_type') }}
                         </th>
                         <td>
-                            {{ Domains\Accounts\Models\AccountsExtra::IMMOVABLES_ESTATE_TYPE_SELECT[$accountsExtra->immovables_estate_type] ?? '' }}
+                            {{ $accountsExtra->immovables_estate_type ? \Domains\Accounts\Enums\ImmovablesEstateTypeSelectEnum::fromValue((int) $accountsExtra->immovables_estate_type) : '' }}
                         </td>
                     </tr>
                     <tr>
@@ -356,7 +356,7 @@
                             {{ trans('cruds.accountsExtra.fields.auto_fuel_type') }}
                         </th>
                         <td>
-                            {{ Domains\Accounts\Models\AccountsExtra::AUTO_FUEL_TYPE_SELECT[$accountsExtra->auto_fuel_type] ?? '' }}
+                            {{ $accountsExtra->auto_fuel_type ? \Domains\Accounts\Enums\AutoFuelTypeSelect::fromValue((int) $accountsExtra->auto_fuel_type) : '' }}
                         </td>
                     </tr>
                     <tr>
@@ -364,7 +364,7 @@
                             {{ trans('cruds.accountsExtra.fields.auto_transmission_type') }}
                         </th>
                         <td>
-                            {{ Domains\Accounts\Models\AccountsExtra::AUTO_TRANSMISSION_TYPE_SELECT[$accountsExtra->auto_transmission_type] ?? '' }}
+                            {{ $accountsExtra->auto_transmission_type ? \Domains\Accounts\Enums\AutoTransmissionTypeSelect::fromValue((int) $accountsExtra->auto_transmission_type) : '' }}
                         </td>
                     </tr>
                     <tr>

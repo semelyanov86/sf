@@ -180,8 +180,8 @@
                 <label>{{ trans('cruds.accountsExtra.fields.account_interest_period') }}</label>
                 <select class="form-control {{ $errors->has('account_interest_period') ? 'is-invalid' : '' }}" name="account_interest_period" id="account_interest_period">
                     <option value disabled {{ old('account_interest_period', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(Domains\Accounts\Models\AccountsExtra::ACCOUNT_INTEREST_PERIOD_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('account_interest_period', '0') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @foreach(\Domains\Accounts\Enums\AccountInterestPeriodSelect::getInstances() as $key => $label)
+                        <option value="{{ $label->value }}" {{ old('account_interest_period', '0') === (string) $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('account_interest_period'))
@@ -195,8 +195,8 @@
                 <label>{{ trans('cruds.accountsExtra.fields.account_deposit_type') }}</label>
                 <select class="form-control {{ $errors->has('account_deposit_type') ? 'is-invalid' : '' }}" name="account_deposit_type" id="account_deposit_type">
                     <option value disabled {{ old('account_deposit_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(Domains\Accounts\Models\AccountsExtra::ACCOUNT_DEPOSIT_TYPE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('account_deposit_type', '0') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @foreach(\Domains\Accounts\Enums\AccountDepositTypeSelectEnum::getInstances() as $key => $label)
+                        <option value="{{ $label->value }}" {{ old('account_deposit_type', '0') === (string) $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('account_deposit_type'))
@@ -210,8 +210,8 @@
                 <label>{{ trans('cruds.accountsExtra.fields.account_credit_payment_type') }}</label>
                 <select class="form-control {{ $errors->has('account_credit_payment_type') ? 'is-invalid' : '' }}" name="account_credit_payment_type" id="account_credit_payment_type">
                     <option value disabled {{ old('account_credit_payment_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(Domains\Accounts\Models\AccountsExtra::ACCOUNT_CREDIT_PAYMENT_TYPE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('account_credit_payment_type', '0') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @foreach(\Domains\Accounts\Enums\AccountCreditPaymentTypeSelect::getInstances() as $key => $label)
+                        <option value="{{ $label->value }}" {{ old('account_credit_payment_type', '0') === (string) $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('account_credit_payment_type'))
@@ -305,8 +305,8 @@
                 <label>{{ trans('cruds.accountsExtra.fields.immovables_estate_type') }}</label>
                 <select class="form-control {{ $errors->has('immovables_estate_type') ? 'is-invalid' : '' }}" name="immovables_estate_type" id="immovables_estate_type">
                     <option value disabled {{ old('immovables_estate_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(Domains\Accounts\Models\AccountsExtra::IMMOVABLES_ESTATE_TYPE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('immovables_estate_type', '0') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @foreach(\Domains\Accounts\Enums\ImmovablesEstateTypeSelectEnum::getInstances() as $key => $label)
+                        <option value="{{ $label->value }}" {{ old('immovables_estate_type', '0') === (string) $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('immovables_estate_type'))
@@ -454,8 +454,8 @@
                 <label>{{ trans('cruds.accountsExtra.fields.auto_fuel_type') }}</label>
                 <select class="form-control {{ $errors->has('auto_fuel_type') ? 'is-invalid' : '' }}" name="auto_fuel_type" id="auto_fuel_type">
                     <option value disabled {{ old('auto_fuel_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(Domains\Accounts\Models\AccountsExtra::AUTO_FUEL_TYPE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('auto_fuel_type', '1') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @foreach(\Domains\Accounts\Enums\AutoFuelTypeSelect::getInstances() as $key => $label)
+                        <option value="{{ $label->value }}" {{ old('auto_fuel_type', '1') === (string) $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('auto_fuel_type'))
@@ -469,8 +469,8 @@
                 <label>{{ trans('cruds.accountsExtra.fields.auto_transmission_type') }}</label>
                 <select class="form-control {{ $errors->has('auto_transmission_type') ? 'is-invalid' : '' }}" name="auto_transmission_type" id="auto_transmission_type">
                     <option value disabled {{ old('auto_transmission_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(Domains\Accounts\Models\AccountsExtra::AUTO_TRANSMISSION_TYPE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('auto_transmission_type', '1') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @foreach(\Domains\Accounts\Enums\AutoTransmissionTypeSelect::getInstances() as $key => $label)
+                        <option value="{{ $label->value }}" {{ old('auto_transmission_type', '1') === (string) $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('auto_transmission_type'))

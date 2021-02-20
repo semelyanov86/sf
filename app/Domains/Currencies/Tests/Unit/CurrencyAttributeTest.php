@@ -3,6 +3,7 @@
 namespace Domains\Currencies\Tests\Unit;
 
 use Parents\Tests\PhpUnit\UnitTestCase as TestCase;
+use Parents\ValueObjects\MoneyValueObject;
 
 class CurrencyAttributeTest extends TestCase
 {

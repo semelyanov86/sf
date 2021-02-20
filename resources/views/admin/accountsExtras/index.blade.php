@@ -59,7 +59,7 @@
                                 {{ $accountsExtra->card_expire_date ?? '' }}
                             </td>
                             <td>
-                                {{ Domains\Accounts\Models\AccountsExtra::ACCOUNT_INTEREST_PERIOD_SELECT[$accountsExtra->account_interest_period] ?? '' }}
+                                {{ $accountsExtra->account_interest_period ? \Domains\Accounts\Enums\AccountInterestPeriodSelect::fromValue((int) $accountsExtra->account_interest_period) : '' }}
                             </td>
                             <td>
                                 @can('accounts_extra_show')

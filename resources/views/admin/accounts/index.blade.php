@@ -68,7 +68,7 @@
                                 {{ $account->account_type->name ?? '' }}
                             </td>
                             <td>
-                                {{ Domains\Accounts\Models\Account::STATE_RADIO[$account->state] ?? '' }}
+                                {{ $account->state ? \Domains\Accounts\Enums\AccountStateEnum::fromValue((int) $account->state)?->description : '' }}
                             </td>
                             <td>
                                 {{ $account->start_balance ?? '' }}

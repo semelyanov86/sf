@@ -44,7 +44,7 @@
                             {{ trans('cruds.account.fields.state') }}
                         </th>
                         <td>
-                            {{ Domains\Accounts\Models\Account::STATE_RADIO[$account->state] ?? '' }}
+                            {{ $account->state ? \Domains\Accounts\Enums\AccountStateEnum::fromValue((int) $account->state)?->description : '' }}
                         </td>
                     </tr>
                     <tr>

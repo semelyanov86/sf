@@ -2,6 +2,8 @@
 
 namespace Domains\Categories\Http\Requests;
 
+use BenSampo\Enum\Rules\EnumValue;
+use Domains\Categories\Enums\CategoryTypeEnum;
 use Domains\Categories\Models\Category;
 use Gate;
 use Parents\Requests\Request as FormRequest;
@@ -38,6 +40,10 @@ class StoreCategoryRequest extends FormRequest
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
                 'nullable',
             ],
+            'type' => [
+                'required',
+                new EnumValue(CategoryTypeEnum::class)
+            ]
         ];
     }
 }

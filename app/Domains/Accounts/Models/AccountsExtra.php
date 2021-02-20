@@ -5,6 +5,7 @@ namespace Domains\Accounts\Models;
 use Domains\AutoBrands\Models\AutoBrand;
 use Domains\CardTypes\Models\CardType;
 use Domains\Teams\Models\Team;
+use Parents\ValueObjects\MoneyValueObject;
 use Units\Auth\Traits\MultiTenantModelTrait;
 use Carbon\Carbon;
 use Parents\Models\Model;
@@ -15,41 +16,6 @@ class AccountsExtra extends Model
     use MultiTenantModelTrait;
 
     public $table = 'accounts_extras';
-
-    const ACCOUNT_DEPOSIT_TYPE_SELECT = [
-        '0' => 'Renew',
-        '1' => 'Non-Renew',
-    ];
-
-    const IMMOVABLES_ESTATE_TYPE_SELECT = [
-        '0' => 'Home',
-        '1' => 'Appartment',
-    ];
-
-    const ACCOUNT_CREDIT_PAYMENT_TYPE_SELECT = [
-        '0' => 'Annuity',
-        '1' => 'Differentiable',
-    ];
-
-    const AUTO_TRANSMISSION_TYPE_SELECT = [
-        '1' => 'Mechanic',
-        '2' => 'Automatic',
-        '3' => 'Any',
-        '5' => 'Robot',
-        '6' => 'Variator',
-    ];
-
-    const AUTO_FUEL_TYPE_SELECT = [
-        '1' => 'Benzine',
-        '2' => 'Diesel',
-        '3' => 'Gaz',
-        '4' => 'Any',
-        '5' => 'Injector',
-        '6' => 'Carburetor',
-        '7' => 'Hybrid',
-        '8' => 'Benzine/Gaz',
-        '9' => 'Electro',
-    ];
 
     protected $dates = [
         'card_expire_date',
@@ -64,21 +30,8 @@ class AccountsExtra extends Model
         'deleted_at',
     ];
 
-    const ACCOUNT_INTEREST_PERIOD_SELECT = [
-        '0'  => 'End of period',
-        '1'  => 'Every Day',
-        '2'  => 'Every Week',
-        '3'  => 'Every Month at open day',
-        '4'  => 'Every month at the end of month',
-        '5'  => 'Every month at first day of month',
-        '6'  => 'Every quarter at open day',
-        '7'  => 'Every quarter at the end of quarter',
-        '8'  => 'Every 6 month',
-        '9'  => 'Every year',
-        '10' => 'After Custom Interval',
-    ];
-
     protected $fillable = [
+        'id',
         'card_type_id',
         'card_expire_date',
         'card_year_cost',
@@ -256,8 +209,13 @@ class AccountsExtra extends Model
         return $value ? money($value, $code) : null;
     }
 
-    public function setCardYearCostAttribute($value): void
+    public function setCardYearCostAttribute(?MoneyValueObject $value): void
     {
-        $this->attributes['card_year_cost'] = $value ? $value * 100 : null;
+        $this->attributes['card_year_cost'] = $value ? $value->toInt() : null;
+    }
+
+    public function setCardCreditLimitAttribute(?MoneyValueObject $value): void
+    {
+        $this->attributes['card_credit_limit'] = $value ? $value->toInt() : null;
     }
 }

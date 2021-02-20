@@ -2,55 +2,54 @@
 
 namespace Domains\Accounts\Http\Controllers\Api\V1\Admin;
 
+use Domains\Accounts\Actions\DeleteAccountAction;
+use Domains\Accounts\Actions\IndexAccountsAction;
+use Domains\Accounts\Actions\ShowAccountAction;
+use Domains\Accounts\Actions\StoreAccountAction;
+use Domains\Accounts\Actions\UpdateAccountAction;
+use Domains\Accounts\DataTransferObjects\AccountData;
+use Domains\Accounts\DataTransferObjects\AccountExtraData;
+use Domains\Accounts\Http\Requests\DeleteAccountRequest;
+use Domains\Accounts\Http\Requests\IndexAccountRequest;
+use Domains\Accounts\Http\Requests\ShowAccountRequest;
+use Domains\Accounts\Transformers\AccountDataTransformer;
 use Parents\Controllers\ApiController as Controller;
 use Domains\Accounts\Http\Requests\StoreAccountRequest;
 use Domains\Accounts\Http\Requests\UpdateAccountRequest;
-use Domains\Accounts\Http\Resources\AccountResource;
 use Domains\Accounts\Models\Account;
-use Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AccountsApiController extends Controller
 {
-    public function index(): AccountResource
+    public function index(IndexAccountRequest $request, IndexAccountsAction $action): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('account_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new AccountResource(Account::with(['account_type', 'currency', 'bank', 'team'])->get());
+        $viewModel = $action();
+        return fractal($viewModel->accounts(), new AccountDataTransformer())->respond();
     }
 
-    public function store(StoreAccountRequest $request): \Illuminate\Http\JsonResponse
+    public function store(StoreAccountRequest $request, StoreAccountAction $action): \Illuminate\Http\JsonResponse
     {
-        $account = Account::create($request->all());
-
-        return (new AccountResource($account))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        $result = $action(AccountData::fromRequest($request), AccountExtraData::fromRequest($request));
+        return fractal($result->account(), new AccountDataTransformer())
+            ->parseIncludes(['extra', 'account_type', 'currency', 'bank'])
+            ->respond(Response::HTTP_CREATED);
     }
 
-    public function show(Account $account): AccountResource
+    public function show(ShowAccountRequest $request, Account $account, ShowAccountAction $action): \Illuminate\Http\JsonResponse
     {
-        abort_if(Gate::denies('account_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new AccountResource($account->load(['account_type', 'currency', 'bank', 'team']));
+        $viewModel = $action($account);
+        return fractal($viewModel->account(), new AccountDataTransformer())->parseIncludes(['account_type', 'currency', 'bank', 'extra'])->respond();
     }
 
-    public function update(UpdateAccountRequest $request, Account $account): \Illuminate\Http\JsonResponse
+    public function update(UpdateAccountRequest $request, Account $account, UpdateAccountAction $action): \Illuminate\Http\JsonResponse
     {
-        $account->update($request->all());
-
-        return (new AccountResource($account))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        $viewModel = $action($account, AccountData::fromRequest($request));
+        return fractal($viewModel->account(), new AccountDataTransformer())->respond(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Account $account): \Illuminate\Http\Response
+    public function destroy(DeleteAccountRequest $request, Account $account, DeleteAccountAction $action): \Illuminate\Http\Response
     {
-        abort_if(Gate::denies('account_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $account->delete();
-
+        $action($account);
         return response(null, Response::HTTP_NO_CONTENT);
     }
 }

@@ -2,6 +2,11 @@
 
 namespace Domains\Accounts\Http\Controllers\Admin;
 
+use Domains\Accounts\Actions\StoreAccountAction;
+use Domains\Accounts\Actions\UpdateAccountAction;
+use Domains\Accounts\DataTransferObjects\AccountData;
+use Domains\Accounts\DataTransferObjects\AccountExtraData;
+use Domains\Accounts\Http\Requests\IndexAccountRequest;
 use Parents\Controllers\WebController as Controller;
 use Support\CsvImport\Traits\CsvImportTrait;
 use Domains\Accounts\Http\Requests\MassDestroyAccountRequest;
@@ -19,10 +24,8 @@ class AccountsController extends Controller
 {
     use CsvImportTrait;
 
-    public function index(): \Illuminate\View\View
+    public function index(IndexAccountRequest $request): \Illuminate\View\View
     {
-        abort_if(Gate::denies('account_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $accounts = Account::with(['account_type', 'currency', 'bank', 'team'])->get();
 
         return view('admin.accounts.index', compact('accounts'));
@@ -41,9 +44,9 @@ class AccountsController extends Controller
         return view('admin.accounts.create', compact('account_types', 'currencies', 'banks'));
     }
 
-    public function store(StoreAccountRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreAccountRequest $request, StoreAccountAction $action): \Illuminate\Http\RedirectResponse
     {
-        $account = Account::create($request->all());
+        $action(AccountData::fromRequest($request), AccountExtraData::fromRequest($request));
 
         return redirect()->route('admin.accounts.index');
     }
@@ -63,9 +66,9 @@ class AccountsController extends Controller
         return view('admin.accounts.edit', compact('account_types', 'currencies', 'banks', 'account'));
     }
 
-    public function update(UpdateAccountRequest $request, Account $account): \Illuminate\Http\RedirectResponse
+    public function update(UpdateAccountRequest $request, Account $account, UpdateAccountAction $action): \Illuminate\Http\RedirectResponse
     {
-        $account->update($request->all());
+        $action($account, AccountData::fromRequest($request));
 
         return redirect()->route('admin.accounts.index');
     }

@@ -2,11 +2,13 @@
 
 namespace Domains\Accounts\Models;
 
+use Domains\Accounts\Enums\AccountStateEnum;
 use Domains\Banks\Models\Bank;
 use Domains\Currencies\Models\Currency;
 use Domains\Operations\Models\Operation;
 use Domains\Targets\Models\Target;
 use Domains\Teams\Models\Team;
+use Parents\ValueObjects\MoneyValueObject;
 use Units\Auth\Traits\MultiTenantModelTrait;
 use Parents\Models\Model;
 use \DateTimeInterface;
@@ -21,12 +23,6 @@ class Account extends Model
         'created_at',
         'updated_at',
         'deleted_at',
-    ];
-
-    const STATE_RADIO = [
-        '0' => 'Default',
-        '1' => 'Starred',
-        '2' => 'Hidden',
     ];
 
     protected $fillable = [
@@ -110,26 +106,42 @@ class Account extends Model
         return $this->belongsTo(Team::class, 'team_id');
     }
 
-    public function getStartBalanceAttribute($value): ?\Akaunting\Money\Money
+    public function getStartBalanceAttribute(int $value): ?\Akaunting\Money\Money
     {
-        /** @psalm-suppress PossiblyNullArgument */
-        return $value ? money($value, \Auth::user()?->currency?->code) : null;
+        $code = \Auth::user()?->currency?->code;
+        if (!$code) {
+            return null;
+        }
+        return $value ? money($value, $code) : null;
     }
 
-    public function setStartBalanceAttribute($value): void
+    public function setStartBalanceAttribute(MoneyValueObject $value): void
     {
-        $this->attributes['start_balance'] = $value ? $value * 100 : null;
+        $this->attributes['start_balance'] = $value->toInt();
     }
 
-    public function getMarketValueAttribute($value): ?\Akaunting\Money\Money
+    public function getMarketValueAttribute(int $value): ?\Akaunting\Money\Money
     {
-        /** @psalm-suppress PossiblyNullArgument */
-        return $value ? money($value, \Auth::user()?->currency?->code) : null;
+        $code = \Auth::user()?->currency?->code;
+        if (!$code) {
+            return null;
+        }
+        return $value ? money($value, $code) : null;
     }
 
-    public function setMarketValueAttribute($value): void
+    public function setMarketValueAttribute(MoneyValueObject $value): void
     {
-        $this->attributes['market_value'] = $value ? $value * 100 : null;
+        $this->attributes['market_value'] = $value->toInt();
+    }
+
+    public function extra(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(AccountsExtra::class, 'id', 'id');
+    }
+
+    public function setStateAttribute(AccountStateEnum $value): void
+    {
+        $this->attributes['state'] = $value->value;
     }
 
 }

@@ -36,10 +36,10 @@
             </div>
             <div class="form-group">
                 <label class="required">{{ trans('cruds.account.fields.state') }}</label>
-                @foreach(Domains\Accounts\Models\Account::STATE_RADIO as $key => $label)
+                @foreach(\Domains\Accounts\Enums\AccountStateEnum::getInstances() as $key => $label)
                     <div class="form-check {{ $errors->has('state') ? 'is-invalid' : '' }}">
-                        <input class="form-check-input" type="radio" id="state_{{ $key }}" name="state" value="{{ $key }}" {{ old('state', $account->state) === (string) $key ? 'checked' : '' }} required>
-                        <label class="form-check-label" for="state_{{ $key }}">{{ $label }}</label>
+                        <input class="form-check-input" type="radio" id="state_{{ $label->value }}" name="state" value="{{ $label->value }}" {{ old('state', $account->state) === (string) $label->value ? 'checked' : '' }} required>
+                        <label class="form-check-label" for="state_{{ $label->value }}">{{ $label->description }}</label>
                     </div>
                 @endforeach
                 @if($errors->has('state'))
