@@ -19,6 +19,276 @@
         }
     ],
     "paths": {
+        "/accounts": {
+            "get": {
+                "tags": [
+                    "Accounts"
+                ],
+                "summary": "Get list of Accounts registered in system",
+                "description": "Returns list of Accounts",
+                "operationId": "getAccountsList",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AccountResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Accounts"
+                ],
+                "summary": "Store new Account",
+                "description": "Returns Account data",
+                "operationId": "storeAccount",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreAccountRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AccountDataVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/accounts/{id}": {
+            "get": {
+                "tags": [
+                    "Accounts"
+                ],
+                "summary": "Get Account information",
+                "description": "Returns Account data",
+                "operationId": "getAccountById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Account id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AccountDataVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Accounts"
+                ],
+                "summary": "Update existing Account",
+                "description": "Returns updated Account data",
+                "operationId": "updateAccount",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Account id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateAccountRequestVirtual"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AccountDataVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Accounts"
+                ],
+                "summary": "Delete existing Account",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteAccount",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Account type id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/account-types": {
+            "get": {
+                "tags": [
+                    "Accounts"
+                ],
+                "summary": "Get list of Account types registered in system",
+                "description": "Returns list of Account types",
+                "operationId": "getAccountTypesList",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AccountTypeResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/account-types/{id}": {
+            "get": {
+                "tags": [
+                    "Accounts"
+                ],
+                "summary": "Get Account Type information",
+                "description": "Returns Account type data",
+                "operationId": "getAccountTypeById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Account type id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AccountTypeVirtual"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
         "/auto-brands": {
             "get": {
                 "tags": [
@@ -2459,6 +2729,403 @@
     },
     "components": {
         "schemas": {
+            "AccountDataVirtual": {
+                "title": "Account",
+                "description": "Account Model",
+                "required": [
+                    "name",
+                    "state",
+                    "start_balance",
+                    "market_value"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of account",
+                        "type": "string",
+                        "example": "Super Cash"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "description": "Description of account",
+                        "type": "string",
+                        "example": "Cash vallet of administrator"
+                    },
+                    "start_balance": {
+                        "$ref": "#/components/schemas/CurrencyVirtualModel"
+                    },
+                    "market_value": {
+                        "$ref": "#/components/schemas/CurrencyVirtualModel"
+                    },
+                    "state": {
+                        "title": "State",
+                        "description": "State of account",
+                        "type": "string",
+                        "example": "Default"
+                    },
+                    "account_type_id": {
+                        "title": "Account Type ID",
+                        "description": "ID of account type",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "currency_id": {
+                        "title": "Currency ID",
+                        "description": "ID of selected currency",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "bank_id": {
+                        "title": "Bank ID",
+                        "description": "ID of selected bank",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "bank": {
+                        "$ref": "#/components/schemas/BankVirtual"
+                    },
+                    "account_type": {
+                        "$ref": "#/components/schemas/AccountTypeVirtual"
+                    },
+                    "currency": {
+                        "$ref": "#/components/schemas/CurrencyVirtual"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object"
+            },
+            "AccountExtraDataVirtual": {
+                "title": "AccountExtra",
+                "description": "Account Extra Model",
+                "required": [],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "account_deposit_type": {
+                        "title": "Account deposit type",
+                        "description": "Account deposit type",
+                        "type": "string",
+                        "example": "Renew"
+                    },
+                    "immovables_estate_type": {
+                        "title": "Immovables estate type",
+                        "description": "Immovables estate type",
+                        "type": "string",
+                        "example": "Appartment"
+                    },
+                    "account_credit_payment_type": {
+                        "title": "Account credit payment type",
+                        "description": "Account credit payment type",
+                        "type": "string",
+                        "example": "Differentiable"
+                    },
+                    "auto_transmission_type": {
+                        "title": "Auto transmission type",
+                        "description": "Auto transmission type",
+                        "type": "string",
+                        "example": "Mechanic"
+                    },
+                    "auto_fuel_type": {
+                        "title": "Auto fuel type",
+                        "description": "Auto fuel type",
+                        "type": "string",
+                        "example": "Gaz"
+                    },
+                    "account_interest_period": {
+                        "title": "Account interest period",
+                        "description": "Account interest period",
+                        "type": "string",
+                        "example": "Every day"
+                    },
+                    "card_type_id": {
+                        "title": "Card type ID",
+                        "description": "ID of card type",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "card_type": {
+                        "$ref": "#/components/schemas/CardTypeVirtual"
+                    },
+                    "card_expire_date": {
+                        "title": "Card expire date",
+                        "description": "Card expire date",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-03-27 17:50:45"
+                    },
+                    "card_year_cost": {
+                        "$ref": "#/components/schemas/CurrencyVirtualModel"
+                    },
+                    "card_credit_limit": {
+                        "$ref": "#/components/schemas/CurrencyVirtualModel"
+                    },
+                    "card_rate_balance": {
+                        "title": "Card rate balance",
+                        "description": "Card rate balance",
+                        "type": "number",
+                        "format": "float",
+                        "example": "15.2"
+                    },
+                    "card_atm_commission": {
+                        "title": "Card ATM commission",
+                        "description": "Card ATM commission",
+                        "type": "number",
+                        "format": "float",
+                        "example": "3.2"
+                    },
+                    "card_other_atm_commission": {
+                        "title": "Card other ATM commission",
+                        "description": "Card other ATM commission",
+                        "type": "number",
+                        "format": "float",
+                        "example": "5.2"
+                    },
+                    "card_credit_interest_rate": {
+                        "title": "Card credit interest rate",
+                        "description": "Card credit interest rate",
+                        "type": "number",
+                        "format": "float",
+                        "example": "10.1"
+                    },
+                    "card_credit_min_payment_percent": {
+                        "title": "Credit card minimum payment percent",
+                        "description": "Credit card minimum payment percent",
+                        "type": "number",
+                        "format": "float",
+                        "example": "6.5"
+                    },
+                    "card_credit_min_payment_day": {
+                        "title": "Credit card minimal payment day",
+                        "description": "Credit card minimum payment day",
+                        "type": "number",
+                        "format": "float",
+                        "example": "100.5"
+                    },
+                    "card_credit_annual_service_cost": {
+                        "title": "Credit card annual service cost",
+                        "description": "Credit card annual service cost",
+                        "type": "number",
+                        "format": "float",
+                        "example": "500.4"
+                    },
+                    "account_interest_rate": {
+                        "title": "Account interest rate",
+                        "description": "Account interest rate",
+                        "type": "number",
+                        "format": "float",
+                        "example": "3.5"
+                    },
+                    "card_credit_grace_period": {
+                        "title": "Credit card grace period",
+                        "description": "Credit card grace period",
+                        "type": "integer",
+                        "example": "20"
+                    },
+                    "account_open_date": {
+                        "title": "Account open date",
+                        "description": "Account open date",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object"
+            },
+            "AccountTypeVirtual": {
+                "title": "AccountType",
+                "description": "Account Type Model",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of account",
+                        "type": "string",
+                        "example": "Super Cash"
+                    },
+                    "parent_description": {
+                        "title": "Parent Description",
+                        "description": "Parent Description of account",
+                        "type": "string",
+                        "example": "Cash vallet of administrator"
+                    }
+                },
+                "type": "object"
+            },
+            "AccountResource": {
+                "title": "AccountResource",
+                "description": "Account Resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AccountDataVirtual"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "AccountResource"
+                }
+            },
+            "AccountTypeResource": {
+                "title": "AccountTypeResource",
+                "description": "Account Type Resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AccountTypeVirtual"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "AccountTypeResource"
+                }
+            },
+            "StoreAccountRequestVirtual": {
+                "title": "Store Account request",
+                "description": "Store Account request body data",
+                "required": [
+                    "name",
+                    "state",
+                    "start_balance",
+                    "market_value",
+                    "account_type_id"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new account",
+                        "type": "string",
+                        "example": "Test account"
+                    },
+                    "description": {
+                        "title": "description",
+                        "description": "Description of new account",
+                        "type": "string",
+                        "example": "Test description account"
+                    },
+                    "state": {
+                        "title": "state",
+                        "description": "State of new account",
+                        "type": "integer",
+                        "example": "0"
+                    },
+                    "start_balance": {
+                        "title": "start_balance",
+                        "description": "Start balance of new account",
+                        "type": "integer",
+                        "example": "1000"
+                    },
+                    "market_value": {
+                        "title": "market_value",
+                        "description": "Market value of new account",
+                        "type": "integer",
+                        "example": "500"
+                    },
+                    "account_type_id": {
+                        "title": "account_type_id",
+                        "description": "Relation to account type",
+                        "type": "integer",
+                        "example": "5"
+                    },
+                    "currency_id": {
+                        "title": "currency_id",
+                        "description": "Relation to currency model",
+                        "type": "integer",
+                        "example": "2"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateAccountRequestVirtual": {
+                "title": "Update Account request",
+                "description": "Update Account request body data",
+                "required": [
+                    "name",
+                    "state",
+                    "start_balance",
+                    "market_value",
+                    "account_type_id"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new account",
+                        "type": "string",
+                        "example": "Test account"
+                    },
+                    "description": {
+                        "title": "description",
+                        "description": "Description of new account",
+                        "type": "string",
+                        "example": "Test description account"
+                    },
+                    "state": {
+                        "title": "state",
+                        "description": "State of new account",
+                        "type": "integer",
+                        "example": "0"
+                    },
+                    "start_balance": {
+                        "title": "start_balance",
+                        "description": "Start balance of new account",
+                        "type": "integer",
+                        "example": "1000"
+                    },
+                    "market_value": {
+                        "title": "market_value",
+                        "description": "Market value of new account",
+                        "type": "integer",
+                        "example": "500"
+                    },
+                    "account_type_id": {
+                        "title": "account_type_id",
+                        "description": "Relation to account type",
+                        "type": "integer",
+                        "example": "5"
+                    },
+                    "currency_id": {
+                        "title": "currency_id",
+                        "description": "Relation to currency model",
+                        "type": "integer",
+                        "example": "2"
+                    }
+                },
+                "type": "object"
+            },
             "AutoBrandVirtual": {
                 "title": "AutoBrand",
                 "description": "Auto brand Model",
@@ -4182,6 +4849,10 @@
         {
             "name": "Budgets",
             "description": "All Budgets added to system"
+        },
+        {
+            "name": "Accounts",
+            "description": "All accounts added to system"
         }
     ],
     "security": [

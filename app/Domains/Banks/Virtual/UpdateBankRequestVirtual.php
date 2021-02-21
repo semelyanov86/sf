@@ -4,6 +4,7 @@
 namespace Domains\Banks\Virtual;
 
 /**
+ * @internal
  * @OA\Schema(
  *      title="Update Bank request",
  *      description="Update Bank request body data",

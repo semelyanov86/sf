@@ -26,7 +26,7 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
     public function it_can_see_all_accounts(): void
     {
         $this->auth();
-        $response = $this->json('GET', route('api.budgets.index'));
+        $response = $this->json('GET', route('api.accounts.index'));
         $response->assertStatus(200)->assertJson(['data' => []]);
     }
     /** @test */
@@ -76,5 +76,12 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
                 "value" => 2000
             ]
         ]]);
+    }
+    /** @test */
+    public function it_can_see_account_types(): void
+    {
+        $this->auth();
+        $response = $this->json('GET', route('api.account-types.index'));
+        $response->assertStatus(200)->assertJson(['data' => []]);
     }
 }

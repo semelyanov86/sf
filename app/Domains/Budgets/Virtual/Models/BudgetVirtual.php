@@ -4,6 +4,7 @@
 namespace Domains\Budgets\Virtual\Models;
 
 /**
+ * @internal
  * @OA\Schema(
  *     title="Budget",
  *     description="Budget model",

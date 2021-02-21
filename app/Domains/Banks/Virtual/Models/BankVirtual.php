@@ -4,6 +4,7 @@
 namespace Domains\Banks\Virtual\Models;
 
 /**
+ * @internal
  * @OA\Schema(
  *     title="Bank",
  *     description="Bank Model",

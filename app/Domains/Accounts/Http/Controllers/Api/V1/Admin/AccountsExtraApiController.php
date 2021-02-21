@@ -2,6 +2,8 @@
 
 namespace Domains\Accounts\Http\Controllers\Api\V1\Admin;
 
+use Domains\Accounts\Actions\ShowAccountAction;
+use Domains\Accounts\Http\Requests\ShowAccountRequest;
 use Parents\Controllers\ApiController as Controller;
 use Domains\Accounts\Http\Requests\StoreAccountsExtraRequest;
 use Domains\Accounts\Http\Requests\UpdateAccountsExtraRequest;
@@ -13,44 +15,28 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AccountsExtraApiController extends Controller
 {
-    public function index(): AccountsExtraResource
+    public function index(): void
     {
-        abort_if(Gate::denies('accounts_extra_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new AccountsExtraResource(AccountsExtra::with(['card_type', 'auto_brand', 'team'])->get());
+        abort(501, 'Current method is not implemented');
     }
 
-    public function store(StoreAccountsExtraRequest $request): \Illuminate\Http\JsonResponse
+    public function store(StoreAccountsExtraRequest $request): void
     {
-        $accountsExtra = AccountsExtra::create($request->all());
-
-        return (new AccountsExtraResource($accountsExtra))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        abort(501, 'Current method is not implemented');
     }
 
-    public function show(AccountsExtra $accountsExtra): AccountsExtraResource
+    public function show(ShowAccountRequest $request, AccountsExtra $accountsExtra, ShowAccountAction $action): void
     {
-        abort_if(Gate::denies('accounts_extra_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new AccountsExtraResource($accountsExtra->load(['card_type', 'auto_brand', 'team']));
+        abort(501, 'Current method is not implemented');
     }
 
-    public function update(UpdateAccountsExtraRequest $request, AccountsExtra $accountsExtra): \Illuminate\Http\JsonResponse
+    public function update(UpdateAccountsExtraRequest $request, AccountsExtra $accountsExtra): void
     {
-        $accountsExtra->update($request->all());
-
-        return (new AccountsExtraResource($accountsExtra))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        abort(501, 'Current method is not implemented');
     }
 
-    public function destroy(AccountsExtra $accountsExtra): \Illuminate\Http\Response
+    public function destroy(AccountsExtra $accountsExtra): void
     {
-        abort_if(Gate::denies('accounts_extra_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $accountsExtra->delete();
-
-        return response(null, Response::HTTP_NO_CONTENT);
+        abort(501, 'Current method is not implemented');
     }
 }

@@ -1,26 +1,25 @@
 <?php
 
 
-namespace Domains\Banks\Virtual\Controllers;
+namespace Domains\Accounts\Virtual\Controllers;
 
 /**
  * @internal
- * Class BanksApiVirtual
  */
-class BanksApiVirtual
+class AccountApiVirtual
 {
     /**
      * @OA\Get (
-     *      path="/banks",
-     *      operationId="getBanksList",
-     *      tags={"Banks"},
-     *      summary="Get list of banks registered in system",
-     *      description="Returns list of banks",
+     *      path="/accounts",
+     *      operationId="getAccountsList",
+     *      tags={"Accounts"},
+     *      summary="Get list of Accounts registered in system",
+     *      description="Returns list of Accounts",
      *
      * @OA\Response (
      *         response=200,
      *         description="successful operation",
-     *         @OA\JsonContent(ref="#/components/schemas/BankResource")
+     *         @OA\JsonContent(ref="#/components/schemas/AccountResource")
      * ),
      * @OA\Response (
      *          response=401,
@@ -39,21 +38,21 @@ class BanksApiVirtual
 
     /**
      * @OA\Post (
-     *      path="/banks",
-     *      operationId="storeBank",
-     *      tags={"Banks"},
-     *      summary="Store new bank",
-     *      description="Returns bank data",
+     *      path="/accounts",
+     *      operationId="storeAccount",
+     *      tags={"Accounts"},
+     *      summary="Store new Account",
+     *      description="Returns Account data",
      *
      * @OA\RequestBody (
      *          required=true,
-     *          @OA\JsonContent (ref="#/components/schemas/StoreBankRequestVirtual")
+     *          @OA\JsonContent (ref="#/components/schemas/StoreAccountRequestVirtual")
      *      ),
      *
      * @OA\Response (
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent (ref="#/components/schemas/BankVirtual")
+     *          @OA\JsonContent (ref="#/components/schemas/AccountDataVirtual")
      *   ),
      * @OA\Response (
      *          response=400,
@@ -76,15 +75,15 @@ class BanksApiVirtual
 
     /**
      * @OA\Get (
-     *      path="/banks/{id}",
-     *      operationId="getBankById",
-     *      tags={"Banks"},
-     *      summary="Get bank information",
-     *      description="Returns bank data",
+     *      path="/accounts/{id}",
+     *      operationId="getAccountById",
+     *      tags={"Accounts"},
+     *      summary="Get Account information",
+     *      description="Returns Account data",
      *
      * @OA\Parameter (
      *          name="id",
-     *          description="Bank id",
+     *          description="Account id",
      *          required=true,
      *          in="path",
      *
@@ -96,7 +95,7 @@ class BanksApiVirtual
      * @OA\Response (
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent (ref="#/components/schemas/BankVirtual")
+     *          @OA\JsonContent (ref="#/components/schemas/AccountDataVirtual")
      *  ),
      * @OA\Response (
      *          response=400,
@@ -119,15 +118,15 @@ class BanksApiVirtual
 
     /**
      * @OA\Put (
-     *      path="/banks/{id}",
-     *      operationId="updateBank",
-     *      tags={"Banks"},
-     *      summary="Update existing bank",
-     *      description="Returns updated bank data",
+     *      path="/accounts/{id}",
+     *      operationId="updateAccount",
+     *      tags={"Accounts"},
+     *      summary="Update existing Account",
+     *      description="Returns updated Account data",
      *
      * @OA\Parameter (
      *          name="id",
-     *          description="Bank id",
+     *          description="Account id",
      *          required=true,
      *          in="path",
      *
@@ -138,13 +137,13 @@ class BanksApiVirtual
      *
      * @OA\RequestBody (
      *          required=true,
-     *          @OA\JsonContent (ref="#/components/schemas/UpdateBankRequestVirtual")
+     *          @OA\JsonContent (ref="#/components/schemas/UpdateAccountRequestVirtual")
      *      ),
      *
      * @OA\Response (
      *          response=202,
      *          description="Successful operation",
-     *          @OA\JsonContent (ref="#/components/schemas/BankVirtual")
+     *          @OA\JsonContent (ref="#/components/schemas/AccountDataVirtual")
      * ),
      * @OA\Response (
      *          response=400,
@@ -171,15 +170,15 @@ class BanksApiVirtual
 
     /**
      * @OA\Delete (
-     *      path="/banks/{id}",
-     *      operationId="deleteBank",
-     *      tags={"Banks"},
-     *      summary="Delete existing bank",
+     *      path="/accounts/{id}",
+     *      operationId="deleteAccount",
+     *      tags={"Accounts"},
+     *      summary="Delete existing Account",
      *      description="Deletes a record and returns no content",
      *
      * @OA\Parameter (
      *          name="id",
-     *          description="Bank type id",
+     *          description="Account type id",
      *          required=true,
      *          in="path",
      *

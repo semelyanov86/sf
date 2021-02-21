@@ -4,6 +4,7 @@
 namespace Domains\Banks\Virtual;
 
 /**
+ * @internal
  * @OA\Schema(
  *      title="Store Bank request",
  *      description="Store Bank request body data",
