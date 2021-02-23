@@ -10,6 +10,7 @@ use Domains\Targets\Models\Target;
 use Domains\Targets\Models\TargetCategory;
 use Parents\Factories\Factory;
 use Illuminate\Support\Carbon;
+use Parents\ValueObjects\MoneyValueObject;
 
 class TargetFactory extends Factory
 {
@@ -27,7 +28,7 @@ class TargetFactory extends Factory
             'target_type' => TypeSelectEnum::getRandomValue(),
             'target_name' => $this->faker->name,
             'target_status' => TargetStatusEnum::getRandomValue(),
-            'amount' => $this->faker->randomNumber(4),
+            'amount' => MoneyValueObject::fromNative($this->faker->randomNumber(4)),
             'first_pay_date' => date(config('panel.date_format')),
             'monthly_pay_amount' => $this->faker->randomNumber(2),
             'pay_to_date' => date(config('panel.date_format')),

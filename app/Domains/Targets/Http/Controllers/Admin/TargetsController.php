@@ -71,13 +71,13 @@ class TargetsController extends Controller
             });
 
             $table->editColumn('target_type', function ($row) {
-                return $row->target_type ? \Domains\Targets\Enums\TypeSelectEnum::fromValue((int) $row->target_type)->description : '';
+                return $row->target_type?->description;
             });
             $table->editColumn('target_name', function ($row) {
                 return $row->target_name ? $row->target_name : "";
             });
             $table->editColumn('target_status', function ($row) {
-                return $row->target_status ? TargetStatusEnum::fromValue((int) $row->target_status) : '';
+                return $row->target_status?->description;
             });
             $table->editColumn('amount', function ($row) {
                 return $row->amount ? $row->amount : "";

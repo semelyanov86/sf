@@ -105,6 +105,10 @@ abstract class ApiController extends Controller
      *     name="Accounts",
      *     description="All accounts added to system",
      * )
+     * @OA\Tag(
+     *     name="Target",
+     *     description="All targets added to system",
+     * )
      */
     /**
      * @var  array

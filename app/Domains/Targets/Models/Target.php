@@ -4,8 +4,11 @@ namespace Domains\Targets\Models;
 
 use Domains\Accounts\Models\Account;
 use Domains\Currencies\Models\Currency;
+use Domains\Targets\Enums\TargetStatusEnum;
+use Domains\Targets\Enums\TypeSelectEnum;
 use Domains\Teams\Models\Team;
 use Domains\Users\Models\User;
+use Parents\ValueObjects\MoneyValueObject;
 use Units\Auth\Traits\MultiTenantModelTrait;
 use Carbon\Carbon;
 use Parents\Models\Model;
@@ -13,6 +16,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use \DateTimeInterface;
+use function PHPUnit\Framework\isInstanceOf;
 
 class Target extends Model implements HasMedia
 {
@@ -23,7 +27,7 @@ class Target extends Model implements HasMedia
     protected $appends = [
         'image',
     ];
-    
+
 
     protected $dates = [
         'created_at',
@@ -109,11 +113,11 @@ class Target extends Model implements HasMedia
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function setFirstPayDateAttribute($value): void
-    {
-        /** @psalm-suppress PossiblyFalseReference */
-        $this->attributes['first_pay_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
-    }
+//    public function setFirstPayDateAttribute($value): void
+//    {
+//        /** @psalm-suppress PossiblyFalseReference */
+//        $this->attributes['first_pay_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
+//    }
 
     public function getPayToDateAttribute($value): ?string
     {
@@ -121,11 +125,11 @@ class Target extends Model implements HasMedia
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function setPayToDateAttribute($value): void
-    {
-        /** @psalm-suppress PossiblyFalseReference */
-        $this->attributes['pay_to_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
-    }
+//    public function setPayToDateAttribute($value): void
+//    {
+//        /** @psalm-suppress PossiblyFalseReference */
+//        $this->attributes['pay_to_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
+//    }
 
     public function getImageAttribute(): ?\Illuminate\Database\Eloquent\Model
     {
@@ -159,9 +163,27 @@ class Target extends Model implements HasMedia
         return $value ? money($value, $code) : null;
     }
 
-    public function setAmountAttribute($value): void
+    public function setAmountAttribute(MoneyValueObject $value): void
     {
-        $this->attributes['amount'] = $value ? $value * 100 : null;
+        $this->attributes['amount'] = $value->toInt();
+    }
+
+    public function getTargetTypeAttribute(TypeSelectEnum|int $value): TypeSelectEnum
+    {
+        if (is_int($value)) {
+            return TypeSelectEnum::fromValue($value);
+        } else {
+            return $value;
+        }
+    }
+
+    public function getTargetStatusAttribute(TargetStatusEnum|int $value): TargetStatusEnum
+    {
+        if (is_int($value)) {
+            return TargetStatusEnum::fromValue($value);
+        } else {
+            return $value;
+        }
     }
 
     public function getMonthlyPayAmountAttribute($value): ?\Akaunting\Money\Money
@@ -173,8 +195,12 @@ class Target extends Model implements HasMedia
         return $value ? money($value, $code) : null;
     }
 
-    public function setMonthlyPayAmountAttribute($value): void
+    public function setMonthlyPayAmountAttribute(MoneyValueObject|int|null $value): void
     {
-        $this->attributes['monthly_pay_amount'] = $value ? $value * 100 : null;
+        if (is_int($value)) {
+            $this->attributes['monthly_pay_amount'] = $value;
+        } elseif (is_object($value)) {
+            $this->attributes['monthly_pay_amount'] = $value->toInt();
+        }
     }
 }

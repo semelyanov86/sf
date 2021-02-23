@@ -2,65 +2,50 @@
 
 namespace Domains\Targets\Http\Controllers\Api;
 
+use Composer\Util\Tar;
+use Domains\Targets\Actions\GetAllTargetsAction;
+use Domains\Targets\Actions\ShowTargetAction;
+use Domains\Targets\Actions\StoreTargetAction;
+use Domains\Targets\Actions\UpdateTargetAction;
+use Domains\Targets\DataTransferObjects\TargetData;
 use Domains\Targets\Http\Requests\DeleteTargetRequest;
 use Domains\Targets\Http\Requests\IndexTargetsRequest;
 use Domains\Targets\Http\Requests\ShowTargetRequest;
+use Domains\Targets\Transformers\TargetTransformer;
 use Parents\Controllers\ApiController as Controller;
 use Support\MediaUpload\Traits\MediaUploadingTrait;
 use Domains\Targets\Http\Requests\StoreTargetRequest;
 use Domains\Targets\Http\Requests\UpdateTargetRequest;
 use Domains\Targets\Http\Resources\TargetResource;
 use Domains\Targets\Models\Target;
-use Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TargetsApiController extends Controller
+final class TargetsApiController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index(IndexTargetsRequest $request): TargetResource
+    public function index(IndexTargetsRequest $request, GetAllTargetsAction $action): \Illuminate\Http\JsonResponse
     {
-        return new TargetResource(Target::with(['target_category', 'currency', 'account_from', 'user', 'team'])->get());
+        return fractal($action()->targets(), new TargetTransformer())->respond();
     }
 
-    public function store(StoreTargetRequest $request): \Illuminate\Http\JsonResponse
+    public function store(StoreTargetRequest $request, StoreTargetAction $action): \Illuminate\Http\JsonResponse
     {
-        $target = Target::create($request->all());
+        $viewModel = $action(TargetData::fromRequest($request));
 
-        if ($request->input('image', false)) {
-            $target->addMedia(storage_path('tmp/uploads/' . $request->input('image')))->toMediaCollection('image');
-        }
-
-        return (new TargetResource($target))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        return fractal($viewModel->targetData(), new TargetTransformer())->respond(Response::HTTP_CREATED);
     }
 
-    public function show(ShowTargetRequest $request, Target $target): TargetResource
+    public function show(ShowTargetRequest $request, Target $target, ShowTargetAction $action): \Illuminate\Http\JsonResponse
     {
-        return new TargetResource($target->load(['target_category', 'currency', 'account_from', 'user', 'team']));
+        $targetData = TargetData::fromModel($target->load(['target_category', 'currency', 'account_from', 'user', 'team']));
+        return fractal($action($targetData)->targetData(), new TargetTransformer())->parseIncludes(['currency', 'target_category', 'account_from'])->respond();
     }
 
-    public function update(UpdateTargetRequest $request, Target $target): \Illuminate\Http\JsonResponse
+    public function update(UpdateTargetRequest $request, Target $target, UpdateTargetAction $action): \Illuminate\Http\JsonResponse
     {
-        $target->update($request->all());
-
-        if ($request->input('image', false)) {
-            if (!$target->image || $request->input('image') !== $target->image->file_name) {
-                if ($target->image) {
-                    $target->image->delete();
-                }
-
-                $target->addMedia(storage_path('tmp/uploads/' . $request->input('image')))->toMediaCollection('image');
-            }
-        } elseif ($target->image) {
-            $target->image->delete();
-        }
-
-        return (new TargetResource($target))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        $viewModel = $action(TargetData::fromRequest($request), $target);
+        return fractal($viewModel->targetData(), new TargetTransformer())->respond(Response::HTTP_ACCEPTED);
     }
 
     public function destroy(DeleteTargetRequest $request, Target $target): \Illuminate\Http\Response
