@@ -16,4 +16,12 @@ class TypeSelectEnum extends \Parents\Enums\Enum implements LocalizedEnum
     {
         return (int) $value;
     }
+
+    public function toArray(): array
+    {
+        return array(
+            'id' => $this->value,
+            'value' => $this->description
+        );
+    }
 }

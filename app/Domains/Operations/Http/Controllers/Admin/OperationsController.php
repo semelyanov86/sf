@@ -2,6 +2,19 @@
 
 namespace Domains\Operations\Http\Controllers\Admin;
 
+use Domains\Operations\Actions\CreateOperationAction;
+use Domains\Operations\Actions\EditOperationAction;
+use Domains\Operations\Actions\GenerateTableAction;
+use Domains\Operations\Actions\StoreOperationAction;
+use Domains\Operations\Actions\UpdateOperationAction;
+use Domains\Operations\DataTransferObjects\OperationData;
+use Domains\Operations\Enums\TypeSelectEnum;
+use Domains\Operations\Http\Requests\CreateOperationRequest;
+use Domains\Operations\Http\Requests\DeleteOperationRequest;
+use Domains\Operations\Http\Requests\EditOperationRequest;
+use Domains\Operations\Http\Requests\IndexOperationsRequest;
+use Domains\Operations\Http\Requests\ShowOperationRequest;
+use Domains\Operations\ViewModels\OperationsListViewModel;
 use Parents\Controllers\Controller;
 use Support\CsvImport\Traits\CsvImportTrait;
 use Support\MediaUpload\Traits\MediaUploadingTrait;
@@ -23,142 +36,57 @@ class OperationsController extends Controller
 {
     use MediaUploadingTrait, CsvImportTrait;
 
-    public function index(Request $request)
+    public function index(IndexOperationsRequest $request, GenerateTableAction $tableAction): mixed
     {
-        abort_if(Gate::denies('operation_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         if ($request->ajax()) {
-            $query = Operation::with(['source_account', 'to_account', 'category', 'user', 'team'])->select(sprintf('%s.*', (new Operation)->table));
-            $table = Datatables::of($query);
-
-            $table->addColumn('placeholder', '&nbsp;');
-            $table->addColumn('actions', '&nbsp;');
-
-            $table->editColumn('actions', function ($row) {
-                $viewGate      = 'operation_show';
-                $editGate      = 'operation_edit';
-                $deleteGate    = 'operation_delete';
-                $crudRoutePart = 'operations';
-
-                return view('partials.datatablesActions', compact(
-                    'viewGate',
-                    'editGate',
-                    'deleteGate',
-                    'crudRoutePart',
-                    'row'
-                ));
-            });
-
-            $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : "";
-            });
-            $table->editColumn('amount', function ($row) {
-                return $row->amount ? $row->amount : "";
-            });
-
-            $table->addColumn('source_account_name', function ($row) {
-                return $row->source_account ? $row->source_account->name : '';
-            });
-
-            $table->editColumn('type', function ($row) {
-                return $row->type ? Operation::TYPE_SELECT[$row->type] : '';
-            });
-            $table->addColumn('category_name', function ($row) {
-                return $row->category ? $row->category->name : '';
-            });
-
-            $table->rawColumns(['actions', 'placeholder', 'source_account', 'category']);
-
-            return $table->make(true);
-        }
-
-        $accounts   = Account::get();
-        $categories = Category::get();
-        $users      = User::get();
-        $teams      = Team::get();
-
-        return view('admin.operations.index', compact('accounts', 'categories', 'users', 'teams'));
-    }
-
-    public function create(): \Illuminate\View\View
-    {
-        abort_if(Gate::denies('operation_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $source_accounts = Account::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $to_accounts = Account::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $categories = Category::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.operations.create', compact('source_accounts', 'to_accounts', 'categories', 'users'));
-    }
-
-    public function store(StoreOperationRequest $request): \Illuminate\Http\RedirectResponse
-    {
-        $operation = Operation::create($request->all());
-
-        if ($request->input('attachment', false)) {
-            $operation->addMedia(storage_path('tmp/uploads/' . $request->input('attachment')))->toMediaCollection('attachment');
-        }
-
-        if ($media = $request->input('ck-media', false)) {
-            Media::whereIn('id', $media)->update(['model_id' => $operation->id]);
-        }
-
-        return redirect()->route('admin.operations.index');
-    }
-
-    public function edit(Operation $operation): \Illuminate\View\View
-    {
-        abort_if(Gate::denies('operation_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $source_accounts = Account::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $to_accounts = Account::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $categories = Category::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $operation->load('source_account', 'to_account', 'category', 'user', 'team');
-
-        return view('admin.operations.edit', compact('source_accounts', 'to_accounts', 'categories', 'users', 'operation'));
-    }
-
-    public function update(UpdateOperationRequest $request, Operation $operation): \Illuminate\Http\RedirectResponse
-    {
-        $operation->update($request->all());
-
-        if ($request->input('attachment', false)) {
-            if (!$operation->attachment || $request->input('attachment') !== $operation->attachment->file_name) {
-                if ($operation->attachment) {
-                    $operation->attachment->delete();
-                }
-
-                $operation->addMedia(storage_path('tmp/uploads/' . $request->input('attachment')))->toMediaCollection('attachment');
+            try {
+                return $tableAction()->make(true);
+            } catch (\Exception $e) {
+                \response('', $e->getCode())->json(['error' => $e->getMessage()]);
             }
-        } elseif ($operation->attachment) {
-            $operation->attachment->delete();
         }
+
+        return view('admin.operations.index', [
+            'viewModel' => new OperationsListViewModel()
+        ]);
+    }
+
+    public function create(CreateOperationRequest $request, CreateOperationAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    {
+        return view('admin.operations.create', [
+            'viewModel' => $action()
+        ]);
+    }
+
+    public function store(StoreOperationRequest $request, StoreOperationAction $action): \Illuminate\Http\RedirectResponse
+    {
+        $action(OperationData::fromRequest($request));
+        return redirect()->route('admin.operations.index');
+    }
+
+    public function edit(EditOperationRequest $request, Operation $operation, EditOperationAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    {
+        return view('admin.operations.edit', [
+            'viewModel' => $action($operation)
+        ]);
+    }
+
+    public function update(UpdateOperationRequest $request, Operation $operation, UpdateOperationAction $action): \Illuminate\Http\RedirectResponse
+    {
+        $action($operation, OperationData::fromRequest($request));
 
         return redirect()->route('admin.operations.index');
     }
 
-    public function show(Operation $operation): \Illuminate\View\View
+    public function show(ShowOperationRequest $request, Operation $operation, EditOperationAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('operation_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $operation->load('source_account', 'to_account', 'category', 'user', 'team');
-
-        return view('admin.operations.show', compact('operation'));
+        return view('admin.operations.show', [
+            'viewModel' => $action($operation)
+        ]);
     }
 
-    public function destroy(Operation $operation): \Illuminate\Http\RedirectResponse
+    public function destroy(Operation $operation, DeleteOperationRequest $request): \Illuminate\Http\RedirectResponse
     {
-        abort_if(Gate::denies('operation_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $operation->delete();
 
         return back();

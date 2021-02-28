@@ -20,7 +20,7 @@
                             {{ trans('cruds.operation.fields.id') }}
                         </th>
                         <td>
-                            {{ $operation->id }}
+                            {{ $viewModel->operation()->id }}
                         </td>
                     </tr>
                     <tr>
@@ -28,7 +28,7 @@
                             {{ trans('cruds.operation.fields.amount') }}
                         </th>
                         <td>
-                            {{ $operation->amount }}
+                            {{ $viewModel->operation()->amount->toNative() }}
                         </td>
                     </tr>
                     <tr>
@@ -36,7 +36,7 @@
                             {{ trans('cruds.operation.fields.done_at') }}
                         </th>
                         <td>
-                            {{ $operation->done_at }}
+                            {{ $viewModel->operation()->done_at }}
                         </td>
                     </tr>
                     <tr>
@@ -44,7 +44,7 @@
                             {{ trans('cruds.operation.fields.source_account') }}
                         </th>
                         <td>
-                            {{ $operation->source_account->name ?? '' }}
+                            {{ $viewModel->operation()->source_account->name ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -52,7 +52,7 @@
                             {{ trans('cruds.operation.fields.to_account') }}
                         </th>
                         <td>
-                            {{ $operation->to_account->name ?? '' }}
+                            {{ $viewModel->operation()->to_account->name ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -60,7 +60,7 @@
                             {{ trans('cruds.operation.fields.type') }}
                         </th>
                         <td>
-                            {{ Domains\Operations\Models\Operation::TYPE_SELECT[$operation->type] ?? '' }}
+                            {{ $viewModel->operation()->type->description ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -68,7 +68,7 @@
                             {{ trans('cruds.operation.fields.category') }}
                         </th>
                         <td>
-                            {{ $operation->category->name ?? '' }}
+                            {{ $viewModel->operation()->category->name ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -76,7 +76,7 @@
                             {{ trans('cruds.operation.fields.description') }}
                         </th>
                         <td>
-                            {{ $operation->description }}
+                            {{ $viewModel->operation()->description }}
                         </td>
                     </tr>
                     <tr>
@@ -84,7 +84,7 @@
                             {{ trans('cruds.operation.fields.user') }}
                         </th>
                         <td>
-                            {{ $operation->user->name ?? '' }}
+                            {{ $viewModel->operation()->user->name ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -92,8 +92,8 @@
                             {{ trans('cruds.operation.fields.attachment') }}
                         </th>
                         <td>
-                            @if($operation->attachment)
-                                <a href="{{ $operation->attachment->getUrl() }}" target="_blank">
+                            @if($viewModel->operation()->attachment)
+                                <a href="{{ $viewModel->operation()->attachment->url }}" target="_blank">
                                     {{ trans('global.view_file') }}
                                 </a>
                             @endif
@@ -104,7 +104,7 @@
                             {{ trans('cruds.operation.fields.related_transactions') }}
                         </th>
                         <td>
-                            {{ $operation->related_transactions }}
+                            {{ $viewModel->operation()->related_transactions }}
                         </td>
                     </tr>
                     <tr>
@@ -112,7 +112,7 @@
                             {{ trans('cruds.operation.fields.cal_repeat') }}
                         </th>
                         <td>
-                            {{ $operation->cal_repeat }}
+                            {{ $viewModel->operation()->cal_repeat }}
                         </td>
                     </tr>
                     <tr>
@@ -120,7 +120,7 @@
                             {{ trans('cruds.operation.fields.google_sync') }}
                         </th>
                         <td>
-                            <input type="checkbox" disabled="disabled" {{ $operation->google_sync ? 'checked' : '' }}>
+                            <input type="checkbox" disabled="disabled" {{ $viewModel->operation()->google_sync ? 'checked' : '' }}>
                         </td>
                     </tr>
                     <tr>
@@ -128,7 +128,7 @@
                             {{ trans('cruds.operation.fields.remind_operation') }}
                         </th>
                         <td>
-                            <input type="checkbox" disabled="disabled" {{ $operation->remind_operation ? 'checked' : '' }}>
+                            <input type="checkbox" disabled="disabled" {{ $viewModel->operation()->remind_operation ? 'checked' : '' }}>
                         </td>
                     </tr>
                     <tr>
@@ -136,7 +136,7 @@
                             {{ trans('cruds.operation.fields.is_calendar') }}
                         </th>
                         <td>
-                            <input type="checkbox" disabled="disabled" {{ $operation->is_calendar ? 'checked' : '' }}>
+                            <input type="checkbox" disabled="disabled" {{ $viewModel->operation()->is_calendar ? 'checked' : '' }}>
                         </td>
                     </tr>
                 </tbody>

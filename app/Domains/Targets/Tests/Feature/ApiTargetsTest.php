@@ -33,7 +33,6 @@ class ApiTargetsTest extends \Parents\Tests\PhpUnit\ApiTestCase
         $target = Target::factory()->makeOne();
         $target->target_name = 'Test target';
         $data = $this->convertDataToRequest($target->toArray());
-//        dd(json_encode($data));
         $response = $this->postJson( route('api.targets.store'), $data);
         $response->assertStatus(201)->assertJson(['data' => [
             'target_name' => 'Test target'
@@ -59,6 +58,7 @@ class ApiTargetsTest extends \Parents\Tests\PhpUnit\ApiTestCase
         $data['monthly_pay_amount'] = $data['monthly_pay_amount']['amount'];
         $data['first_pay_date'] = date(config('panel.date_format'), strtotime($data['first_pay_date']));
         $data['pay_to_date'] = date(config('panel.date_format'), strtotime($data['first_pay_date']));
+        $data['target_type'] = $data['target_type']['id'];
         return $data;
     }
 }

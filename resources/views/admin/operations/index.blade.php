@@ -61,7 +61,7 @@
                     <td>
                         <select class="search">
                             <option value>{{ trans('global.all') }}</option>
-                            @foreach($accounts as $key => $item)
+                            @foreach($viewModel->accounts() as $key => $item)
                                 <option value="{{ $item->name }}">{{ $item->name }}</option>
                             @endforeach
                         </select>
@@ -69,15 +69,15 @@
                     <td>
                         <select class="search" strict="true">
                             <option value>{{ trans('global.all') }}</option>
-                            @foreach(Domains\Operations\Models\Operation::TYPE_SELECT as $key => $item)
-                                <option value="{{ $key }}">{{ $item }}</option>
+                            @foreach(\Domains\Operations\Enums\TypeSelectEnum::getInstances() as $key => $item)
+                                <option value="{{ $item->value }}">{{ $item->description }}</option>
                             @endforeach
                         </select>
                     </td>
                     <td>
                         <select class="search">
                             <option value>{{ trans('global.all') }}</option>
-                            @foreach($categories as $key => $item)
+                            @foreach($viewModel->categories() as $key => $item)
                                 <option value="{{ $item->name }}">{{ $item->name }}</option>
                             @endforeach
                         </select>

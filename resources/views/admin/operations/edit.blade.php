@@ -7,12 +7,12 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.operations.update", [$operation->id]) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.operations.update", [$viewModel->operation()->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="form-group">
                 <label class="required" for="amount">{{ trans('cruds.operation.fields.amount') }}</label>
-                <input class="form-control {{ $errors->has('amount') ? 'is-invalid' : '' }}" type="number" name="amount" id="amount" value="{{ old('amount', $operation->amount) }}" step="0.01" required>
+                <input class="form-control {{ $errors->has('amount') ? 'is-invalid' : '' }}" type="number" name="amount" id="amount" value="{{ old('amount', $viewModel->operation()->amount->toValue()) }}" step="0.01" required>
                 @if($errors->has('amount'))
                     <div class="invalid-feedback">
                         {{ $errors->first('amount') }}
@@ -22,7 +22,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="done_at">{{ trans('cruds.operation.fields.done_at') }}</label>
-                <input class="form-control date {{ $errors->has('done_at') ? 'is-invalid' : '' }}" type="text" name="done_at" id="done_at" value="{{ old('done_at', $operation->done_at) }}" required>
+                <input class="form-control date {{ $errors->has('done_at') ? 'is-invalid' : '' }}" type="text" name="done_at" id="done_at" value="{{ old('done_at', $viewModel->operation()->done_at) }}" required>
                 @if($errors->has('done_at'))
                     <div class="invalid-feedback">
                         {{ $errors->first('done_at') }}
@@ -33,8 +33,8 @@
             <div class="form-group">
                 <label for="source_account_id">{{ trans('cruds.operation.fields.source_account') }}</label>
                 <select class="form-control select2 {{ $errors->has('source_account') ? 'is-invalid' : '' }}" name="source_account_id" id="source_account_id">
-                    @foreach($source_accounts as $id => $source_account)
-                        <option value="{{ $id }}" {{ (old('source_account_id') ? old('source_account_id') : $operation->source_account->id ?? '') == $id ? 'selected' : '' }}>{{ $source_account }}</option>
+                    @foreach($viewModel->accounts() as $id => $source_account)
+                        <option value="{{ $id }}" {{ (old('source_account_id') ? old('source_account_id') : $viewModel->operation()->source_account->id ?? '') == $id ? 'selected' : '' }}>{{ $source_account }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('source_account'))
@@ -47,8 +47,8 @@
             <div class="form-group">
                 <label for="to_account_id">{{ trans('cruds.operation.fields.to_account') }}</label>
                 <select class="form-control select2 {{ $errors->has('to_account') ? 'is-invalid' : '' }}" name="to_account_id" id="to_account_id">
-                    @foreach($to_accounts as $id => $to_account)
-                        <option value="{{ $id }}" {{ (old('to_account_id') ? old('to_account_id') : $operation->to_account->id ?? '') == $id ? 'selected' : '' }}>{{ $to_account }}</option>
+                    @foreach($viewModel->accounts() as $id => $to_account)
+                        <option value="{{ $id }}" {{ (old('to_account_id') ? old('to_account_id') : $viewModel->operation()->to_account->id ?? '') == $id ? 'selected' : '' }}>{{ $to_account }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('to_account'))
@@ -62,8 +62,8 @@
                 <label class="required">{{ trans('cruds.operation.fields.type') }}</label>
                 <select class="form-control {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type" id="type" required>
                     <option value disabled {{ old('type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(Domains\Operations\Models\Operation::TYPE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('type', $operation->type) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @foreach(\Domains\Operations\Enums\TypeSelectEnum::getInstances() as $key => $label)
+                        <option value="{{ $label->value }}" {{ old('type', $viewModel->operation()->type->value) == $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('type'))
@@ -76,8 +76,8 @@
             <div class="form-group">
                 <label for="category_id">{{ trans('cruds.operation.fields.category') }}</label>
                 <select class="form-control select2 {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
-                    @foreach($categories as $id => $category)
-                        <option value="{{ $id }}" {{ (old('category_id') ? old('category_id') : $operation->category->id ?? '') == $id ? 'selected' : '' }}>{{ $category }}</option>
+                    @foreach($viewModel->categories() as $id => $category)
+                        <option value="{{ $id }}" {{ (old('category_id') ? old('category_id') : $viewModel->operation()->category->id ?? '') == $id ? 'selected' : '' }}>{{ $category }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('category'))
@@ -89,7 +89,7 @@
             </div>
             <div class="form-group">
                 <label for="description">{{ trans('cruds.operation.fields.description') }}</label>
-                <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description', $operation->description) }}</textarea>
+                <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description', $viewModel->operation()->description) }}</textarea>
                 @if($errors->has('description'))
                     <div class="invalid-feedback">
                         {{ $errors->first('description') }}
@@ -100,8 +100,8 @@
             <div class="form-group">
                 <label for="user_id">{{ trans('cruds.operation.fields.user') }}</label>
                 <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id">
-                    @foreach($users as $id => $user)
-                        <option value="{{ $id }}" {{ (old('user_id') ? old('user_id') : $operation->user->id ?? '') == $id ? 'selected' : '' }}>{{ $user }}</option>
+                    @foreach($viewModel->users() as $id => $user)
+                        <option value="{{ $id }}" {{ (old('user_id') ? old('user_id') : $viewModel->operation()->user->id ?? '') == $id ? 'selected' : '' }}>{{ $user }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('user'))
@@ -124,7 +124,7 @@
             </div>
             <div class="form-group">
                 <label for="related_transactions">{{ trans('cruds.operation.fields.related_transactions') }}</label>
-                <textarea class="form-control {{ $errors->has('related_transactions') ? 'is-invalid' : '' }}" name="related_transactions" id="related_transactions">{{ old('related_transactions', $operation->related_transactions) }}</textarea>
+                <textarea class="form-control {{ $errors->has('related_transactions') ? 'is-invalid' : '' }}" name="related_transactions" id="related_transactions">{{ old('related_transactions', $viewModel->operation()->related_transactions) }}</textarea>
                 @if($errors->has('related_transactions'))
                     <div class="invalid-feedback">
                         {{ $errors->first('related_transactions') }}
@@ -134,7 +134,7 @@
             </div>
             <div class="form-group">
                 <label for="cal_repeat">{{ trans('cruds.operation.fields.cal_repeat') }}</label>
-                <input class="form-control {{ $errors->has('cal_repeat') ? 'is-invalid' : '' }}" type="number" name="cal_repeat" id="cal_repeat" value="{{ old('cal_repeat', $operation->cal_repeat) }}" step="1">
+                <input class="form-control {{ $errors->has('cal_repeat') ? 'is-invalid' : '' }}" type="number" name="cal_repeat" id="cal_repeat" value="{{ old('cal_repeat', $viewModel->operation()->cal_repeat) }}" step="1">
                 @if($errors->has('cal_repeat'))
                     <div class="invalid-feedback">
                         {{ $errors->first('cal_repeat') }}
@@ -145,7 +145,7 @@
             <div class="form-group">
                 <div class="form-check {{ $errors->has('google_sync') ? 'is-invalid' : '' }}">
                     <input type="hidden" name="google_sync" value="0">
-                    <input class="form-check-input" type="checkbox" name="google_sync" id="google_sync" value="1" {{ $operation->google_sync || old('google_sync', 0) === 1 ? 'checked' : '' }}>
+                    <input class="form-check-input" type="checkbox" name="google_sync" id="google_sync" value="1" {{ $viewModel->operation()->google_sync || old('google_sync', 0) === 1 ? 'checked' : '' }}>
                     <label class="form-check-label" for="google_sync">{{ trans('cruds.operation.fields.google_sync') }}</label>
                 </div>
                 @if($errors->has('google_sync'))
@@ -158,7 +158,7 @@
             <div class="form-group">
                 <div class="form-check {{ $errors->has('remind_operation') ? 'is-invalid' : '' }}">
                     <input type="hidden" name="remind_operation" value="0">
-                    <input class="form-check-input" type="checkbox" name="remind_operation" id="remind_operation" value="1" {{ $operation->remind_operation || old('remind_operation', 0) === 1 ? 'checked' : '' }}>
+                    <input class="form-check-input" type="checkbox" name="remind_operation" id="remind_operation" value="1" {{ $viewModel->operation()->remind_operation || old('remind_operation', 0) === 1 ? 'checked' : '' }}>
                     <label class="form-check-label" for="remind_operation">{{ trans('cruds.operation.fields.remind_operation') }}</label>
                 </div>
                 @if($errors->has('remind_operation'))
@@ -171,7 +171,7 @@
             <div class="form-group">
                 <div class="form-check {{ $errors->has('is_calendar') ? 'is-invalid' : '' }}">
                     <input type="hidden" name="is_calendar" value="0">
-                    <input class="form-check-input" type="checkbox" name="is_calendar" id="is_calendar" value="1" {{ $operation->is_calendar || old('is_calendar', 0) === 1 ? 'checked' : '' }}>
+                    <input class="form-check-input" type="checkbox" name="is_calendar" id="is_calendar" value="1" {{ $viewModel->operation()->is_calendar || old('is_calendar', 0) === 1 ? 'checked' : '' }}>
                     <label class="form-check-label" for="is_calendar">{{ trans('cruds.operation.fields.is_calendar') }}</label>
                 </div>
                 @if($errors->has('is_calendar'))

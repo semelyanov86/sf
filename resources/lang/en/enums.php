@@ -83,5 +83,10 @@ return [
         \Domains\Accounts\Enums\AccountInterestPeriodSelect::EVERY_SIX_MONTH => 'Every 6 month',
         \Domains\Accounts\Enums\AccountInterestPeriodSelect::EVERY_YEAR => 'Every year',
         \Domains\Accounts\Enums\AccountInterestPeriodSelect::AFTER_CUSTOM_INTERVAL => 'After Custom Interval',
+    ],
+    \Domains\Operations\Enums\TypeSelectEnum::class => [
+        \Domains\Operations\Enums\TypeSelectEnum::INCOME => 'Income',
+        \Domains\Operations\Enums\TypeSelectEnum::EXPENSE => 'Expense',
+        \Domains\Operations\Enums\TypeSelectEnum::TRANSACTION => 'Transaction'
     ]
 ];

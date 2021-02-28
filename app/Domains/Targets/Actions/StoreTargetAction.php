@@ -15,7 +15,7 @@ final class StoreTargetAction extends \Parents\Actions\Action
         $target = Target::create($targetData->toArray());
 
         if ($targetData->image->file_name) {
-            $target->addMedia(storage_path('tmp/uploads/' . $targetData->image))->toMediaCollection('image');
+            $target->addMedia(storage_path('tmp/uploads/' . $targetData->image->file_name))->toMediaCollection('image');
         }
         return new TargetViewModel(TargetData::fromModel($target));
     }

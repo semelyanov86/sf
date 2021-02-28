@@ -32,7 +32,7 @@
             <div class="form-group">
                 <label for="source_account_id">{{ trans('cruds.operation.fields.source_account') }}</label>
                 <select class="form-control select2 {{ $errors->has('source_account') ? 'is-invalid' : '' }}" name="source_account_id" id="source_account_id">
-                    @foreach($source_accounts as $id => $source_account)
+                    @foreach($viewModel->accounts() as $id => $source_account)
                         <option value="{{ $id }}" {{ old('source_account_id') == $id ? 'selected' : '' }}>{{ $source_account }}</option>
                     @endforeach
                 </select>
@@ -46,7 +46,7 @@
             <div class="form-group">
                 <label for="to_account_id">{{ trans('cruds.operation.fields.to_account') }}</label>
                 <select class="form-control select2 {{ $errors->has('to_account') ? 'is-invalid' : '' }}" name="to_account_id" id="to_account_id">
-                    @foreach($to_accounts as $id => $to_account)
+                    @foreach($viewModel->accounts() as $id => $to_account)
                         <option value="{{ $id }}" {{ old('to_account_id') == $id ? 'selected' : '' }}>{{ $to_account }}</option>
                     @endforeach
                 </select>
@@ -61,8 +61,8 @@
                 <label class="required">{{ trans('cruds.operation.fields.type') }}</label>
                 <select class="form-control {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type" id="type" required>
                     <option value disabled {{ old('type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(Domains\Operations\Models\Operation::TYPE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('type', '0') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @foreach(\Domains\Operations\Enums\TypeSelectEnum::getInstances() as $key => $label)
+                        <option value="{{ $label->value }}" {{ old('type', '0') === (string) $label->value ? 'selected' : '' }}>{{ $label->description }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('type'))
@@ -75,7 +75,7 @@
             <div class="form-group">
                 <label for="category_id">{{ trans('cruds.operation.fields.category') }}</label>
                 <select class="form-control select2 {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
-                    @foreach($categories as $id => $category)
+                    @foreach($viewModel->categories() as $id => $category)
                         <option value="{{ $id }}" {{ old('category_id') == $id ? 'selected' : '' }}>{{ $category }}</option>
                     @endforeach
                 </select>
@@ -99,7 +99,7 @@
             <div class="form-group">
                 <label for="user_id">{{ trans('cruds.operation.fields.user') }}</label>
                 <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id">
-                    @foreach($users as $id => $user)
+                    @foreach($viewModel->users() as $id => $user)
                         <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $user }}</option>
                     @endforeach
                 </select>

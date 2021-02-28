@@ -4,8 +4,10 @@ namespace Domains\Operations\Models;
 
 use Domains\Accounts\Models\Account;
 use Domains\Categories\Models\Category;
+use Domains\Operations\Enums\TypeSelectEnum;
 use Domains\Teams\Models\Team;
 use Domains\Users\Models\User;
+use Parents\ValueObjects\MoneyValueObject;
 use Units\Auth\Traits\MultiTenantModelTrait;
 use Carbon\Carbon;
 use Parents\Models\Model;
@@ -31,12 +33,6 @@ class Operation extends Model implements HasMedia
         'created_at',
         'updated_at',
         'deleted_at',
-    ];
-
-    const TYPE_SELECT = [
-        '0' => 'Expense',
-        '1' => 'Income',
-        '2' => 'Transaction',
     ];
 
     protected $fillable = [
@@ -72,18 +68,29 @@ class Operation extends Model implements HasMedia
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
-    public function getDoneAtAttribute($value): ?string
+    public function getDoneAtAttribute($value): Carbon
     {
-        return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
+        return Carbon::parse($value);
     }
 
-    public function getAmountAttribute(int $value): ?Money
+    public function getAmountAttribute(int $value): MoneyValueObject
     {
-        $code = \Auth::user()?->currency?->code;
-        if (!$code) {
-            return null;
-        }
-        return $value ? money($value, $code) : null;
+        return MoneyValueObject::fromNative($value);
+    }
+
+    public function setAmountAttribute(MoneyValueObject $value): void
+    {
+        $this->attributes['amount'] = $value->toInt();
+    }
+
+    public function getTypeAttribute(int $value): TypeSelectEnum
+    {
+        return TypeSelectEnum::fromValue($value);
+    }
+
+    public function setTypeAttribute(TypeSelectEnum $value): void
+    {
+        $this->attributes['type'] = (int) $value->value;
     }
 
     public function getAmountValueAttribute(?int $value): ?float
@@ -94,10 +101,10 @@ class Operation extends Model implements HasMedia
         return $value / 100;
     }
 
-    public function setDoneAtAttribute($value): void
+    public function setDoneAtAttribute(\Illuminate\Support\Carbon $value): void
     {
         /** @psalm-suppress PossiblyFalseReference */
-        $this->attributes['done_at'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
+        $this->attributes['done_at'] = $value->format('Y-m-d');
     }
 
     /**

@@ -42,7 +42,7 @@ class MoneyValueObject implements \Funeralzone\ValueObjects\ValueObject
         return new static(\money($native, $code));
     }
 
-    public static function fromFloat(float $native)
+    public static function fromFloat(float $native): self
     {
         return self::fromNative((int) ($native * 100));
     }
