@@ -19,6 +19,10 @@ final class AccountTypeData extends \Parents\DataTransferObjects\ObjectData
 
     public ?Carbon $created_at;
 
+    public ?Carbon $updated_at;
+
+    public ?Carbon $deleted_at;
+
     public static function fromRequest(StoreAccountTypeRequest|UpdateAccountTypeRequest $request): self
     {
         return new self([

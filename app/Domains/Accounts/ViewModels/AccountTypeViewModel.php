@@ -10,12 +10,12 @@ use Domains\Accounts\Models\AccountType;
 class AccountTypeViewModel extends \Parents\ViewModels\ViewModel
 {
     public function __construct(
-        protected ?AccountTypeData $accountTypeData
+        protected ?AccountType $accountTypeData
     )
     {}
 
-    public function accountType(): AccountTypeData
+    public function accountType(): AccountType
     {
-        return $this->accountTypeData ?? AccountTypeData::fromModel(new AccountType());
+        return $this->accountTypeData ?? new AccountType();
     }
 }

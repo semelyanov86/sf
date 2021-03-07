@@ -22,7 +22,7 @@
             <div class="form-group">
                 <label for="account_type_id">{{ trans('cruds.account.fields.account_type') }}</label>
                 <select class="form-control select2 {{ $errors->has('account_type') ? 'is-invalid' : '' }}" name="account_type_id" id="account_type_id">
-                    @foreach($account_types as $id => $account_type)
+                    @foreach($viewModel->accountTypes() as $id => $account_type)
                         <option value="{{ $id }}" {{ old('account_type_id') == $id ? 'selected' : '' }}>{{ $account_type }}</option>
                     @endforeach
                 </select>
@@ -71,7 +71,7 @@
             <div class="form-group">
                 <label for="currency_id">{{ trans('cruds.account.fields.currency') }}</label>
                 <select class="form-control select2 {{ $errors->has('currency') ? 'is-invalid' : '' }}" name="currency_id" id="currency_id">
-                    @foreach($currencies as $id => $currency)
+                    @foreach($viewModel->currencies() as $id => $currency)
                         <option value="{{ $id }}" {{ old('currency_id') == $id ? 'selected' : '' }}>{{ $currency }}</option>
                     @endforeach
                 </select>
@@ -85,7 +85,7 @@
             <div class="form-group">
                 <label for="bank_id">{{ trans('cruds.account.fields.bank') }}</label>
                 <select class="form-control select2 {{ $errors->has('bank') ? 'is-invalid' : '' }}" name="bank_id" id="bank_id">
-                    @foreach($banks as $id => $bank)
+                    @foreach($viewModel->banks() as $id => $bank)
                         <option value="{{ $id }}" {{ old('bank_id') == $id ? 'selected' : '' }}>{{ $bank }}</option>
                     @endforeach
                 </select>

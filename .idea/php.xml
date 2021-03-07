@@ -191,6 +191,8 @@
       <path value="$PROJECT_DIR$/vendor/chrisharrison/php-array-of" />
       <path value="$PROJECT_DIR$/vendor/beberlei/assert" />
       <path value="$PROJECT_DIR$/vendor/funeralzone/valueobjects" />
+      <path value="$PROJECT_DIR$/vendor/prettus/laravel-validation" />
+      <path value="$PROJECT_DIR$/vendor/prettus/l5-repository" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

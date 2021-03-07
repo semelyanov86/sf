@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Domains\Accounts\Http\Controllers\Api\V1\Admin;
 
@@ -26,7 +27,7 @@ class AccountTypesApiController extends Controller
         abort(501, 'Current method is not implemented');
     }
 
-    public function show(ShowAccountTypeRequest $request, AccountType $accountType, ShowAccountTypeAction $action): \Illuminate\Http\JsonResponse
+    public function show(ShowAccountTypeRequest $request, int $accountType, ShowAccountTypeAction $action): \Illuminate\Http\JsonResponse
     {
         return fractal($action($accountType)->accountType(), AccountTypeDataTransformer::class)->respond();
     }

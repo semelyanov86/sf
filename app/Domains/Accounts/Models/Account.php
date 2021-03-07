@@ -106,13 +106,9 @@ class Account extends Model
         return $this->belongsTo(Team::class, 'team_id');
     }
 
-    public function getStartBalanceAttribute(int $value): ?\Akaunting\Money\Money
+    public function getStartBalanceAttribute(int $value): ?MoneyValueObject
     {
-        $code = \Auth::user()?->currency?->code;
-        if (!$code) {
-            return null;
-        }
-        return $value ? money($value, $code) : null;
+        return $value ? MoneyValueObject::fromNative($value) : null;
     }
 
     public function setStartBalanceAttribute(MoneyValueObject $value): void
@@ -120,13 +116,9 @@ class Account extends Model
         $this->attributes['start_balance'] = $value->toInt();
     }
 
-    public function getMarketValueAttribute(int $value): ?\Akaunting\Money\Money
+    public function getMarketValueAttribute(int $value): ?MoneyValueObject
     {
-        $code = \Auth::user()?->currency?->code;
-        if (!$code) {
-            return null;
-        }
-        return $value ? money($value, $code) : null;
+        return $value ? MoneyValueObject::fromNative($value) : null;
     }
 
     public function setMarketValueAttribute(MoneyValueObject $value): void
@@ -142,6 +134,11 @@ class Account extends Model
     public function setStateAttribute(AccountStateEnum $value): void
     {
         $this->attributes['state'] = $value->value;
+    }
+
+    public function getStateAttribute(string $value): AccountStateEnum
+    {
+        return AccountStateEnum::fromValue(intval($value));
     }
 
 }

@@ -54,7 +54,7 @@
                                 {{ $operation->id ?? '' }}
                             </td>
                             <td>
-                                {{ $operation->amount ?? '' }}
+                                {{ $operation->amount->toNative() ?? '' }}
                             </td>
                             <td>
                                 {{ $operation->done_at ?? '' }}
@@ -63,7 +63,7 @@
                                 {{ $operation->source_account->name ?? '' }}
                             </td>
                             <td>
-                                {{ Domains\Operations\Models\Operation::TYPE_SELECT[$operation->type] ?? '' }}
+                                {{ \Domains\Operations\Enums\TypeSelectEnum::fromValue($operation->type)->description }}
                             </td>
                             <td>
                                 {{ $operation->category->name ?? '' }}

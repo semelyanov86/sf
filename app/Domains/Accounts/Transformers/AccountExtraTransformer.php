@@ -5,10 +5,11 @@ namespace Domains\Accounts\Transformers;
 
 
 use Domains\Accounts\DataTransferObjects\AccountExtraData;
+use Domains\Accounts\Models\AccountsExtra;
 
 class AccountExtraTransformer extends \Parents\Transformers\Transformer
 {
-    public function transform(AccountExtraData $accountExtraData): array
+    public function transform(AccountsExtra $accountExtraData): array
     {
         return array(
             'id' => $accountExtraData->id,

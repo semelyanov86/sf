@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace Domains\Accounts\DataTransferObjects;
 
@@ -11,6 +11,8 @@ use Domains\Accounts\Models\Account;
 use Domains\Accounts\Models\AccountsExtra;
 use Domains\Banks\DataTransferObjects\BankData;
 use Domains\Currencies\DataTransferObjects\CurrencyData;
+use Domains\Operations\DataTransferObjects\OperationDataCollection;
+use Domains\Targets\DataTransferObjects\TargetDataCollection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Parents\ValueObjects\MoneyValueObject;
@@ -51,6 +53,10 @@ final class AccountData extends \Parents\DataTransferObjects\ObjectData
 
     public ?AccountExtraData $extra;
 
+    public ?Carbon $updated_at;
+
+    public ?Carbon $deleted_at;
+
     public static function fromRequest(StoreAccountRequest|UpdateAccountRequest $request): self
     {
         return new self([
@@ -74,15 +80,15 @@ final class AccountData extends \Parents\DataTransferObjects\ObjectData
             'id' => $account->id,
             'name' => $account->name,
             'description' => $account->description,
-            'state' => AccountStateEnum::fromValue((int) $account->state),
-            'start_balance' => new MoneyValueObject($account->start_balance),
-            'market_value' => new MoneyValueObject($account->market_value),
+            'state' => $account->state,
+            'start_balance' => $account->start_balance,
+            'market_value' => $account->market_value,
             'extra_prefix' => $account->extra_prefix,
             'account_type_id' => intval($account->account_type_id),
             'currency_id' => intval($account->currency_id),
             'bank_id' => intval($account->bank_id),
-            'user_id' => Auth::id(),
-            'team_id' => Auth::user()->team_id,
+            'user_id' => $account->user_id ?? Auth::id(),
+            'team_id' => $account->team_id ?? Auth::user()->team_id,
             'account_type' => $account->account_type ? AccountTypeData::fromModel($account->account_type) : null,
             'currency' => $account->currency ? CurrencyData::fromModel($account->currency) : null,
             'bank' => $account->bank ? BankData::fromModel($account->bank) : null

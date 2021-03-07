@@ -1,24 +1,21 @@
 <?php
-
+declare(strict_types=1);
 
 namespace Domains\Accounts\Actions;
 
-
-use Domains\Accounts\DataTransferObjects\AccountData;
-use Domains\Accounts\DataTransferObjects\AccountExtraData;
-use Domains\Accounts\Models\Account;
 use Domains\Accounts\Models\AccountsExtra;
 use Domains\Accounts\ViewModels\AccountViewModel;
+use Parents\Foundation\Facades\SF;
 
 class ShowAccountAction extends \Parents\Actions\Action
 {
-    public function __invoke(Account $account): AccountViewModel
+    public function __invoke(int $id): AccountViewModel
     {
-        $accountData = AccountData::fromModel($account->load(['account_type', 'currency', 'bank', 'team', 'extra']));
+        $accountData = SF::call('Accounts@FindAccountTask', [$id]);
         if (!$accountData->extra) {
             $accountExtra = new AccountsExtra();
             $accountExtra->id = $accountData->id;
-            $accountData->extra = AccountExtraData::fromModel($accountExtra);
+            $accountData->extra = $accountExtra;
         }
         return new AccountViewModel($accountData);
     }

@@ -2,46 +2,43 @@
 
 namespace Domains\Accounts\Http\Controllers\Admin;
 
+use Domains\Accounts\Actions\DeleteAccountAction;
+use Domains\Accounts\Actions\EditAccountViewAction;
+use Domains\Accounts\Actions\IndexAccountsAction;
+use Domains\Accounts\Actions\ShowAccountAction;
 use Domains\Accounts\Actions\StoreAccountAction;
 use Domains\Accounts\Actions\UpdateAccountAction;
 use Domains\Accounts\DataTransferObjects\AccountData;
 use Domains\Accounts\DataTransferObjects\AccountExtraData;
+use Domains\Accounts\Http\Requests\CreateAccountRequest;
+use Domains\Accounts\Http\Requests\DeleteAccountRequest;
 use Domains\Accounts\Http\Requests\IndexAccountRequest;
+use Domains\Accounts\Http\Requests\ShowAccountRequest;
 use Parents\Controllers\WebController as Controller;
 use Support\CsvImport\Traits\CsvImportTrait;
 use Domains\Accounts\Http\Requests\MassDestroyAccountRequest;
 use Domains\Accounts\Http\Requests\StoreAccountRequest;
 use Domains\Accounts\Http\Requests\UpdateAccountRequest;
 use Domains\Accounts\Models\Account;
-use Domains\Accounts\Models\AccountType;
-use Domains\Banks\Models\Bank;
-use Domains\Currencies\Models\Currency;
 use Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AccountsController extends Controller
 {
     use CsvImportTrait;
 
-    public function index(IndexAccountRequest $request): \Illuminate\View\View
+    public function index(IndexAccountRequest $request, IndexAccountsAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        $accounts = Account::with(['account_type', 'currency', 'bank', 'team'])->get();
-
-        return view('admin.accounts.index', compact('accounts'));
+        return view('admin.accounts.index', [
+            'accounts' => $action()
+        ]);
     }
 
-    public function create(): \Illuminate\View\View
+    public function create(CreateAccountRequest $request, EditAccountViewAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('account_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $account_types = AccountType::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $currencies = Currency::all()->pluck('code', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $banks = Bank::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.accounts.create', compact('account_types', 'currencies', 'banks'));
+        return view('admin.accounts.create', [
+            'viewModel' => $action()
+        ]);
     }
 
     public function store(StoreAccountRequest $request, StoreAccountAction $action): \Illuminate\Http\RedirectResponse
@@ -51,42 +48,30 @@ class AccountsController extends Controller
         return redirect()->route('admin.accounts.index');
     }
 
-    public function edit(Account $account): \Illuminate\View\View
+    public function edit(int $id, EditAccountViewAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('account_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $account_types = AccountType::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $currencies = Currency::all()->pluck('code', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $banks = Bank::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $account->load('account_type', 'currency', 'bank', 'team');
-
-        return view('admin.accounts.edit', compact('account_types', 'currencies', 'banks', 'account'));
+        return view('admin.accounts.edit', [
+            'viewModel' => $action($id)
+        ]);
     }
 
     public function update(UpdateAccountRequest $request, Account $account, UpdateAccountAction $action): \Illuminate\Http\RedirectResponse
     {
-        $action($account, AccountData::fromRequest($request));
+        $action($account, AccountData::fromRequest($request), AccountExtraData::fromRequest($request));
 
         return redirect()->route('admin.accounts.index');
     }
 
-    public function show(Account $account): \Illuminate\View\View
+    public function show(ShowAccountRequest $request, int $id, ShowAccountAction $action): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        abort_if(Gate::denies('account_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $account->load('account_type', 'currency', 'bank', 'team', 'sourceAccountOperations', 'accountFromTargets');
-
-        return view('admin.accounts.show', compact('account'));
+        return view('admin.accounts.show', [
+            'account' => $action($id)->account()
+        ]);
     }
 
-    public function destroy(Account $account): \Illuminate\Http\RedirectResponse
+    public function destroy(DeleteAccountRequest $request, int $account, DeleteAccountAction $action): \Illuminate\Http\RedirectResponse
     {
-        abort_if(Gate::denies('account_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $account->delete();
+        $action($account);
 
         return back();
     }

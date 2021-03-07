@@ -12,12 +12,13 @@ use Domains\Accounts\Models\AccountsExtra;
 use Domains\Accounts\Models\AccountType;
 use Domains\Accounts\ViewModels\AccountTypeViewModel;
 use Domains\Accounts\ViewModels\AccountViewModel;
+use Parents\Foundation\Facades\SF;
 
 class ShowAccountTypeAction extends \Parents\Actions\Action
 {
-    public function __invoke(AccountType $account): AccountTypeViewModel
+    public function __invoke(int $account): AccountTypeViewModel
     {
-        $type = AccountTypeData::fromModel($account);
+        $type = SF::call('Accounts@FindAccountTypeTask', [$account]);
         return new AccountTypeViewModel($type);
     }
 }

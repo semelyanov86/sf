@@ -9,19 +9,12 @@ use Domains\Accounts\DataTransferObjects\AccountExtraData;
 use Domains\Accounts\Models\Account;
 use Domains\Accounts\Models\AccountsExtra;
 use Domains\Accounts\ViewModels\AccountViewModel;
+use Parents\Foundation\Facades\SF;
 
 class UpdateAccountAction extends \Parents\Actions\Action
 {
-    public function __invoke(Account $account, AccountData $dto): AccountViewModel
+    public function __invoke(int $account, AccountData $dto, AccountExtraData $extraData): Account
     {
-        $account->update($dto->toArray());
-        $dto->id = $account->id;
-        $extra = AccountsExtra::find($dto->id);
-        if (!$extra) {
-            $extra = AccountsExtra::create($dto->toArray());
-        }
-        $extra->update($dto->toArray());
-        $dto->extra = AccountExtraData::fromModel($extra);
-        return new AccountViewModel($dto);
+        return SF::call('Accounts@UpdateAccountTask', [$account, $dto, $extraData]);
     }
 }

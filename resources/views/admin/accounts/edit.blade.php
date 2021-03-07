@@ -7,12 +7,12 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.accounts.update", [$account->id]) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.accounts.update", [$viewModel->account()->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.account.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $account->name) }}" required>
+                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $viewModel->account()->name) }}" required>
                 @if($errors->has('name'))
                     <div class="invalid-feedback">
                         {{ $errors->first('name') }}
@@ -23,8 +23,8 @@
             <div class="form-group">
                 <label for="account_type_id">{{ trans('cruds.account.fields.account_type') }}</label>
                 <select class="form-control select2 {{ $errors->has('account_type') ? 'is-invalid' : '' }}" name="account_type_id" id="account_type_id">
-                    @foreach($account_types as $id => $account_type)
-                        <option value="{{ $id }}" {{ (old('account_type_id') ? old('account_type_id') : $account->account_type->id ?? '') == $id ? 'selected' : '' }}>{{ $account_type }}</option>
+                    @foreach($viewModel->accountTypes() as $id => $account_type)
+                        <option value="{{ $id }}" {{ (old('account_type_id') ? old('account_type_id') : $viewModel->account()->account_type->id ?? '') == $id ? 'selected' : '' }}>{{ $account_type }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('account_type'))
@@ -38,7 +38,7 @@
                 <label class="required">{{ trans('cruds.account.fields.state') }}</label>
                 @foreach(\Domains\Accounts\Enums\AccountStateEnum::getInstances() as $key => $label)
                     <div class="form-check {{ $errors->has('state') ? 'is-invalid' : '' }}">
-                        <input class="form-check-input" type="radio" id="state_{{ $label->value }}" name="state" value="{{ $label->value }}" {{ old('state', $account->state) === (string) $label->value ? 'checked' : '' }} required>
+                        <input class="form-check-input" type="radio" id="state_{{ $label->value }}" name="state" value="{{ $label->value }}" {{ old('state', $viewModel->account()->state) === (string) $label->value ? 'checked' : '' }} required>
                         <label class="form-check-label" for="state_{{ $label->value }}">{{ $label->description }}</label>
                     </div>
                 @endforeach
@@ -51,7 +51,7 @@
             </div>
             <div class="form-group">
                 <label for="description">{{ trans('cruds.account.fields.description') }}</label>
-                <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description', $account->description) }}</textarea>
+                <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description', $viewModel->account()->description) }}</textarea>
                 @if($errors->has('description'))
                     <div class="invalid-feedback">
                         {{ $errors->first('description') }}
@@ -61,7 +61,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="start_balance">{{ trans('cruds.account.fields.start_balance') }}</label>
-                <input class="form-control {{ $errors->has('start_balance') ? 'is-invalid' : '' }}" type="number" name="start_balance" id="start_balance" value="{{ old('start_balance', $account->start_balance) }}" step="0.01" required>
+                <input class="form-control {{ $errors->has('start_balance') ? 'is-invalid' : '' }}" type="number" name="start_balance" id="start_balance" value="{{ old('start_balance', $viewModel->account()->start_balance->toValue()) }}" step="0.01" required>
                 @if($errors->has('start_balance'))
                     <div class="invalid-feedback">
                         {{ $errors->first('start_balance') }}
@@ -72,8 +72,8 @@
             <div class="form-group">
                 <label for="currency_id">{{ trans('cruds.account.fields.currency') }}</label>
                 <select class="form-control select2 {{ $errors->has('currency') ? 'is-invalid' : '' }}" name="currency_id" id="currency_id">
-                    @foreach($currencies as $id => $currency)
-                        <option value="{{ $id }}" {{ (old('currency_id') ? old('currency_id') : $account->currency->id ?? '') == $id ? 'selected' : '' }}>{{ $currency }}</option>
+                    @foreach($viewModel->currencies() as $id => $currency)
+                        <option value="{{ $id }}" {{ (old('currency_id') ? old('currency_id') : $viewModel->account()->currency->id ?? '') == $id ? 'selected' : '' }}>{{ $currency }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('currency'))
@@ -86,8 +86,8 @@
             <div class="form-group">
                 <label for="bank_id">{{ trans('cruds.account.fields.bank') }}</label>
                 <select class="form-control select2 {{ $errors->has('bank') ? 'is-invalid' : '' }}" name="bank_id" id="bank_id">
-                    @foreach($banks as $id => $bank)
-                        <option value="{{ $id }}" {{ (old('bank_id') ? old('bank_id') : $account->bank->id ?? '') == $id ? 'selected' : '' }}>{{ $bank }}</option>
+                    @foreach($viewModel->banks() as $id => $bank)
+                        <option value="{{ $id }}" {{ (old('bank_id') ? old('bank_id') : $viewModel->account()->bank->id ?? '') == $id ? 'selected' : '' }}>{{ $bank }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('bank'))
@@ -99,7 +99,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="market_value">{{ trans('cruds.account.fields.market_value') }}</label>
-                <input class="form-control {{ $errors->has('market_value') ? 'is-invalid' : '' }}" type="number" name="market_value" id="market_value" value="{{ old('market_value', $account->market_value) }}" step="0.01" required>
+                <input class="form-control {{ $errors->has('market_value') ? 'is-invalid' : '' }}" type="number" name="market_value" id="market_value" value="{{ old('market_value', $viewModel->account()->market_value->toValue()) }}" step="0.01" required>
                 @if($errors->has('market_value'))
                     <div class="invalid-feedback">
                         {{ $errors->first('market_value') }}
@@ -109,7 +109,7 @@
             </div>
             <div class="form-group">
                 <label for="extra_prefix">{{ trans('cruds.account.fields.extra_prefix') }}</label>
-                <input class="form-control {{ $errors->has('extra_prefix') ? 'is-invalid' : '' }}" type="text" name="extra_prefix" id="extra_prefix" value="{{ old('extra_prefix', $account->extra_prefix) }}">
+                <input class="form-control {{ $errors->has('extra_prefix') ? 'is-invalid' : '' }}" type="text" name="extra_prefix" id="extra_prefix" value="{{ old('extra_prefix', $viewModel->account()->extra_prefix) }}">
                 @if($errors->has('extra_prefix'))
                     <div class="invalid-feedback">
                         {{ $errors->first('extra_prefix') }}

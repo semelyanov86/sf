@@ -154,14 +154,6 @@ Route::group(['as' => 'frontend.', 'middleware' => ['auth']], function () {
     Route::post('targets/ckmedia', [\Domains\Targets\Http\Controllers\Frontend\TargetsController::class, 'storeCKEditorImages'])->name('targets.storeCKEditorImages');
     Route::resource('targets', \Domains\Targets\Http\Controllers\Frontend\TargetsController::class);
 
-    // Accounts
-    Route::delete('accounts/destroy', [\Domains\Accounts\Http\Controllers\Frontend\AccountsController::class, 'massDestroy'])->name('accounts.massDestroy');
-    Route::resource('accounts', \Domains\Accounts\Http\Controllers\Frontend\AccountsController::class);
-
-    // Account Types
-    Route::delete('account-types/destroy', [\Domains\Accounts\Http\Controllers\Admin\AccountTypesController::class, 'massDestroy'])->name('account-types.massDestroy');
-    Route::resource('account-types', \Domains\Accounts\Http\Controllers\Frontend\AccountTypesController::class);
-
     // Card Types
     Route::delete('card-types/destroy', [\Domains\CardTypes\Http\Controllers\Frontend\CardTypesController::class, 'massDestroy'])->name('card-types.massDestroy');
     Route::resource('card-types', \Domains\CardTypes\Http\Controllers\Frontend\CardTypesController::class);
@@ -169,10 +161,6 @@ Route::group(['as' => 'frontend.', 'middleware' => ['auth']], function () {
     // Auto Brands
     Route::delete('auto-brands/destroy', [\Domains\AutoBrands\Http\Controllers\Admin\AutoBrandsController::class, 'massDestroy'])->name('auto-brands.massDestroy');
     Route::resource('auto-brands', \Domains\AutoBrands\Http\Controllers\Frontend\AutoBrandsController::class);
-
-    // Accounts Extras
-    Route::delete('accounts-extras/destroy', [\Domains\Accounts\Http\Controllers\Frontend\AccountsExtraController::class, 'massDestroy'])->name('accounts-extras.massDestroy');
-    Route::resource('accounts-extras', \Domains\Accounts\Http\Controllers\Admin\AccountsExtraController::class);
 
     // Operations
     Route::delete('operations/destroy', [\Domains\Operations\Http\Controllers\Frontend\OperationsController::class, 'massDestroy'])->name('operations.massDestroy');

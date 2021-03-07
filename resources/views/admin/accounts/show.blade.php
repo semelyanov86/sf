@@ -44,7 +44,7 @@
                             {{ trans('cruds.account.fields.state') }}
                         </th>
                         <td>
-                            {{ $account->state ? \Domains\Accounts\Enums\AccountStateEnum::fromValue((int) $account->state)?->description : '' }}
+                            {{ $account->state->description }}
                         </td>
                     </tr>
                     <tr>
@@ -60,7 +60,7 @@
                             {{ trans('cruds.account.fields.start_balance') }}
                         </th>
                         <td>
-                            {{ $account->start_balance }}
+                            {{ $account->start_balance->toNative() }}
                         </td>
                     </tr>
                     <tr>
@@ -84,7 +84,7 @@
                             {{ trans('cruds.account.fields.market_value') }}
                         </th>
                         <td>
-                            {{ $account->market_value }}
+                            {{ $account->market_value->toNative() }}
                         </td>
                     </tr>
                     <tr>

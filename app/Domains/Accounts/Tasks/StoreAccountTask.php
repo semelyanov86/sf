@@ -8,22 +8,29 @@ use Domains\Accounts\DataTransferObjects\AccountData;
 use Domains\Accounts\DataTransferObjects\AccountExtraData;
 use Domains\Accounts\Models\Account;
 use Domains\Accounts\Models\AccountsExtra;
+use Domains\Accounts\Repositories\AccountRepository;
+use Domains\Accounts\Repositories\AccountsExtraRepository;
 use Domains\Accounts\ViewModels\AccountViewModel;
 use Illuminate\Support\Facades\DB;
 
 class StoreAccountTask extends \Parents\Tasks\Task
 {
-    public function run(AccountData $dto, AccountExtraData $extra): AccountViewModel
+    public function __construct(
+        protected AccountRepository $accountRepository,
+        protected AccountsExtraRepository $accountsExtraRepository
+    )
+    {}
+
+    public function run(AccountData $dto, AccountExtraData $extra): Account
     {
-        $accountData = DB::transaction(function() use ($dto, $extra) {
-            $account = Account::create($dto->toArray());
+        $accountData = DB::transaction(function() use ($dto, $extra): Account {
+            $account = $this->accountRepository->create($dto->toArray());
             $extra->id = $account->id;
-            $accountExtra = AccountsExtra::create($extra->toArray());
-            $accountData = AccountData::fromModel($account);
-            $accountData->extra = AccountExtraData::fromModel($accountExtra);
-            return $accountData;
+            $accountExtra = $this->accountsExtraRepository->create($extra->toArray());
+            $account->extra = $accountExtra;
+            return $account;
         });
 
-        return new AccountViewModel($accountData);
+        return $accountData;
     }
 }

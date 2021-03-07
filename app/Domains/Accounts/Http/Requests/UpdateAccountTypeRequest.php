@@ -17,7 +17,7 @@ class UpdateAccountTypeRequest extends FormRequest
     public function rules(): array
     {
         /** @psalm-suppress all */
-        $id = request()->route('account_type')->id;
+        $id = request()->route('account_type');
         return [
             'name'               => [
                 'string',

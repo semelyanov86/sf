@@ -28,6 +28,8 @@ final class CurrencyData extends \Parents\DataTransferObjects\ObjectData
 
     public ?UserDataCollection $users;
 
+    public ?Carbon $deleted_at;
+
     public static function fromRequest(StoreCurrencyRequest|UpdateCurrencyRequest $request): self
     {
         return new self($request->validated());

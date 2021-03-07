@@ -24,6 +24,10 @@ final class BankData extends \Parents\DataTransferObjects\ObjectData
 
     public ?Carbon $created_at;
 
+    public ?Carbon $updated_at;
+
+    public ?Carbon $deleted_at;
+
     public static function fromRequest(StoreBankRequest|UpdateBankRequest $request): self
     {
         return new self($request->validated());

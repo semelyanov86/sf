@@ -200,6 +200,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/chrisharrison/php-array-of" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/beberlei/assert" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/funeralzone/valueobjects" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/prettus/laravel-validation" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/prettus/l5-repository" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

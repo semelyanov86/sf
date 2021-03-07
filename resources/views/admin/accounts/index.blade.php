@@ -68,10 +68,10 @@
                                 {{ $account->account_type->name ?? '' }}
                             </td>
                             <td>
-                                {{ $account->state ? \Domains\Accounts\Enums\AccountStateEnum::fromValue((int) $account->state)?->description : '' }}
+                                {{ $account->state?->description }}
                             </td>
                             <td>
-                                {{ $account->start_balance ?? '' }}
+                                {{ $account->start_balance->toNative() ?? '' }}
                             </td>
                             <td>
                                 {{ $account->currency->code ?? '' }}

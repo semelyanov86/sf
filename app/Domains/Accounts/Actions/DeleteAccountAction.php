@@ -1,20 +1,14 @@
 <?php
-
+declare(strict_types=1);
 
 namespace Domains\Accounts\Actions;
 
+use Parents\Foundation\Facades\SF;
 
-use Domains\Accounts\Models\Account;
-use Domains\Accounts\Models\AccountsExtra;
-
-class DeleteAccountAction extends \Parents\Actions\Action
+final class DeleteAccountAction extends \Parents\Actions\Action
 {
-    public function __invoke(Account $account): void
+    public function __invoke(int $account): void
     {
-        $account->delete();
-        $accountExtra = AccountsExtra::find($account->id);
-        if ($accountExtra) {
-            $accountExtra->delete();
-        }
+        SF::call('Accounts@DeleteAccountTask', [$account]);
     }
 }

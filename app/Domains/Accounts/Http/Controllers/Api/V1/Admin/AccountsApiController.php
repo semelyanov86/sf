@@ -23,31 +23,32 @@ class AccountsApiController extends Controller
 {
     public function index(IndexAccountRequest $request, IndexAccountsAction $action): \Illuminate\Http\JsonResponse
     {
-        $viewModel = $action();
-        return fractal($viewModel->accounts(), new AccountDataTransformer())->respond();
+        return fractal($action(), new AccountDataTransformer())->respond();
     }
 
     public function store(StoreAccountRequest $request, StoreAccountAction $action): \Illuminate\Http\JsonResponse
     {
-        $result = $action(AccountData::fromRequest($request), AccountExtraData::fromRequest($request));
-        return fractal($result->account(), new AccountDataTransformer())
+        $account = $action(AccountData::fromRequest($request), AccountExtraData::fromRequest($request));
+        return fractal($account, new AccountDataTransformer())
             ->parseIncludes(['extra', 'account_type', 'currency', 'bank'])
             ->respond(Response::HTTP_CREATED);
     }
 
-    public function show(ShowAccountRequest $request, Account $account, ShowAccountAction $action): \Illuminate\Http\JsonResponse
+    public function show(ShowAccountRequest $request, int $id, ShowAccountAction $action): \Illuminate\Http\JsonResponse
     {
-        $viewModel = $action($account);
-        return fractal($viewModel->account(), new AccountDataTransformer())->parseIncludes(['account_type', 'currency', 'bank', 'extra'])->respond();
+        $viewModel = $action($id);
+        return fractal($viewModel->account(), new AccountDataTransformer())
+            ->parseIncludes(['account_type', 'bank', 'currency', 'extra'])
+            ->respond();
     }
 
-    public function update(UpdateAccountRequest $request, Account $account, UpdateAccountAction $action): \Illuminate\Http\JsonResponse
+    public function update(UpdateAccountRequest $request, int $account, UpdateAccountAction $action): \Illuminate\Http\JsonResponse
     {
-        $viewModel = $action($account, AccountData::fromRequest($request));
-        return fractal($viewModel->account(), new AccountDataTransformer())->respond(Response::HTTP_ACCEPTED);
+        $account = $action($account, AccountData::fromRequest($request), AccountExtraData::fromRequest($request));
+        return fractal($account, new AccountDataTransformer())->respond(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(DeleteAccountRequest $request, Account $account, DeleteAccountAction $action): \Illuminate\Http\Response
+    public function destroy(DeleteAccountRequest $request, int $account, DeleteAccountAction $action): \Illuminate\Http\Response
     {
         $action($account);
         return response(null, Response::HTTP_NO_CONTENT);

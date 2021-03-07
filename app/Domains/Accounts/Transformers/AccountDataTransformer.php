@@ -6,6 +6,7 @@ namespace Domains\Accounts\Transformers;
 
 use Domains\Accounts\DataTransferObjects\AccountData;
 use Domains\Accounts\DataTransferObjects\AccountTypeData;
+use Domains\Accounts\Models\Account;
 use Domains\Banks\DataTransferObjects\BankData;
 use Domains\Banks\Transformers\BankTransformer;
 use Domains\Currencies\Transformers\CurrencyTransformer;
@@ -15,15 +16,15 @@ class AccountDataTransformer extends \Parents\Transformers\Transformer
 {
     protected $availableIncludes = array('account_type', 'currency', 'bank', 'extra');
 
-    public function transform(AccountData $accountData): array
+    public function transform(Account $accountData): array
     {
         return array(
             'id' => $accountData->id,
             'name' => $accountData->name,
             'description' => $accountData->description,
             'state' => $accountData->state->description,
-            'start_balance' => $accountData->start_balance->toArray(),
-            'market_value' => $accountData->market_value->toArray(),
+            'start_balance' => $accountData->start_balance?->toArray(),
+            'market_value' => $accountData->market_value?->toArray(),
             'extra_prefix' => $accountData->extra_prefix,
             'account_type_id' => $accountData->account_type_id,
             'currency_id' => $accountData->currency_id,
@@ -33,22 +34,22 @@ class AccountDataTransformer extends \Parents\Transformers\Transformer
         );
     }
 
-    public function includeAccountType(AccountData $accountData): Item
+    public function includeAccountType(Account $accountData): Item
     {
         return $this->item($accountData->account_type, new AccountTypeDataTransformer());
     }
 
-    public function includeCurrency(AccountData $accountData): Item
+    public function includeCurrency(Account $accountData): Item
     {
         return $this->item($accountData->currency, new CurrencyTransformer());
     }
 
-    public function includeBank(AccountData $accountData): Item
+    public function includeBank(Account $accountData): Item
     {
         return $this->item($accountData->bank, new BankTransformer());
     }
 
-    public function includeExtra(AccountData $accountData): Item
+    public function includeExtra(Account $accountData): Item
     {
         return $this->item($accountData->extra, new AccountExtraTransformer());
     }
