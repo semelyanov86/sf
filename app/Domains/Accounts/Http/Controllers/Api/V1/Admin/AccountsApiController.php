@@ -31,7 +31,9 @@ class AccountsApiController extends Controller
         $account = $action(AccountData::fromRequest($request), AccountExtraData::fromRequest($request));
         return fractal($account, new AccountDataTransformer())
             ->parseIncludes(['extra', 'account_type', 'currency', 'bank'])
-            ->respond(Response::HTTP_CREATED);
+            ->respond(Response::HTTP_CREATED)->header('Location', route('api.accounts.show', [
+                'account' => $account->id
+            ]));
     }
 
     public function show(ShowAccountRequest $request, int $id, ShowAccountAction $action): \Illuminate\Http\JsonResponse

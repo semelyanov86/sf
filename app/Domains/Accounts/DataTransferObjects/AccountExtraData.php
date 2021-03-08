@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace Domains\Accounts\DataTransferObjects;
 
@@ -130,55 +130,102 @@ class AccountExtraData extends \Parents\DataTransferObjects\ObjectData
     public static function fromRequest(StoreAccountRequest|UpdateAccountRequest $request): self
     {
         return new self([
-            'account_deposit_type' => $request->account_deposit_type ? AccountDepositTypeSelectEnum::fromValue(intval($request->account_deposit_type)) : null,
-            'immovables_estate_type' => $request->immovables_estate_type ? ImmovablesEstateTypeSelectEnum::fromValue(intval($request->immovables_estate_type)) : null,
-            'account_credit_payment_type' => $request->account_credit_payment_type ? AccountCreditPaymentTypeSelect::fromValue(intval($request->account_credit_payment_type)) : null,
-            'auto_transmission_type' => $request->auto_transmission_type ? AutoTransmissionTypeSelect::fromValue(intval($request->auto_transmission_type)) : null,
-            'auto_fuel_type' => $request->auto_fuel_type ? AutoFuelTypeSelect::fromValue(intval($request->auto_fuel_type)) : null,
-            'account_interest_period' => $request->account_interest_period ? AccountInterestPeriodSelect::fromValue(intval($request->account_interest_period)) : null,
-            'card_type_id' => $request->card_type_id ? intval($request->card_type_id) : null,
-            'card_expire_date' => $request->card_expire_date ? Carbon::createFromFormat(config('panel.date_format'), $request->card_expire_date) : null,
-            'card_year_cost' => $request->card_year_cost ? MoneyValueObject::fromFloat($request->card_year_cost) : null,
-            'card_rate_balance' => floatval($request->card_rate_balance),
-            'card_atm_commission' => floatval($request->card_atm_commission),
-            'card_other_atm_commission' => floatval($request->card_other_atm_commission),
-            'card_credit_limit' => $request->card_credit_limit ? MoneyValueObject::fromFloat($request->card_credit_limit) : null,
-            'card_credit_interest_rate' => floatval($request->card_credit_interest_rate),
-            'card_credit_grace_period' => intval($request->input('card_credit_grace_period')),
-            'card_credit_min_payment_percent' => floatval($request->input('card_credit_min_payment_percent')),
-            'card_credit_min_payment_day' => floatval($request->input('card_credit_min_payment_day')),
-            'card_credit_annual_service_cost' => floatval($request->input('card_credit_annual_service_cost')),
-            'account_open_date' => $request->account_open_date ? Carbon::createFromFormat(config('panel.date_format'), $request->account_open_date) : null,
-            'account_interest_rate' => floatval($request->input('account_interest_rate')),
-            'account_close_date' => $request->account_close_date ? Carbon::createFromFormat(config('panel.date_format'), $request->account_close_date) : null,
-            'account_is_capitalization' => $request->boolean('account_is_capitalization'),
-            'account_credit_one_time_commission' => floatval($request->input('account_credit_one_time_commission')),
-            'account_credit_monthly_commission' => floatval($request->input('account_credit_monthly_commission')),
-            'account_credit_payment_day' => intval($request->input('account_credit_payment_day')),
-            'loan_give_date' => $request->loan_give_date ? Carbon::createFromFormat(config('panel.date_format'), $request->loan_give_date) : null,
-            'loan_take_date' => $request->loan_take_date ? Carbon::createFromFormat(config('panel.date_format'), $request->loan_take_date) : null,
-            'loan_debitor_email' => $request->input('loan_debitor_email'),
-            'loan_debitor_phone' => $request->input('loan_debitor_phone'),
-            'loan_interest_rate' => floatval($request->input('loan_interest_rate')),
-            'immovables_living_space' => floatval($request->input('immovables_living_space')),
-            'immovables_usable_space' => floatval($request->input('immovables_usable_space')),
-            'immovables_landing_plot' => floatval($request->input('immovables_landing_plot')),
-            'immovables_distance_to_city' => floatval($request->input('immovables_distance_to_city')),
-            'immovables_floor' => intval($request->input('immovables_floor')),
-            'immovables_count_floor' => intval($request->input('immovables_count_floor')),
-            'immovables_city' => $request->input('immovables_city'),
-            'immovables_district' => $request->input('immovables_district'),
-            'immovables_purchase_date' => $request->immovables_purchase_date ? Carbon::createFromFormat(config('panel.date_format'), $request->immovables_purchase_date) : null,
-            'auto_transport_type' => $request->input('auto_transport_type'),
-            'auto_brand_id' => $request->input('auto_brand_id') ? intval($request->input('auto_brand_id')) : null,
-            'auto_model' => $request->input('auto_model'),
-            'auto_modification' => $request->input('auto_modification'),
-            'auto_color' => $request->input('auto_color'),
-            'auto_year' => intval($request->input('auto_year')),
-            'auto_engine_size' => floatval($request->input('auto_engine_size')),
-            'auto_region' => $request->input('auto_region'),
-            'auto_mileage' => floatval($request->input('auto_mileage')),
-            'auto_purchase_date' => $request->auto_purchase_date ? Carbon::createFromFormat(config('panel.date_format'), $request->auto_purchase_date) : null,
+            'account_deposit_type' => $request->input('data.attributes.account_deposit_type') ?
+                AccountDepositTypeSelectEnum::fromValue(intval(
+                    $request->input('data.attributes.account_deposit_type'))
+                ) :
+                null,
+            'immovables_estate_type' => $request->input('data.attributes.immovables_estate_type') ?
+                ImmovablesEstateTypeSelectEnum::fromValue(
+                    intval($request->input('data.attributes.immovables_estate_type'))
+                ) : null,
+            'account_credit_payment_type' => $request->input('data.attributes.account_credit_payment_type') ?
+                AccountCreditPaymentTypeSelect::fromValue(
+                    intval($request->input('data.attributes.account_credit_payment_type'))
+                ) : null,
+            'auto_transmission_type' => $request->input('data.attributes.auto_transmission_type') ?
+                AutoTransmissionTypeSelect::fromValue(
+                    intval($request->input('data.attributes.auto_transmission_type'))
+                ) : null,
+            'auto_fuel_type' => $request->input('data.attributes.auto_fuel_type') ?
+                AutoFuelTypeSelect::fromValue(intval($request->input('data.attributes.auto_fuel_type'))) : null,
+            'account_interest_period' => $request->input('data.attributes.account_interest_period') ?
+                AccountInterestPeriodSelect::fromValue(
+                    intval($request->input('data.attributes.account_interest_period'))
+                ) : null,
+            'card_type_id' => $request->input('data.attributes.card_type_id') ?
+                intval($request->input('data.attributes.card_type_id')) : null,
+            'card_expire_date' => $request->input('data.attributes.card_expire_date') ?
+                Carbon::createFromFormat(config('panel.date_format'),
+                    $request->input('data.attributes.card_expire_date')) : null,
+            'card_year_cost' => $request->input('data.attributes.card_year_cost') ?
+                MoneyValueObject::fromFloat($request->input('data.attributes.card_year_cost')) : null,
+            'card_rate_balance' => floatval($request->input('data.attributes.card_rate_balance')),
+            'card_atm_commission' => floatval($request->input('data.attributes.card_atm_commission')),
+            'card_other_atm_commission' => floatval($request->input('data.attributes.card_other_atm_commission')),
+            'card_credit_limit' => $request->input('data.attributes.card_credit_limit') ?
+                MoneyValueObject::fromFloat($request->input('data.attributes.card_credit_limit')) : null,
+            'card_credit_interest_rate' => floatval($request->input('data.attributes.card_credit_interest_rate')),
+            'card_credit_grace_period' => intval($request->input('data.attributes.card_credit_grace_period')),
+            'card_credit_min_payment_percent' => floatval(
+                $request->input('data.attributes.card_credit_min_payment_percent')
+            ),
+            'card_credit_min_payment_day' => floatval(
+                $request->input('data.attributes.card_credit_min_payment_day')
+            ),
+            'card_credit_annual_service_cost' => floatval(
+                $request->input('data.attributes.card_credit_annual_service_cost')
+            ),
+            'account_open_date' => $request->input('data.attributes.account_open_date') ?
+                Carbon::createFromFormat(
+                    config('panel.date_format'),
+                    $request->input('data.attributes.account_open_date')) :
+                null,
+            'account_interest_rate' => floatval($request->input('data.attributes.account_interest_rate')),
+            'account_close_date' => $request->input('data.attributes.account_close_date') ?
+                Carbon::createFromFormat(
+                    config('panel.date_format'), $request->input('data.attributes.account_close_date')
+                ) : null,
+            'account_is_capitalization' => $request->boolean('data.attributes.account_is_capitalization'),
+            'account_credit_one_time_commission' => floatval(
+                $request->input('data.attributes.account_credit_one_time_commission')
+            ),
+            'account_credit_monthly_commission' => floatval(
+                $request->input('data.attributes.account_credit_monthly_commission')
+            ),
+            'account_credit_payment_day' => intval($request->input('data.attributes.account_credit_payment_day')),
+            'loan_give_date' => $request->input('data.attributes.loan_give_date') ?
+                Carbon::createFromFormat(config('panel.date_format'),
+                    $request->input('data.attributes.loan_give_date')) : null,
+            'loan_take_date' => $request->input('data.attributes.loan_take_date') ?
+                Carbon::createFromFormat(config('panel.date_format'),
+                    $request->input('data.attributes.loan_take_date')) : null,
+            'loan_debitor_email' => $request->input('data.attributes.loan_debitor_email'),
+            'loan_debitor_phone' => $request->input('data.attributes.loan_debitor_phone'),
+            'loan_interest_rate' => floatval($request->input('data.attributes.loan_interest_rate')),
+            'immovables_living_space' => floatval($request->input('data.attributes.immovables_living_space')),
+            'immovables_usable_space' => floatval($request->input('data.attributes.immovables_usable_space')),
+            'immovables_landing_plot' => floatval($request->input('data.attributes.immovables_landing_plot')),
+            'immovables_distance_to_city' => floatval($request->input('data.attributes.immovables_distance_to_city')),
+            'immovables_floor' => intval($request->input('data.attributes.immovables_floor')),
+            'immovables_count_floor' => intval($request->input('data.attributes.immovables_count_floor')),
+            'immovables_city' => $request->input('data.attributes.immovables_city'),
+            'immovables_district' => $request->input('data.attributes.immovables_district'),
+            'immovables_purchase_date' => $request->input('data.attributes.immovables_purchase_date') ?
+                Carbon::createFromFormat(config('panel.date_format'),
+                    $request->input('data.attributes.immovables_purchase_date')) : null,
+            'auto_transport_type' => $request->input('data.attributes.auto_transport_type'),
+            'auto_brand_id' => $request->input('data.attributes.auto_brand_id') ? intval($request->input('data.attributes.auto_brand_id')) : null,
+            'auto_model' => $request->input('data.attributes.auto_model'),
+            'auto_modification' => $request->input('data.attributes.auto_modification'),
+            'auto_color' => $request->input('data.attributes.auto_color'),
+            'auto_year' => intval($request->input('data.attributes.auto_year')),
+            'auto_engine_size' => floatval($request->input('data.attributes.auto_engine_size')),
+            'auto_region' => $request->input('data.attributes.auto_region'),
+            'auto_mileage' => floatval($request->input('data.attributes.auto_mileage')),
+            'auto_purchase_date' => $request->input('data.attributes.auto_purchase_date') ?
+                Carbon::createFromFormat(config('panel.date_format'),
+                    $request->input('data.attributes.auto_purchase_date')) : null,
         ]);
     }
 

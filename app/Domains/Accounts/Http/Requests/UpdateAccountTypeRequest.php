@@ -19,14 +19,17 @@ class UpdateAccountTypeRequest extends FormRequest
         /** @psalm-suppress all */
         $id = request()->route('account_type');
         return [
-            'name'               => [
+            'data' => 'required|array',
+            'data.type' => 'required|in:AccountType',
+            'data.attributes' => 'required|array',
+            'data.attributes.name'               => [
                 'string',
                 'min:2',
                 'max:100',
                 'required',
                 'unique:account_types,name,' . $id,
             ],
-            'parent_description' => [
+            'data.attributes.parent_description' => [
                 'string',
                 'min:5',
                 'max:100',

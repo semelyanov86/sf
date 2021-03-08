@@ -9,7 +9,7 @@ use Domains\Operations\Models\Operation;
 class ApiOperationsTest extends \Parents\Tests\PhpUnit\ApiTestCase
 {
     /** @test */
-    public function it_can_see_all_accounts(): void
+    public function it_can_see_all_operations(): void
     {
         $this->auth();
         $operation = Operation::factory()->createOne();
@@ -17,7 +17,7 @@ class ApiOperationsTest extends \Parents\Tests\PhpUnit\ApiTestCase
         $response->assertStatus(200)->assertJson(['data' => []]);
     }
     /** @test */
-    public function it_can_see_account(): void
+    public function it_can_see_operation(): void
     {
         $operation = Operation::factory()->createOne();
         $this->auth();

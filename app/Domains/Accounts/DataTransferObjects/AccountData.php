@@ -60,15 +60,15 @@ final class AccountData extends \Parents\DataTransferObjects\ObjectData
     public static function fromRequest(StoreAccountRequest|UpdateAccountRequest $request): self
     {
         return new self([
-            'name' => $request->name,
-            'description' => $request->description,
-            'state' => AccountStateEnum::fromValue((int) $request->state),
-            'start_balance' => MoneyValueObject::fromFloat(floatval($request->start_balance)),
-            'market_value' => MoneyValueObject::fromFloat(floatval($request->market_value)),
-            'extra_prefix' => $request->extra_prefix,
-            'account_type_id' => intval($request->account_type_id),
-            'currency_id' => intval($request->currency_id),
-            'bank_id' => intval($request->bank_id),
+            'name' => $request->input('data.attributes.name'),
+            'description' => $request->input('data.attributes.description'),
+            'state' => AccountStateEnum::fromValue((int) $request->input('data.attributes.state')),
+            'start_balance' => MoneyValueObject::fromFloat(floatval($request->input('data.attributes.start_balance'))),
+            'market_value' => MoneyValueObject::fromFloat(floatval($request->input('data.attributes.market_value'))),
+            'extra_prefix' => $request->input('data.attributes.extra_prefix'),
+            'account_type_id' => intval($request->input('data.attributes.account_type_id')),
+            'currency_id' => intval($request->input('data.attributes.currency_id')),
+            'bank_id' => intval($request->input('data.attributes.bank_id')),
             'user_id' => Auth::id(),
             'team_id' => Auth::user()->team_id
         ]);

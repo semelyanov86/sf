@@ -39,6 +39,7 @@ class Account extends Model
         'updated_at',
         'deleted_at',
         'team_id',
+        'user_id'
     ];
 
     protected function serializeDate(DateTimeInterface $date)

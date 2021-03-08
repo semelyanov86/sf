@@ -8,6 +8,7 @@ use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
 use Units\Auth\Middleware\Authenticate;
 use Units\Auth\Middleware\AuthGates;
 use Units\Auth\Middleware\RedirectIfAuthenticated;
@@ -22,6 +23,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+//        CreateFreshApiToken::class,
     ];
 
     protected $routeMiddleware = [

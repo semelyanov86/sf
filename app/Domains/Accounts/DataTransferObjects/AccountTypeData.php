@@ -26,8 +26,8 @@ final class AccountTypeData extends \Parents\DataTransferObjects\ObjectData
     public static function fromRequest(StoreAccountTypeRequest|UpdateAccountTypeRequest $request): self
     {
         return new self([
-            'name' => $request->name,
-            'parent_description' => $request->parent_description
+            'name' => $request->input('data.attributes.name'),
+            'parent_description' => $request->input('data.attributes.parent_description')
         ]);
     }
 
