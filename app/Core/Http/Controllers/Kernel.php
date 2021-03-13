@@ -9,6 +9,7 @@ use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
+use Parents\Middlewares\Http\EnsureCorrectApiHeaders;
 use Units\Auth\Middleware\Authenticate;
 use Units\Auth\Middleware\AuthGates;
 use Units\Auth\Middleware\RedirectIfAuthenticated;
@@ -37,6 +38,7 @@ class Kernel extends HttpKernel
         'throttle'         => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified'         => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin'            => IsAdmin::class,
+        'json.api.headers' => EnsureCorrectApiHeaders::class
     ];
 
     protected $middlewareGroups = [
@@ -55,6 +57,7 @@ class Kernel extends HttpKernel
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             AuthGates::class,
+            'json.api.headers'
         ],
     ];
 }

@@ -34,6 +34,9 @@ trait CreateAccountTrait
                     'bank_id' => 1
                 ]
             ],
+        ], [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
         ]);
     }
 }

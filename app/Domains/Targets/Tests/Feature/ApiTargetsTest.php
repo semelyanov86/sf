@@ -13,7 +13,10 @@ class ApiTargetsTest extends \Parents\Tests\PhpUnit\ApiTestCase
     public function it_can_see_all_targets(): void
     {
         $this->auth();
-        $response = $this->json('GET', route('api.targets.index'));
+        $response = $this->get(route('api.targets.index'), [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
         $response->assertStatus(200)->assertJson(['data' => []]);
     }
     /** @test */
@@ -21,7 +24,10 @@ class ApiTargetsTest extends \Parents\Tests\PhpUnit\ApiTestCase
     {
         $this->auth();
         $target = Target::factory()->createOne();
-        $response = $this->json('GET', route('api.targets.show', ['target' => $target->id]));
+        $response = $this->get(route('api.targets.show', ['target' => $target->id]), [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
         $response->assertStatus(200)->assertJson(['data' => [
             "id" => $target->id
         ]]);
@@ -33,7 +39,10 @@ class ApiTargetsTest extends \Parents\Tests\PhpUnit\ApiTestCase
         $target = Target::factory()->makeOne();
         $target->target_name = 'Test target';
         $data = $this->convertDataToRequest($target->toArray());
-        $response = $this->postJson( route('api.targets.store'), $data);
+        $response = $this->postJson( route('api.targets.store'), $data, [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
         $response->assertStatus(201)->assertJson(['data' => [
             'target_name' => 'Test target'
         ]]);
@@ -45,7 +54,10 @@ class ApiTargetsTest extends \Parents\Tests\PhpUnit\ApiTestCase
         $target = Target::factory()->createOne();
         $data = $this->convertDataToRequest($target->toArray());
         $data['target_name'] = 'Changed name';
-        $response = $this->putJson(route('api.targets.update', ['target' => $target->id]), $data);
+        $response = $this->patchJson(route('api.targets.update', ['target' => $target->id]), $data, [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
         $response->assertStatus(202)->assertJson(['data' => [
             "id" => $target->id,
             "target_name" => "Changed name"

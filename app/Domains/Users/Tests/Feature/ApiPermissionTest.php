@@ -18,14 +18,20 @@ class ApiPermissionTest extends TestCase
     public function it_can_see_all_permissions(): void
     {
         $this->actingAs($this->user, 'api');
-        $response = $this->json('GET', route('api.permissions.index'));
+        $response = $this->get(route('api.permissions.index'), [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
         $response->assertStatus(200)->assertJson(['data'=>[]]);
     }
     /** @test */
     public function it_can_see_permission(): void
     {
         $this->actingAs($this->user, 'api');
-        $response = $this->json('GET', route('api.permissions.show', ['permission' => 2]));
+        $response = $this->get(route('api.permissions.show', ['permission' => 2]), [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
         $response->assertStatus(200)->assertJson(['data' => []]);
     }
 }

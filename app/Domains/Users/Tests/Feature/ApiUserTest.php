@@ -11,7 +11,10 @@ class ApiUserTest extends ApiTestCase
     {
         $this->auth();
 
-        $response = $this->json('GET', route('api.users.index'));
+        $response = $this->get(route('api.users.index'), [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
         $response->assertStatus(200)->assertJson(['data'=>[]]);
     }
 
@@ -19,7 +22,10 @@ class ApiUserTest extends ApiTestCase
     public function it_can_see_user(): void
     {
         $this->auth();
-        $response = $this->json('GET', route('api.users.show', ['user' => 2]));
+        $response = $this->get(route('api.users.show', ['user' => 2]), [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
         $response->assertStatus(200)->assertJson(['data' => []]);
     }
 }

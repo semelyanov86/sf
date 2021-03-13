@@ -31,7 +31,7 @@ class UpdateAccountRequest extends FormRequest
             'data.attributes.description' => [
                 'string',
                 'min:5',
-                'max:190',
+                'max:230',
                 'nullable'
             ],
             'data.attributes.state'         => [

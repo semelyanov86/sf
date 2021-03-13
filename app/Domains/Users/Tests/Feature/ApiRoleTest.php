@@ -10,14 +10,20 @@ class ApiRoleTest extends ApiTestCase
     public function it_can_see_all_roles(): void
     {
         $this->auth();
-        $response = $this->json('GET', route('api.roles.index'));
+        $response = $this->get(route('api.roles.index'), [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
         $response->assertStatus(200)->assertJson(['data'=>[]]);
     }
     /** @test */
     public function it_can_see_role(): void
     {
         $this->auth();
-        $response = $this->json('GET', route('api.roles.show', ['role' => 2]));
+        $response = $this->get(route('api.roles.show', ['role' => 2]), [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
         $response->assertStatus(200)->assertJson(['data' => []]);
     }
 }

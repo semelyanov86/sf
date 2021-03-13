@@ -15,10 +15,13 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
     {
         $this->auth();
         $accounts = Account::factory()->count(2)->create();
-        $response = $this->json('GET', route('api.accounts.index'));
+        $response = $this->getJson(route('api.accounts.index'), [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
         $response->assertStatus(200)->assertJson(['data' => [
             [
-                "id" => $accounts[0]->id,
+                "id" => (string) $accounts[0]->id,
                 "type" => "Account",
                 "attributes" => [
                     'name' => $accounts[0]->name,
@@ -45,7 +48,7 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
                 ]
             ],
             [
-                "id" => $accounts[1]->id,
+                "id" => (string) $accounts[1]->id,
                 "type" => "Account",
                 "attributes" => [
                     'name' => $accounts[1]->name,
@@ -72,6 +75,7 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
                 ]
             ]
         ]]);
+        $this->assertEquals('application/vnd.api+json', $response->headers->get('content-type'));
     }
     /** @test */
     public function it_can_see_account(): void
@@ -79,12 +83,16 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
         $response = $this->create_new_account('Test see budget');
         $data = $response->json('data');
         $this->auth();
-        $response = $this->json('GET', route('api.accounts.show', ['account' => $data['id']]));
+        $response = $this->getJson(route('api.accounts.show', ['account' => $data['id']]), [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
         $response->assertStatus(200)->assertJson(['data' => [
             "id" => $data['id'],
             "type" => "Account",
             "attributes" => $data["attributes"]
         ]]);
+        $this->assertEquals('application/vnd.api+json', $response->headers->get('content-type'));
     }
     /** @test */
     public function it_can_create_new_account(): void
@@ -155,6 +163,7 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
         $this->assertDatabaseHas('accounts_extras', [
             'id' => $data['id']
         ]);
+        $this->assertEquals('application/vnd.api+json', $response->headers->get('content-type'));
     }
     /** @test */
     public function it_can_edit_account(): void
@@ -162,7 +171,7 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
         $response = $this->create_new_account('Account for edit');
         $data = $response->json('data');
         $this->auth();
-        $response = $this->putJson(route('api.accounts.update', ['account' => $data['id']]), [
+        $response = $this->patchJson(route('api.accounts.update', ['account' => $data['id']]), [
             'data' => [
                 'id' => $data['id'],
                 'type' => 'Account',
@@ -179,6 +188,9 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
                     'bank_id' => 1
                 ]
             ]
+        ], [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
         ]);
 
         $response->assertStatus(202)->assertJson(['data' => [
@@ -245,6 +257,7 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
         $this->assertDatabaseHas('accounts_extras', [
             'id' => $data['id']
         ]);
+        $this->assertEquals('application/vnd.api+json', $response->headers->get('content-type'));
     }
 
     public function id_can_delete_account(): void
@@ -275,6 +288,9 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
                 'type' => '',
                 'attributes' => $data
             ]
+        ], [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
         ])->assertStatus(422)
         ->assertJson([
             'errors' => [
@@ -304,6 +320,9 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
                 'type' => 'accounts',
                 'attributes' => $data
             ]
+        ], [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
         ])->assertStatus(422)
             ->assertJson([
                 'errors' => [
@@ -331,6 +350,9 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
             'data' => [
                 'type' => 'Account'
             ]
+        ], [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
         ])->assertStatus(422)
             ->assertJson([
                 'errors' => [
@@ -357,6 +379,9 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
                 'type' => 'Account',
                 'attributes' => $data
             ]
+        ], [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
         ]);
         $response->assertStatus(201);
         $this->assertDatabaseHas('accounts', [
@@ -375,6 +400,9 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
                 'type' => 'Account',
                 'attributes' => 'not an object'
             ]
+        ], [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
         ])->assertStatus(422)
             ->assertJson([
                 'errors' => [
@@ -401,6 +429,9 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
                 'type' => 'Account',
                 'attributes' => $data
             ]
+        ], [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
         ])->assertStatus(422)
             ->assertJson([
                 'errors' => [
@@ -430,6 +461,9 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
                 'type' => 'Account',
                 'attributes' => $data
             ]
+        ], [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
         ])->assertStatus(422)
             ->assertJson([
                 'errors' => [
@@ -459,6 +493,9 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
                 'type' => 'Account',
                 'attributes' => $data
             ]
+        ], [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
         ])->assertStatus(422)
             ->assertJson([
                 'errors' => [

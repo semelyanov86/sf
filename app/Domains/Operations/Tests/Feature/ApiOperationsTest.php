@@ -13,7 +13,10 @@ class ApiOperationsTest extends \Parents\Tests\PhpUnit\ApiTestCase
     {
         $this->auth();
         $operation = Operation::factory()->createOne();
-        $response = $this->json('GET', route('api.operations.index'));
+        $response = $this->get(route('api.operations.index'), [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
         $response->assertStatus(200)->assertJson(['data' => []]);
     }
     /** @test */
@@ -21,7 +24,10 @@ class ApiOperationsTest extends \Parents\Tests\PhpUnit\ApiTestCase
     {
         $operation = Operation::factory()->createOne();
         $this->auth();
-        $response = $this->json('GET', route('api.operations.show', ['operation' => $operation->id]));
+        $response = $this->get(route('api.operations.show', ['operation' => $operation->id]), [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
         $response->assertStatus(200)->assertJson(['data' => [
             "id" => $operation->id
         ]]);
@@ -31,7 +37,10 @@ class ApiOperationsTest extends \Parents\Tests\PhpUnit\ApiTestCase
     {
         $operation = Operation::factory()->make();
         $this->auth();
-        $response = $this->postJson(route('api.operations.store'), $this->getDataFromModel($operation));
+        $response = $this->postJson(route('api.operations.store'), $this->getDataFromModel($operation), [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
         $response->assertStatus(201)->assertJson(['data' => [
             'description' => $operation->description,
         ]]);
@@ -43,7 +52,10 @@ class ApiOperationsTest extends \Parents\Tests\PhpUnit\ApiTestCase
         $data = $this->getDataFromModel($operation);
         $data['description'] = 'Changed Description';
         $this->auth();
-        $response = $this->putJson(route('api.operations.update', ['operation' => $data['id']]), $data);
+        $response = $this->patchJson(route('api.operations.update', ['operation' => $data['id']]), $data, [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
 
         $response->assertStatus(202)->assertJson(['data' => [
             "id" => $data['id'],
