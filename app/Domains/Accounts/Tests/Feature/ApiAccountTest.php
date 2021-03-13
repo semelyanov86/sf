@@ -5,30 +5,11 @@ namespace Domains\Accounts\Tests\Feature;
 
 
 use Domains\Accounts\Models\Account;
+use Domains\Accounts\Tests\Traits\CreateAccountTrait;
 
 class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
 {
-    protected function create_new_account(string $name): \Illuminate\Testing\TestResponse
-    {
-        $this->auth();
-        return $this->postJson(route('api.accounts.store'), [
-            'data' => [
-                'type' => 'Account',
-                'attributes' => [
-                    'name' => $name,
-                    'description' => 'Test account description',
-                    'state' => 0,
-                    'start_balance' => 1000,
-                    'market_value' => 1000,
-                    'account_type_id' => 5,
-                    'user_id' => 1,
-                    'team_id' => 1,
-                    'currency_id' => 1,
-                    'bank_id' => 1
-                ]
-            ],
-        ]);
-    }
+    use CreateAccountTrait;
     /** @test */
     public function it_can_see_all_accounts(): void
     {
@@ -407,7 +388,9 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
                 ]
             ]);
     }
-
+    /**
+     * @test
+     */
     public function it_validates_that_a_name_attribute_is_given(): void
     {
         $this->auth();
@@ -415,7 +398,7 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
         $data['name'] = '';
         $this->postJson('/api/v1/accounts', [
             'data' => [
-                'type' => 'accounts',
+                'type' => 'Account',
                 'attributes' => $data
             ]
         ])->assertStatus(422)
@@ -423,9 +406,9 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
                 'errors' => [
                     [
                         'title' => 'Validation Error',
-                        'details' => 'The data.attributes.name field is required.',
+                        'details' => 'The data.attributes.name must be a string.',
                         'source' => [
-                            'pointer' => '/data/type'
+                            'pointer' => '/data/attributes/name'
                         ]
                     ]
                 ]
@@ -434,13 +417,63 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
             'description' => $data['description']
         ]);
     }
-
-    protected function getDataAttribute(): array
+    /**
+     * @test
+     */
+    public function it_validates_that_state_attribute_is_required(): void
     {
-        $account = Account::factory()->makeOne();
-        $data = $account->toArray();
-        $data['start_balance'] = $data['start_balance']->toValue();
-        $data['market_value'] = $data['market_value']->toValue();
-        return $data;
+        $this->auth();
+        $data = $this->getDataAttribute();
+        $data['state'] = '';
+        $this->postJson('/api/v1/accounts', [
+            'data' => [
+                'type' => 'Account',
+                'attributes' => $data
+            ]
+        ])->assertStatus(422)
+            ->assertJson([
+                'errors' => [
+                    [
+                        'title' => 'Validation Error',
+                        'details' => 'The data.attributes.state field is required.',
+                        'source' => [
+                            'pointer' => '/data/attributes/state'
+                        ]
+                    ]
+                ]
+            ]);
+        $this->assertDatabaseMissing('accounts', [
+            'name' => $data['name']
+        ]);
     }
+    /**
+     * @test
+     */
+    public function it_validates_that_state_attribute_is_enum(): void
+    {
+        $this->auth();
+        $data = $this->getDataAttribute();
+        $data['state'] = 8;
+        $this->postJson('/api/v1/accounts', [
+            'data' => [
+                'type' => 'Account',
+                'attributes' => $data
+            ]
+        ])->assertStatus(422)
+            ->assertJson([
+                'errors' => [
+                    [
+                        'title' => 'Validation Error',
+                        'details' => 'The value you have entered is invalid.',
+                        'source' => [
+                            'pointer' => '/data/attributes/state'
+                        ]
+                    ]
+                ]
+            ]);
+        $this->assertDatabaseMissing('accounts', [
+            'name' => $data['name']
+        ]);
+    }
+
 }
