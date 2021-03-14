@@ -1,4 +1,4 @@
-FROM php:8.0.2-apache
+FROM php:8.0.3-apache
 
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS=0 \
     PHP_OPCACHE_MAX_ACCELERATED_FILES=10000 \
@@ -40,6 +40,11 @@ RUN docker-php-ext-install pdo_mysql \
     && mv composer.phar /usr/local/bin/composer \
     && chmod +x /usr/local/bin/composer \
     && composer --version
+
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/install-php-extensions && sync && \
+    install-php-extensions http
 
 WORKDIR /tmp
 ADD composer.json composer.lock /tmp/

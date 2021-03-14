@@ -193,6 +193,7 @@
       <path value="$PROJECT_DIR$/vendor/funeralzone/valueobjects" />
       <path value="$PROJECT_DIR$/vendor/prettus/laravel-validation" />
       <path value="$PROJECT_DIR$/vendor/prettus/l5-repository" />
+      <path value="$PROJECT_DIR$/vendor/spatie/laravel-json-api-paginate" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

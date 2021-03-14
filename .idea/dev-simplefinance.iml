@@ -202,6 +202,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/funeralzone/valueobjects" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/prettus/laravel-validation" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/prettus/l5-repository" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/laravel-json-api-paginate" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

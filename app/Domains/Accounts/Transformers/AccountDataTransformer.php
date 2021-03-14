@@ -34,7 +34,9 @@ class AccountDataTransformer extends \Parents\Transformers\Transformer
             'currency_id' => $accountData->currency_id,
             'bank_id' => $accountData->bank_id,
             'user_id' => $accountData->user_id,
-            'team_id' => $accountData->team_id
+            'team_id' => $accountData->team_id,
+            'created_at' => $accountData->created_at,
+            'updated_at' => $accountData->updated_at
         );
     }
 

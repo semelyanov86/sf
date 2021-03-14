@@ -3,7 +3,9 @@
 
 namespace Parents\Repositories;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Config;
+use Parents\QueryBuilder\QB;
 use Parents\Requests\Request;
 use Prettus\Repository\Contracts\CacheableInterface as PrettusCacheable;
 use Prettus\Repository\Criteria\RequestCriteria as PrettusRequestCriteria;
@@ -14,6 +16,8 @@ use Prettus\Repository\Traits\CacheableRepository as PrettusCacheableRepository;
 abstract class Repository extends PrettusRepository implements PrettusCacheable
 {
     use PrettusCacheableRepository;
+
+    protected array $allowedSorts = [];
 
     /**
      * Define the maximum amount of entries per page that is returned.
@@ -94,5 +98,35 @@ abstract class Repository extends PrettusRepository implements PrettusCacheable
     private function getCurrentContainer(): string
     {
         return substr(str_replace("Domains\\", "", get_called_class()), 0, strpos(str_replace("Domains\\", "", get_called_class()), '\\'));
+    }
+
+    /**
+     * Retrieve all data of repository
+     *
+     * @param array $columns
+     *
+     * @return mixed
+     */
+    public function all($columns = ['*']): mixed
+    {
+        $this->applyCriteria();
+        $this->applyScope();
+        $results = QB::for($this->model())->allowedSorts($this->allowedSorts)->get();
+
+
+        $this->resetModel();
+        $this->resetScope();
+
+        return $this->parserResult($results);
+    }
+
+    public function jsonPaginate(): mixed
+    {
+        $this->applyCriteria();
+        $this->applyScope();
+        $results = QB::for($this->model())->allowedSorts($this->allowedSorts)->jsonPaginate();
+        $this->resetModel();
+
+        return $this->parserResult($results);
     }
 }

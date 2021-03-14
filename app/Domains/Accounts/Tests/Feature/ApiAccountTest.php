@@ -6,6 +6,7 @@ namespace Domains\Accounts\Tests\Feature;
 
 use Domains\Accounts\Models\Account;
 use Domains\Accounts\Tests\Traits\CreateAccountTrait;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
 {
@@ -260,19 +261,21 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
         $this->assertEquals('application/vnd.api+json', $response->headers->get('content-type'));
     }
 
-    public function id_can_delete_account(): void
+    public function testDeleteAnAccount(): void
     {
-        $account = Account::factory()->createOne();
         $this->auth();
-        $this->delete('/api/v1/accounts/' . $account->id, [], [
+        $response = $this->create_new_account('Account for edit');
+        $data = $response->json('data');
+        $this->assertDatabaseHas('accounts', ['id' => $data['id']]);
+        $this->delete(route('api.accounts.destroy', ['account' => $data['id']]), [], [
             'Accept' => 'application/vnd.api+json',
             'Content-Type' => 'application/vnd.api+json'
         ])->assertStatus(204);
-        $this->assertDatabaseMissing('accounts', [
-            'id' => $account->id
+        $this->assertSoftDeleted('accounts', [
+            'id' => $data['id']
         ]);
-        $this->assertDatabaseMissing('accounts_extras', [
-            'id' => $account->id
+        $this->assertSoftDeleted('accounts_extras', [
+            'id' => $data['id']
         ]);
     }
 
@@ -511,6 +514,300 @@ class ApiAccountTest extends \Parents\Tests\PhpUnit\ApiTestCase
         $this->assertDatabaseMissing('accounts', [
             'name' => $data['name']
         ]);
+    }
+
+    public function testSortingAccountsByNameThroughQueryParam(): void
+    {
+        $this->auth();
+        $accounts = Account::factory()->count(3)->state(new Sequence(
+            ['name' => 'Bertram'],
+            ['name' => 'Claus'],
+            ['name' => 'Anna'],
+        ))->create();
+        $response = $this->getJson(route('api.accounts.index') . '?sort=name', [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
+        $response->assertStatus(200)->assertJson(['data' => [
+            [
+                "id" => (string) $accounts[2]->id,
+                "type" => "Account",
+                "attributes" => [
+                    'name' => 'Anna',
+                    'description' => $accounts[2]->description,
+                    'state' => [
+                        'key' => $accounts[2]->state->key,
+                        'value' => $accounts[2]->state->value,
+                        'description' => $accounts[2]->state->description
+                    ],
+                    'start_balance' => [
+                        'amount' => $accounts[2]->start_balance->toInt(),
+                        'value' => $accounts[2]->start_balance->toValue()
+                    ],
+                    'market_value' => [
+                        'amount' => $accounts[2]->market_value->toInt(),
+                        'value' => $accounts[2]->market_value->toValue()
+                    ],
+                    'extra_prefix' => $accounts[2]->extra_prefix,
+                    'account_type_id' => $accounts[2]->account_type_id,
+                    'user_id' => $accounts[2]->user_id,
+                    'team_id' => $accounts[2]->team_id,
+                    'currency_id' => $accounts[2]->currency_id,
+                    'bank_id' => $accounts[2]->bank_id
+                ]
+            ],
+            [
+                "id" => (string) $accounts[0]->id,
+                "type" => "Account",
+                "attributes" => [
+                    'name' => 'Bertram',
+                    'description' => $accounts[0]->description,
+                    'state' => [
+                        'key' => $accounts[0]->state->key,
+                        'value' => $accounts[0]->state->value,
+                        'description' => $accounts[0]->state->description
+                    ],
+                    'start_balance' => [
+                        'amount' => $accounts[0]->start_balance->toInt(),
+                        'value' => $accounts[0]->start_balance->toValue()
+                    ],
+                    'market_value' => [
+                        'amount' => $accounts[0]->market_value->toInt(),
+                        'value' => $accounts[0]->market_value->toValue()
+                    ],
+                    'extra_prefix' => $accounts[0]->extra_prefix,
+                    'account_type_id' => $accounts[0]->account_type_id,
+                    'user_id' => $accounts[0]->user_id,
+                    'team_id' => $accounts[0]->team_id,
+                    'currency_id' => $accounts[0]->currency_id,
+                    'bank_id' => $accounts[0]->bank_id
+                ]
+            ],
+            [
+                "id" => (string) $accounts[1]->id,
+                "type" => "Account",
+                "attributes" => [
+                    'name' => 'Claus',
+                    'description' => $accounts[1]->description,
+                    'state' => [
+                        'key' => $accounts[1]->state->key,
+                        'value' => $accounts[1]->state->value,
+                        'description' => $accounts[1]->state->description
+                    ],
+                    'start_balance' => [
+                        'amount' => $accounts[1]->start_balance->toInt(),
+                        'value' => $accounts[1]->start_balance->toValue()
+                    ],
+                    'market_value' => [
+                        'amount' => $accounts[1]->market_value->toInt(),
+                        'value' => $accounts[1]->market_value->toValue()
+                    ],
+                    'extra_prefix' => $accounts[1]->extra_prefix,
+                    'account_type_id' => $accounts[1]->account_type_id,
+                    'user_id' => $accounts[1]->user_id,
+                    'team_id' => $accounts[1]->team_id,
+                    'currency_id' => $accounts[1]->currency_id,
+                    'bank_id' => $accounts[1]->bank_id
+                ]
+            ]
+        ]]);
+        $this->assertEquals('application/vnd.api+json', $response->headers->get('content-type'));
+    }
+
+    public function testSortingAccountsByNameInDescendingOrder(): void
+    {
+        $this->auth();
+        $accounts = Account::factory()->count(3)->state(new Sequence(
+            ['name' => 'Bertram'],
+            ['name' => 'Claus'],
+            ['name' => 'Anna'],
+        ))->create();
+        $response = $this->getJson(route('api.accounts.index') . '?sort=-name', [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
+        $response->assertStatus(200)->assertJson(['data' => [
+            [
+                "id" => (string) $accounts[1]->id,
+                "type" => "Account",
+                "attributes" => [
+                    'name' => 'Claus',
+                    'description' => $accounts[1]->description,
+                    'state' => [
+                        'key' => $accounts[1]->state->key,
+                        'value' => $accounts[1]->state->value,
+                        'description' => $accounts[1]->state->description
+                    ],
+                    'start_balance' => [
+                        'amount' => $accounts[1]->start_balance->toInt(),
+                        'value' => $accounts[1]->start_balance->toValue()
+                    ],
+                    'market_value' => [
+                        'amount' => $accounts[1]->market_value->toInt(),
+                        'value' => $accounts[1]->market_value->toValue()
+                    ],
+                    'extra_prefix' => $accounts[1]->extra_prefix,
+                    'account_type_id' => $accounts[1]->account_type_id,
+                    'user_id' => $accounts[1]->user_id,
+                    'team_id' => $accounts[1]->team_id,
+                    'currency_id' => $accounts[1]->currency_id,
+                    'bank_id' => $accounts[1]->bank_id
+                ]
+            ],
+            [
+                "id" => (string) $accounts[0]->id,
+                "type" => "Account",
+                "attributes" => [
+                    'name' => 'Bertram',
+                    'description' => $accounts[0]->description,
+                    'state' => [
+                        'key' => $accounts[0]->state->key,
+                        'value' => $accounts[0]->state->value,
+                        'description' => $accounts[0]->state->description
+                    ],
+                    'start_balance' => [
+                        'amount' => $accounts[0]->start_balance->toInt(),
+                        'value' => $accounts[0]->start_balance->toValue()
+                    ],
+                    'market_value' => [
+                        'amount' => $accounts[0]->market_value->toInt(),
+                        'value' => $accounts[0]->market_value->toValue()
+                    ],
+                    'extra_prefix' => $accounts[0]->extra_prefix,
+                    'account_type_id' => $accounts[0]->account_type_id,
+                    'user_id' => $accounts[0]->user_id,
+                    'team_id' => $accounts[0]->team_id,
+                    'currency_id' => $accounts[0]->currency_id,
+                    'bank_id' => $accounts[0]->bank_id
+                ]
+            ],
+            [
+                "id" => (string) $accounts[2]->id,
+                "type" => "Account",
+                "attributes" => [
+                    'name' => 'Anna',
+                    'description' => $accounts[2]->description,
+                    'state' => [
+                        'key' => $accounts[2]->state->key,
+                        'value' => $accounts[2]->state->value,
+                        'description' => $accounts[2]->state->description
+                    ],
+                    'start_balance' => [
+                        'amount' => $accounts[2]->start_balance->toInt(),
+                        'value' => $accounts[2]->start_balance->toValue()
+                    ],
+                    'market_value' => [
+                        'amount' => $accounts[2]->market_value->toInt(),
+                        'value' => $accounts[2]->market_value->toValue()
+                    ],
+                    'extra_prefix' => $accounts[2]->extra_prefix,
+                    'account_type_id' => $accounts[2]->account_type_id,
+                    'user_id' => $accounts[2]->user_id,
+                    'team_id' => $accounts[2]->team_id,
+                    'currency_id' => $accounts[2]->currency_id,
+                    'bank_id' => $accounts[2]->bank_id
+                ]
+            ]
+        ]]);
+        $this->assertEquals('application/vnd.api+json', $response->headers->get('content-type'));
+    }
+
+    public function testSortingAccountsByMultipleAttributes(): void
+    {
+        $this->auth();
+        $accounts = Account::factory()->count(3)->state(new Sequence(
+            ['name' => 'Bertram', 'created_at' => now()->addSeconds(3)],
+            ['name' => 'Claus'],
+            ['name' => 'Anna'],
+        ))->create();
+        $response = $this->getJson(route('api.accounts.index') . '?sort=-created_at,name', [
+            'accept' => 'application/vnd.api+json',
+            'content-type' => 'application/vnd.api+json'
+        ]);
+        $response->assertStatus(200)->assertJson(['data' => [
+            [
+                "id" => (string) $accounts[0]->id,
+                "type" => "Account",
+                "attributes" => [
+                    'name' => 'Bertram',
+                    'description' => $accounts[0]->description,
+                    'state' => [
+                        'key' => $accounts[0]->state->key,
+                        'value' => $accounts[0]->state->value,
+                        'description' => $accounts[0]->state->description
+                    ],
+                    'start_balance' => [
+                        'amount' => $accounts[0]->start_balance->toInt(),
+                        'value' => $accounts[0]->start_balance->toValue()
+                    ],
+                    'market_value' => [
+                        'amount' => $accounts[0]->market_value->toInt(),
+                        'value' => $accounts[0]->market_value->toValue()
+                    ],
+                    'extra_prefix' => $accounts[0]->extra_prefix,
+                    'account_type_id' => $accounts[0]->account_type_id,
+                    'user_id' => $accounts[0]->user_id,
+                    'team_id' => $accounts[0]->team_id,
+                    'currency_id' => $accounts[0]->currency_id,
+                    'bank_id' => $accounts[0]->bank_id
+                ]
+            ],
+            [
+                "id" => (string) $accounts[2]->id,
+                "type" => "Account",
+                "attributes" => [
+                    'name' => 'Anna',
+                    'description' => $accounts[2]->description,
+                    'state' => [
+                        'key' => $accounts[2]->state->key,
+                        'value' => $accounts[2]->state->value,
+                        'description' => $accounts[2]->state->description
+                    ],
+                    'start_balance' => [
+                        'amount' => $accounts[2]->start_balance->toInt(),
+                        'value' => $accounts[2]->start_balance->toValue()
+                    ],
+                    'market_value' => [
+                        'amount' => $accounts[2]->market_value->toInt(),
+                        'value' => $accounts[2]->market_value->toValue()
+                    ],
+                    'extra_prefix' => $accounts[2]->extra_prefix,
+                    'account_type_id' => $accounts[2]->account_type_id,
+                    'user_id' => $accounts[2]->user_id,
+                    'team_id' => $accounts[2]->team_id,
+                    'currency_id' => $accounts[2]->currency_id,
+                    'bank_id' => $accounts[2]->bank_id
+                ]
+            ],
+            [
+                "id" => (string) $accounts[1]->id,
+                "type" => "Account",
+                "attributes" => [
+                    'name' => 'Claus',
+                    'description' => $accounts[1]->description,
+                    'state' => [
+                        'key' => $accounts[1]->state->key,
+                        'value' => $accounts[1]->state->value,
+                        'description' => $accounts[1]->state->description
+                    ],
+                    'start_balance' => [
+                        'amount' => $accounts[1]->start_balance->toInt(),
+                        'value' => $accounts[1]->start_balance->toValue()
+                    ],
+                    'market_value' => [
+                        'amount' => $accounts[1]->market_value->toInt(),
+                        'value' => $accounts[1]->market_value->toValue()
+                    ],
+                    'extra_prefix' => $accounts[1]->extra_prefix,
+                    'account_type_id' => $accounts[1]->account_type_id,
+                    'user_id' => $accounts[1]->user_id,
+                    'team_id' => $accounts[1]->team_id,
+                    'currency_id' => $accounts[1]->currency_id,
+                    'bank_id' => $accounts[1]->bank_id
+                ]
+            ]
+        ]]);
+        $this->assertEquals('application/vnd.api+json', $response->headers->get('content-type'));
     }
 
 }

@@ -3,6 +3,7 @@
 namespace Domains\Accounts\Models;
 
 use Domains\Accounts\Enums\AccountStateEnum;
+use Domains\Accounts\Transformers\AccountDataTransformer;
 use Domains\Banks\Models\Bank;
 use Domains\Currencies\Models\Currency;
 use Domains\Operations\Models\Operation;
@@ -140,6 +141,14 @@ class Account extends Model
     public function getStateAttribute(string $value): AccountStateEnum
     {
         return AccountStateEnum::fromValue(intval($value));
+    }
+
+    public function convertModelToAttributes(): array
+    {
+        $data = fractal($this, AccountDataTransformer::class)->toArray()['data'];
+        unset($data['id']);
+        unset($data['currency']);
+        return $data;
     }
 
 }

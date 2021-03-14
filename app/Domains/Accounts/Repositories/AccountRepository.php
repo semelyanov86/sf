@@ -21,4 +21,11 @@ final class AccountRepository extends Repository
         'name'  => 'like',
         'state' => '='
     ];
+
+    protected array $allowedSorts = [
+        'name',
+        'account_type_id',
+        'created_at',
+        'updated_at'
+    ];
 }
